@@ -1,0 +1,238 @@
+.todo-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.todo-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.todo-header {
+  margin-bottom: 32px;
+}
+
+.todo-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.todo-progress {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  border: 1px solid var(--border-color);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* Add Todo Form */
+.add-todo-form {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 32px;
+}
+
+.todo-input {
+  flex: 1;
+  border: none;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  transition: var(--transition);
+  border: 1px solid transparent;
+}
+
+.todo-input:focus {
+  border-color: var(--accent-1);
+  background: var(--bg-tertiary);
+}
+
+.todo-input::placeholder {
+  color: var(--text-muted);
+}
+
+.add-todo-form .neomorph-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+}
+
+/* Todo List */
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.todo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 8px;
+  margin-bottom: 8px;
+}
+
+/* Todo Item */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.todo-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.todo-item.completed .todo-text {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* Checkbox */
+.todo-checkbox {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border: 2px solid var(--text-muted);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: var(--transition);
+  font-family: var(--font-sans);
+  padding: 0;
+}
+
+.todo-checkbox:hover {
+  border-color: var(--accent-1);
+  background: rgba(212, 165, 116, 0.1);
+}
+
+.todo-checkbox.checked {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  border-color: var(--accent-1);
+  color: white;
+}
+
+/* Todo Text */
+.todo-text {
+  flex: 1;
+  color: var(--text-primary);
+  font-size: 15px;
+  word-break: break-word;
+}
+
+/* Delete Button */
+.todo-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.todo-item:hover .todo-delete {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.todo-delete:hover {
+  color: var(--error);
+  transform: scale(1.2);
+}
+
+/* Empty State */
+.empty-state {
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.empty-emoji {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-state p:last-child {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .todo-container {
+    padding: 24px 16px;
+  }
+
+  .todo-header h1 {
+    font-size: 24px;
+  }
+
+  .add-todo-form {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .add-todo-form .neomorph-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .todo-item {
+    padding: 12px;
+  }
+
+  .todo-delete {
+    opacity: 1;
+    pointer-events: all;
+    color: var(--text-muted);
+  }
+
+  .todo-delete:active {
+    color: var(--error);
+  }
+}

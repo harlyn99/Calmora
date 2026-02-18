@@ -1,0 +1,252 @@
+.journal-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.journal-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.journal-header {
+  margin-bottom: 32px;
+}
+
+.journal-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.journal-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.journal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Write Section */
+.write-section {
+  order: 2;
+}
+
+.journal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.journal-textarea {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.8;
+  resize: vertical;
+  outline: none;
+  transition: var(--transition);
+}
+
+.journal-textarea:focus {
+  border-color: var(--accent-1);
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+}
+
+.journal-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.save-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* History Section */
+.history-section {
+  order: 1;
+}
+
+.history-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.entry-card {
+  padding: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.entry-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.entry-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.entry-snippet {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.delete-entry-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.entry-card:hover .delete-entry-btn {
+  opacity: 1;
+}
+
+.delete-entry-btn:hover {
+  color: var(--error);
+  transform: scale(1.2);
+}
+
+/* Empty State */
+.empty-journal {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 500px;
+  padding: 32px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  color: var(--error);
+  transform: scale(1.2);
+}
+
+.modal-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.modal-text {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+  .journal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .write-section {
+    order: 1;
+  }
+
+  .history-section {
+    order: 2;
+  }
+
+  .entries-list {
+    max-height: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .journal-container {
+    padding: 24px 16px;
+  }
+
+  .journal-header h1 {
+    font-size: 24px;
+  }
+
+  .journal-textarea {
+    padding: 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .modal-content {
+    padding: 24px;
+  }
+}

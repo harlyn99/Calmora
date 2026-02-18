@@ -1,0 +1,217 @@
+.timer-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.timer-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.timer-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.timer-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.timer-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Timer Display */
+.timer-display {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+.timer-circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-svg {
+  position: absolute;
+  transform: rotate(-90deg);
+}
+
+.timer-circle-bg {
+  fill: none;
+  stroke: var(--bg-primary);
+  stroke-width: 8;
+}
+
+.timer-circle-progress {
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 597;
+  stroke-dashoffset: 597;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-time {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+/* Controls */
+.timer-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.timer-controls button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Preset Times */
+.preset-times {
+  text-align: center;
+}
+
+.preset-times h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.preset-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.preset-btn {
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.preset-btn:hover {
+  background: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+.preset-btn.active {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  color: white;
+  box-shadow: 0 8px 16px rgba(212, 165, 116, 0.3);
+}
+
+/* Statistics */
+.timer-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  padding: 24px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent-1);
+}
+
+/* Timer Note */
+.timer-note {
+  padding: 20px;
+  text-align: center;
+  background: rgba(212, 165, 116, 0.05);
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .timer-container {
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .timer-header h1 {
+    font-size: 24px;
+  }
+
+  .timer-display {
+    padding: 32px 20px;
+  }
+
+  .timer-time {
+    font-size: 48px;
+  }
+
+  .timer-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .timer-controls button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .preset-buttons {
+    gap: 6px;
+  }
+
+  .preset-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .timer-stats {
+    grid-template-columns: 1fr;
+  }
+}

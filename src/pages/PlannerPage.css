@@ -1,0 +1,282 @@
+.planner-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.planner-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.planner-header {
+  margin-bottom: 16px;
+}
+
+.planner-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.planner-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Add Plan Form */
+.add-plan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.form-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+.plan-input {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.plan-input:focus {
+  border-color: var(--accent-1);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+}
+
+.priority-select {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+}
+
+.priority-select:focus {
+  border-color: var(--accent-1);
+}
+
+.add-plan-form .neomorph-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Plans View */
+.plans-view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.plan-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 8px;
+}
+
+.priority-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.priority-badge.high {
+  background: rgba(201, 77, 92, 0.2);
+  color: var(--error);
+}
+
+.priority-badge.medium {
+  background: rgba(212, 165, 116, 0.2);
+  color: var(--accent-1);
+}
+
+.priority-badge.completed {
+  background: rgba(107, 159, 127, 0.2);
+  color: var(--success);
+}
+
+/* Plans List */
+.plans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.plan-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.plan-item.completed .plan-title {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.plan-item.high {
+  border-left: 3px solid var(--error);
+}
+
+/* Checkbox */
+.plan-checkbox {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border: 2px solid var(--text-muted);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: var(--transition);
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+.plan-checkbox:hover {
+  border-color: var(--accent-1);
+  background: rgba(212, 165, 116, 0.1);
+}
+
+.plan-checkbox.checked {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  border-color: var(--accent-1);
+  color: white;
+}
+
+/* Title */
+.plan-title {
+  flex: 1;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* Delete Button */
+.plan-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plan-item:hover .plan-delete {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.plan-delete:hover {
+  color: var(--error);
+  transform: scale(1.2);
+}
+
+/* Empty State */
+.empty-planner {
+  padding: 48px 32px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* Planner Tip */
+.planner-tip {
+  padding: 20px;
+  text-align: center;
+  background: rgba(212, 165, 116, 0.05);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .planner-container {
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .planner-header h1 {
+    font-size: 24px;
+  }
+
+  .form-content {
+    grid-template-columns: 1fr;
+  }
+
+  .add-plan-form .neomorph-button {
+    width: 100%;
+  }
+
+  .plan-item {
+    padding: 12px;
+  }
+
+  .plan-delete {
+    opacity: 1;
+    pointer-events: all;
+    color: var(--text-muted);
+  }
+
+  .plan-delete:active {
+    color: var(--error);
+  }
+}

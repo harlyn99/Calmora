@@ -1,0 +1,304 @@
+.meditation-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.meditation-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.meditation-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.meditation-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.meditation-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Main Meditation Space */
+.meditation-space {
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  position: relative;
+  min-height: 400px;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+/* Breathing Circle */
+.breathing-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  opacity: 0.3;
+  transition: all 0.1s ease-in-out;
+}
+
+.breathing-circle.active {
+  animation: none;
+}
+
+.breathing-circle.active.breathing-inhale {
+  animation: breatheIn 4s ease-in-out forwards;
+}
+
+.breathing-circle.active.breathing-hold {
+  width: 180px;
+  height: 180px;
+  opacity: 0.4;
+}
+
+.breathing-circle.active.breathing-exhale {
+  animation: breatheOut 4s ease-in-out forwards;
+}
+
+@keyframes breatheIn {
+  0% {
+    width: 120px;
+    height: 120px;
+    opacity: 0.2;
+  }
+  100% {
+    width: 180px;
+    height: 180px;
+    opacity: 0.4;
+  }
+}
+
+@keyframes breatheOut {
+  0% {
+    width: 180px;
+    height: 180px;
+    opacity: 0.4;
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    opacity: 0.2;
+  }
+}
+
+/* Time Display */
+.meditation-time {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+/* Breathing Text */
+.breathing-text {
+  font-size: 18px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Duration Selection */
+.duration-selection {
+  text-align: center;
+}
+
+.duration-selection h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.duration-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.duration-btn {
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: var(--transition);
+  font-family: var(--font-sans);
+}
+
+.duration-btn:hover {
+  background: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+.duration-btn.active {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  color: white;
+  border-color: var(--accent-1);
+  box-shadow: 0 8px 16px rgba(212, 165, 116, 0.3);
+}
+
+/* Controls */
+.meditation-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.meditation-controls button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+  max-width: 200px;
+}
+
+/* Tips & Guide */
+.meditation-tips {
+  padding: 24px;
+}
+
+.meditation-tips h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.meditation-tips ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meditation-tips li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding-left: 24px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.meditation-tips li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-1);
+  font-weight: 700;
+}
+
+/* Quote */
+.meditation-quote {
+  padding: 24px;
+  text-align: center;
+  background: rgba(212, 165, 116, 0.05);
+}
+
+.meditation-quote p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .meditation-container {
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .meditation-header h1 {
+    font-size: 24px;
+  }
+
+  .meditation-space {
+    padding: 40px 20px;
+    min-height: 350px;
+  }
+
+  .breathing-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  @keyframes breatheIn {
+    0% {
+      width: 100px;
+      height: 100px;
+      opacity: 0.2;
+    }
+    100% {
+      width: 150px;
+      height: 150px;
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes breatheOut {
+    0% {
+      width: 150px;
+      height: 150px;
+      opacity: 0.4;
+    }
+    100% {
+      width: 100px;
+      height: 100px;
+      opacity: 0.2;
+    }
+  }
+
+  .breathing-circle.active.breathing-hold {
+    width: 150px;
+    height: 150px;
+  }
+
+  .meditation-time {
+    font-size: 40px;
+  }
+
+  .meditation-controls {
+    flex-direction: column;
+  }
+
+  .meditation-controls button {
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .meditation-tips li {
+    font-size: 13px;
+  }
+
+  .meditation-quote p {
+    font-size: 14px;
+  }
+}
