@@ -7,15 +7,15 @@ import { useEnergyMode } from '../contexts/EnergyModeContext'
 import MiniInsight from '../components/MiniInsight'
 import SmartGreeting from '../components/SmartGreeting'
 import JournalComposer from '../components/JournalComposer'
+import InspirationalQuotes from '../components/InspirationalQuotes'
+import QuickActions from '../components/QuickActions'
 import adapter from '../utils/dataAdapter'
-import React, { useEffect, useState } from 'react'
 import { Calendar, CheckCircle, BookOpen, Clock, Zap, Moon } from 'lucide-react'
 import './Dashboard.css'
 
 export const Dashboard = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const [todos, setTodos] = useState(() => JSON.parse(localStorage.getItem('todos') || '[]'))
   const { mode } = useEnergyMode()
   const [todos, setTodos] = useState(() => JSON.parse(localStorage.getItem('todos') || '[]'))
   const [journalEntries, setJournalEntries] = useState(() => JSON.parse(localStorage.getItem('journalEntries') || '[]'))
@@ -109,11 +109,12 @@ export const Dashboard = () => {
         )}
 
         {/* Motivational Quote */}
-        <div className="quote-section neomorph-md">
-          <p className="quote-text">
-            "Progress, not perfection. Celebrate small wins every day." ✨
-          </p>
+        <div className="quote-section">
+          <InspirationalQuotes />
         </div>
+
+        {/* Quick Actions FAB */}
+        <QuickActions />
       </div>
     </div>
   )

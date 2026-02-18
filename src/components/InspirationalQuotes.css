@@ -1,0 +1,70 @@
+.quote-card {
+  background: linear-gradient(135deg, rgba(103, 58, 183, 0.1), rgba(33, 150, 243, 0.1));
+  border: 1px solid rgba(103, 58, 183, 0.2);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.quote-content {
+  flex: 1;
+}
+
+.quote-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+
+.quote-author {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+}
+
+.quote-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.quote-action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(128, 128, 128, 0.1);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.quote-action-btn:hover {
+  background: rgba(128, 128, 128, 0.2);
+  color: var(--text-primary);
+}
+
+.quote-action-btn.copied {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+@media (max-width: 768px) {
+  .quote-card {
+    flex-direction: column;
+  }
+
+  .quote-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

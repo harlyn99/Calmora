@@ -37,6 +37,13 @@ export const TopNavigation = () => {
           <li><a href="#" onClick={() => navigate('/journal')}>Journal</a></li>
           <li><a href="#" onClick={() => navigate('/timer')}>Timer</a></li>
           <li><a href="#" onClick={() => navigate('/meditation')}>Meditation</a></li>
+          <li><a href="#" onClick={() => navigate('/habits')}>Habits</a></li>
+          <li><a href="#" onClick={() => navigate('/mood')}>Mood</a></li>
+          <li><a href="#" onClick={() => navigate('/goals')}>Goals</a></li>
+          <li><a href="#" onClick={() => navigate('/notes')}>Notes</a></li>
+          <li><a href="#" onClick={() => navigate('/wellness')}>Wellness</a></li>
+          <li><a href="#" onClick={() => navigate('/review')}>Review</a></li>
+          <li><a href="#" onClick={() => navigate('/stats')}>Stats</a></li>
         </ul>
 
         {/* Right Side - Menu Button */}

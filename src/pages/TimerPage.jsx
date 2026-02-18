@@ -10,6 +10,7 @@ export const TimerPage = () => {
   const [sessions, setSessions] = useState(() => parseInt(localStorage.getItem('timerSessions') || '0'))
   const [totalMinutes, setTotalMinutes] = useState(() => parseInt(localStorage.getItem('totalFocusMinutes') || '0'))
   const [initialDuration, setInitialDuration] = useState(25 * 60)
+  const [activePreset, setActivePreset] = useState(25)
 
   useEffect(() => {
     let interval = null
@@ -46,16 +47,16 @@ export const TimerPage = () => {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)()
     const oscillator = audioContext.createOscillator()
     const gain = audioContext.createGain()
-    
+
     oscillator.connect(gain)
     gain.connect(audioContext.destination)
-    
+
     oscillator.frequency.value = 800
     oscillator.type = 'sine'
-    
+
     gain.gain.setValueAtTime(0.3, audioContext.currentTime)
     gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5)
-    
+
     oscillator.start(audioContext.currentTime)
     oscillator.stop(audioContext.currentTime + 0.5)
   }
@@ -68,17 +69,18 @@ export const TimerPage = () => {
 
   const resetTimer = () => {
     setIsActive(false)
-    setTime(25 * 60)
-    setInitialDuration(25 * 60)
+    setTime(activePreset * 60)
+    setInitialDuration(activePreset * 60)
   }
 
   const setCustomTime = (minutes) => {
+    setActivePreset(minutes)
     setTime(minutes * 60)
     setInitialDuration(minutes * 60)
     setIsActive(false)
   }
 
-  const percentage = ((25 * 60 - time) / (25 * 60)) * 100
+  const percentage = ((initialDuration - time) / initialDuration) * 100
 
   return (
     <div className="timer-wrapper">
@@ -139,25 +141,25 @@ export const TimerPage = () => {
           <h3>Quick Select</h3>
           <div className="preset-buttons">
             <button
-              className="preset-btn neomorph-sm"
+              className={`preset-btn neomorph-sm ${activePreset === 5 ? 'active' : ''}`}
               onClick={() => setCustomTime(5)}
             >
               5 min
             </button>
             <button
-              className="preset-btn neomorph-sm"
+              className={`preset-btn neomorph-sm ${activePreset === 15 ? 'active' : ''}`}
               onClick={() => setCustomTime(15)}
             >
               15 min
             </button>
             <button
-              className="preset-btn neomorph-sm active"
+              className={`preset-btn neomorph-sm ${activePreset === 25 ? 'active' : ''}`}
               onClick={() => setCustomTime(25)}
             >
               25 min
             </button>
             <button
-              className="preset-btn neomorph-sm"
+              className={`preset-btn neomorph-sm ${activePreset === 45 ? 'active' : ''}`}
               onClick={() => setCustomTime(45)}
             >
               45 min

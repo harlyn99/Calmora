@@ -43,20 +43,54 @@ import './TopNavigation.css'
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 30px;
+  gap: 8px;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-1) var(--bg-secondary);
+  padding: 8px 0;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.nav-menu::-webkit-scrollbar {
+  height: 6px;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+  border-radius: 3px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-2);
+}
+
+.nav-menu {
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-menu li {
+  flex-shrink: 0;
 }
 
 .nav-menu a {
   text-decoration: none;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   transition: var(--transition);
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 8px;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .nav-menu a:hover {

@@ -1,0 +1,253 @@
+.water-tracker-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.water-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.water-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.water-title h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.water-icon {
+  color: #4a90e2;
+}
+
+.water-streak {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 193, 7, 0.15);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffc107;
+}
+
+/* Progress Section */
+.water-progress-section {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.water-bottle {
+  position: relative;
+  width: 80px;
+  height: 200px;
+  border: 3px solid var(--border-color);
+  border-radius: 0 0 40px 40px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.water-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: height 0.5s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+}
+
+.water-complete-badge {
+  font-size: 32px;
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.water-measurements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.water-mark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(128, 128, 128, 0.3);
+  transform: translateY(50%);
+}
+
+.water-mark span {
+  position: absolute;
+  right: 4px;
+  top: -18px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.water-stats {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.water-current {
+  display: flex;
+  flex-direction: column;
+}
+
+.water-number {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--accent-1);
+  line-height: 1;
+}
+
+.water-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.water-remaining {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.water-remaining svg {
+  color: var(--accent-1);
+}
+
+/* Controls */
+.water-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.water-btn {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.water-btn.add {
+  flex: 2;
+  background: linear-gradient(135deg, #4a90e2, #4fc3f7);
+  border-color: #4a90e2;
+  color: white;
+}
+
+.water-btn.add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
+}
+
+.water-btn.remove:hover {
+  border-color: var(--error);
+  color: var(--error);
+  background: rgba(201, 77, 92, 0.1);
+}
+
+.water-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Goal Setting */
+.water-goal-setting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.water-goal-options {
+  display: flex;
+  gap: 8px;
+}
+
+.water-goal-btn {
+  padding: 6px 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.water-goal-btn:hover {
+  border-color: var(--accent-1);
+  color: var(--accent-1);
+}
+
+.water-goal-btn.active {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .water-progress-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .water-bottle {
+    width: 60px;
+    height: 160px;
+  }
+
+  .water-number {
+    font-size: 36px;
+  }
+
+  .water-stats {
+    align-items: center;
+    text-align: center;
+  }
+}

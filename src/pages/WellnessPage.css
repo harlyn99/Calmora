@@ -1,0 +1,286 @@
+.wellness-wrapper {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.wellness-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.wellness-header {
+  margin-bottom: 24px;
+}
+
+.wellness-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.wellness-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Tabs */
+.wellness-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.wellness-tab {
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.wellness-tab:hover {
+  border-color: var(--accent-1);
+  color: var(--accent-1);
+}
+
+.wellness-tab.active {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  color: white;
+}
+
+/* Content */
+.wellness-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wellness-section-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.wellness-section-card h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 20px 0;
+}
+
+/* Form */
+.wellness-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.wellness-textarea {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.wellness-textarea:focus {
+  outline: none;
+  border-color: var(--accent-1);
+}
+
+.wellness-btn {
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.wellness-btn.primary {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  color: white;
+}
+
+.wellness-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Entries List */
+.wellness-entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wellness-entry-item {
+  padding: 14px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  border-left: 3px solid var(--accent-1);
+}
+
+.wellness-entry-item p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.entry-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Water Tracker */
+.water-tracker-wellness {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.water-progress-circle {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.water-progress-circle svg {
+  width: 100%;
+  height: 100%;
+}
+
+.water-circle-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.water-count {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.water-goal {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.water-controls-wellness {
+  display: flex;
+  gap: 12px;
+}
+
+.water-btn {
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.water-btn.add {
+  background: linear-gradient(135deg, #4a90e2, #4fc3f7);
+  border-color: #4a90e2;
+  color: white;
+}
+
+.water-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Breathing */
+.breathing-wellness {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.breathing-circle-wellness {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a90e2, #4fc3f7);
+  transition: transform 3s ease-in-out;
+  box-shadow: 0 8px 32px rgba(74, 144, 226, 0.3);
+}
+
+.breathing-phase {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.breathing-info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .wellness-container {
+    padding: 16px;
+  }
+
+  .wellness-tabs {
+    gap: 8px;
+  }
+
+  .wellness-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .water-progress-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .breathing-circle-wellness {
+    width: 120px;
+    height: 120px;
+  }
+}

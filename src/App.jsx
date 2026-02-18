@@ -16,7 +16,21 @@ import { MeditationPage } from './pages/MeditationPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { AboutPage } from './pages/AboutPage'
+import HabitTrackerPage from './pages/HabitTrackerPage'
+import MoodTrackerPage from './pages/MoodTrackerPage'
+import QuickNotesPage from './pages/QuickNotesPage'
+import GoalsPage from './pages/GoalsPage'
+import ReviewPage from './pages/ReviewPage'
+import PomodoroStatsPage from './pages/PomodoroStatsPage'
+import WellnessPage from './pages/WellnessPage'
+import useKeyboardShortcuts from './utils/useKeyboardShortcuts'
 import './styles/global.css'
+
+// Add keyboard shortcuts hook to the app
+function AppKeyboardShortcuts() {
+  useKeyboardShortcuts()
+  return null
+}
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -42,6 +56,13 @@ function AppRoutes() {
       <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
       <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
+      <Route path="/habits" element={<ProtectedRoute><HabitTrackerPage /></ProtectedRoute>} />
+      <Route path="/mood" element={<ProtectedRoute><MoodTrackerPage /></ProtectedRoute>} />
+      <Route path="/notes" element={<ProtectedRoute><QuickNotesPage /></ProtectedRoute>} />
+      <Route path="/goals" element={<ProtectedRoute><GoalsPage /></ProtectedRoute>} />
+      <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
+      <Route path="/stats" element={<ProtectedRoute><PomodoroStatsPage /></ProtectedRoute>} />
+      <Route path="/wellness" element={<ProtectedRoute><WellnessPage /></ProtectedRoute>} />
 
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -66,6 +87,7 @@ export function App() {
       <AuthProvider>
         <EnergyModeProvider>
           <BrowserRouter>
+            <AppKeyboardShortcuts />
             <AppRoutes />
             {showOnboarding && (
               <OnboardingModal onClose={() => { localStorage.setItem('seenOnboarding', '1'); setShowOnboarding(false) }} />
