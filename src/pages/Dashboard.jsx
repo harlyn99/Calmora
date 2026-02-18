@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { TopNavigation } from '../components/TopNavigation'
 import { useAuth } from '../contexts/AuthContext'
 import { getGreeting, formatDate } from '../utils/helpers'
+import { useEnergyMode } from '../contexts/EnergyModeContext'
+import MiniInsight from '../components/MiniInsight'
+import SmartGreeting from '../components/SmartGreeting'
+import JournalComposer from '../components/JournalComposer'
+import adapter from '../utils/dataAdapter'
+import React, { useEffect, useState } from 'react'
 import { Calendar, CheckCircle, BookOpen, Clock, Zap, Moon } from 'lucide-react'
 import './Dashboard.css'
 
@@ -10,18 +16,29 @@ export const Dashboard = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
   const [todos, setTodos] = useState(() => JSON.parse(localStorage.getItem('todos') || '[]'))
-  const [greeting, setGreeting] = useState(getGreeting())
+  const { mode } = useEnergyMode()
+  const [todos, setTodos] = useState(() => JSON.parse(localStorage.getItem('todos') || '[]'))
+  const [journalEntries, setJournalEntries] = useState(() => JSON.parse(localStorage.getItem('journalEntries') || '[]'))
+  const [focusSessions, setFocusSessions] = useState(() => JSON.parse(localStorage.getItem('focusSessions') || '[]'))
 
   useEffect(() => {
-    const interval = setInterval(() => setGreeting(getGreeting()), 60000)
-    return () => clearInterval(interval)
+    let mounted = true
+    const load = async () => {
+      const t = await adapter.getTodos()
+      const j = await adapter.getJournalEntries()
+      const s = await adapter.getFocusSessions()
+      if (!mounted) return
+      setTodos(t || [])
+      setJournalEntries(j || [])
+      setFocusSessions(s || [])
+    }
+    load()
+    return () => { mounted = false }
   }, [])
-
   const completedTodos = todos.filter(t => t.completed).length
   const focusTime = localStorage.getItem('focusTime') || '0'
-  const journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]')
 
-  const shortcuts = [
+  const allShortcuts = [
     { title: 'Planner', icon: '📅', path: '/planner', color: 'accent-warm' },
     { title: 'To-Do', icon: '✓', path: '/todo', color: 'accent-cool' },
     { title: 'Journal', icon: '📝', path: '/journal', color: 'accent-soft' },
@@ -29,56 +46,36 @@ export const Dashboard = () => {
     { title: 'Meditation', icon: '🧘', path: '/meditation', color: 'accent-peace' },
   ]
 
+  // adjust visible shortcuts based on mode
+  let shortcuts = allShortcuts
+  if (mode === 'focus') {
+    shortcuts = allShortcuts.filter(s => s.path === '/todo' || s.path === '/timer')
+  } else if (mode === 'calm') {
+    shortcuts = allShortcuts.filter(s => s.path === '/journal' || s.path === '/meditation')
+  }
+
   return (
     <div className="dashboard-wrapper">
       <TopNavigation />
       
       <div className="dashboard-container fade-in">
-        {/* Greeting Section */}
-        <div className="greeting-card neomorph-lg">
-          <div className="greeting-content">
-            <span className="greeting-emoji">{greeting.emoji}</span>
-            <div>
-              <h1 className="greeting-text">{greeting.text}, {user?.username}!</h1>
-              <p className="greeting-date">{formatDate(new Date())}</p>
-            </div>
-          </div>
-        </div>
+        {/* Smart Greeting */}
+        <SmartGreeting stats={{ todos, focusSessions: focusSessions.length || 0, journalEntries }} />
 
-        {/* Quick Stats */}
-        <div className="stats-section">
-          <div className="stat-card neomorph-md">
-            <div className="stat-icon">✓</div>
-            <div className="stat-content">
-              <p className="stat-label">Tasks Today</p>
-              <p className="stat-value">{todos.length}</p>
-            </div>
+        {/* Mini Insight - hide on focus mode to reduce distractions */}
+        {mode !== 'focus' && (
+          <div style={{ marginTop: 12 }}>
+            <MiniInsight />
           </div>
+        )}
 
-          <div className="stat-card neomorph-md">
-            <div className="stat-icon">🎯</div>
-            <div className="stat-content">
-              <p className="stat-label">Completed</p>
-              <p className="stat-value">{completedTodos}</p>
-            </div>
+        {/* Calm mode - show journal write area and mood tracker */}
+        {mode === 'calm' && (
+          <div className="calm-area neomorph-md" style={{ padding: 16, marginTop: 12 }}>
+            <h2 className="section-title">Journal & Mood</h2>
+            <JournalComposer />
           </div>
-
-          <div className="stat-card neomorph-md">
-            <div className="stat-icon">⏱️</div>
-            <div className="stat-content">
-              <p className="stat-label">Focus Time</p>
-              <p className="stat-value">{focusTime} min</p>
-            </div>
-          </div>
-
-          <div className="stat-card neomorph-md">
-            <div className="stat-icon">📝</div>
-            <div className="stat-content">
-              <p className="stat-label">Journal</p>
-              <p className="stat-value">{journalEntries.length}</p>
-            </div>
-          </div>
-        </div>
+        )}
 
         {/* Shortcuts Grid */}
         <div className="shortcuts-section">

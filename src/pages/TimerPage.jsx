@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
 import { Play, Pause, RotateCcw } from 'lucide-react'
+import storage from '../utils/storage'
 import './TimerPage.css'
 
 export const TimerPage = () => {
@@ -8,6 +9,7 @@ export const TimerPage = () => {
   const [isActive, setIsActive] = useState(false)
   const [sessions, setSessions] = useState(() => parseInt(localStorage.getItem('timerSessions') || '0'))
   const [totalMinutes, setTotalMinutes] = useState(() => parseInt(localStorage.getItem('totalFocusMinutes') || '0'))
+  const [initialDuration, setInitialDuration] = useState(25 * 60)
 
   useEffect(() => {
     let interval = null
@@ -25,9 +27,12 @@ export const TimerPage = () => {
         return newSessions
       })
       setTotalMinutes(t => {
-        const newTotal = t + 25
+        const minutes = Math.round(initialDuration / 60)
+        const newTotal = t + minutes
         localStorage.setItem('totalFocusMinutes', newTotal)
         localStorage.setItem('focusTime', newTotal)
+        // record detailed session for insights
+        storage.push('focusSessions', { date: new Date().toISOString(), minutes })
         return newTotal
       })
       playSound()
@@ -64,10 +69,12 @@ export const TimerPage = () => {
   const resetTimer = () => {
     setIsActive(false)
     setTime(25 * 60)
+    setInitialDuration(25 * 60)
   }
 
   const setCustomTime = (minutes) => {
     setTime(minutes * 60)
+    setInitialDuration(minutes * 60)
     setIsActive(false)
   }
 

@@ -2,6 +2,10 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { EnergyModeProvider } from './contexts/EnergyModeContext'
+import { useEffect, useState } from 'react'
+import { initDB } from './services/dbService'
+import OnboardingModal from './components/OnboardingModal'
 import { LoginPage } from './pages/LoginPage'
 import { Dashboard } from './pages/Dashboard'
 import { TodoPage } from './pages/TodoPage'
@@ -47,12 +51,27 @@ function AppRoutes() {
 }
 
 export function App() {
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  useEffect(() => {
+    // initialize local IndexedDB and migrate existing localStorage data
+    if (typeof window !== 'undefined') initDB()
+    try {
+      const seen = localStorage.getItem('seenOnboarding')
+      if (!seen) setShowOnboarding(true)
+    } catch (e) {}
+  }, [])
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <EnergyModeProvider>
+          <BrowserRouter>
+            <AppRoutes />
+            {showOnboarding && (
+              <OnboardingModal onClose={() => { localStorage.setItem('seenOnboarding', '1'); setShowOnboarding(false) }} />
+            )}
+          </BrowserRouter>
+        </EnergyModeProvider>
       </AuthProvider>
     </ThemeProvider>
   )
