@@ -11,6 +11,7 @@ import InspirationalQuotes from '../components/InspirationalQuotes'
 import QuickActions from '../components/QuickActions'
 import AnimatedBackground from '../components/Background'
 import CircularProgress from '../components/CircularProgress'
+import TiltCard from '../components/TiltCard'
 import adapter from '../utils/dataAdapter'
 import { Calendar, CheckCircle, BookOpen, Clock, Zap, Moon, Target, Flame, Award } from 'lucide-react'
 import './Dashboard.css'
@@ -127,14 +128,16 @@ export const Dashboard = () => {
           <h2 className="section-title">Quick Access</h2>
           <div className="shortcuts-grid">
             {shortcuts.map((shortcut, index) => (
-              <button
-                key={shortcut.path}
-                className={`shortcut-card glass-card card-hover-lift stagger-${(index % 8) + 1}`}
-                onClick={() => navigate(shortcut.path)}
-              >
-                <span className="shortcut-emoji">{shortcut.icon}</span>
-                <span className="shortcut-title">{shortcut.title}</span>
-              </button>
+              <TiltCard key={shortcut.path} intensity={10}>
+                <button
+                  className={`shortcut-card glass-card card-hover-lift stagger-${(index % 8) + 1}`}
+                  onClick={() => navigate(shortcut.path)}
+                  style={{ background: 'transparent', border: 'none', width: '100%' }}
+                >
+                  <span className="shortcut-emoji">{shortcut.icon}</span>
+                  <span className="shortcut-title">{shortcut.title}</span>
+                </button>
+              </TiltCard>
             ))}
           </div>
         </div>

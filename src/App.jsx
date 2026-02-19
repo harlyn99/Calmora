@@ -6,6 +6,9 @@ import { EnergyModeProvider } from './contexts/EnergyModeContext'
 import { useEffect, useState } from 'react'
 import { initDB } from './services/dbService'
 import OnboardingModal from './components/OnboardingModal'
+import AnimatedBackground from './components/Background'
+import { ParticleSystem, CursorFollower } from './components/ParticleSystem'
+import { MorphingOrbs } from './components/MorphingOrbs'
 import { LoginPage } from './pages/LoginPage'
 import { Dashboard } from './pages/Dashboard'
 import { TasksPage } from './pages/TasksPage'
@@ -85,6 +88,12 @@ export function App() {
       <AuthProvider>
         <EnergyModeProvider>
           <BrowserRouter>
+            {/* Global Aesthetic Components */}
+            <MorphingOrbs />
+            <AnimatedBackground />
+            <ParticleSystem particleCount={30} cursorInteraction={true} constellation={true} />
+            <CursorFollower />
+            
             <AppKeyboardShortcuts />
             <AppRoutes />
             {showOnboarding && (
