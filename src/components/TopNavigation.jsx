@@ -38,6 +38,8 @@ export const TopNavigation = () => {
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/mood') }}>Mood</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/goals') }}>Goals</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/wellness') }}>Wellness</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/pet') }}>Pet 🐾</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/music') }}>Music 🎵</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/review') }}>Review</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/stats') }}>Stats</a></li>
         </ul>
@@ -81,6 +83,20 @@ export const TopNavigation = () => {
                 <Settings size={18} /> Settings
               </button>
 
+              <button className="menu-item" onClick={() => {
+                navigate('/pet')
+                setShowMenu(false)
+              }}>
+                <span>🐾</span> Virtual Pet
+              </button>
+
+              <button className="menu-item" onClick={() => {
+                navigate('/music')
+                setShowMenu(false)
+              }}>
+                <span>🎵</span> Music Player
+              </button>
+
               <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
                 <div style={{display:'flex', alignItems:'center', gap:8}}>
                   <span>📡</span>
@@ -93,12 +109,12 @@ export const TopNavigation = () => {
                       if (res && res.date) setLastSync(res.date)
                     }}
                     className="neomorph-button"
-                    style={{padding:'6px 10px', fontSize:'12px'}}
+                    style={{padding:'6px 10px', fontSize:'12px', fontWeight:'600', color:'var(--text-primary)'}}
                   >Sync</button>
 
                   <button
                     className="neomorph-button"
-                    style={{padding:'6px 10px', fontSize:'12px'}}
+                    style={{padding:'6px 10px', fontSize:'12px', fontWeight:'600', color:'var(--text-primary)'}}
                     onClick={async () => {
                       const mod = await import('../utils/dataAdapter')
                       const data = await mod.default.exportAll()
@@ -116,22 +132,22 @@ export const TopNavigation = () => {
 
               <div className="menu-divider" />
               <div style={{padding: '8px 12px'}}>
-                <p style={{fontSize:12, color:'var(--text-muted)', marginBottom:8}}>Energy Mode</p>
+                <p style={{fontSize:12, color:'var(--text-muted)', marginBottom:8, fontWeight:'600'}}>Energy Mode</p>
                 <div style={{display:'flex', gap:8}}>
                   <button
                     className={`neomorph-button ${mode === 'focus' ? 'primary' : ''}`}
                     onClick={() => setMode('focus')}
-                    style={{padding:'6px 10px', fontSize:'12px'}}
+                    style={{padding:'6px 10px', fontSize:'12px', fontWeight:'600', color:'var(--text-primary)'}}
                   >Focus</button>
                   <button
                     className={`neomorph-button ${mode === 'calm' ? 'primary' : ''}`}
                     onClick={() => setMode('calm')}
-                    style={{padding:'6px 10px', fontSize:'12px'}}
+                    style={{padding:'6px 10px', fontSize:'12px', fontWeight:'600', color:'var(--text-primary)'}}
                   >Calm</button>
                   <button
                     className={`neomorph-button ${mode === 'balance' ? 'primary' : ''}`}
                     onClick={() => setMode('balance')}
-                    style={{padding:'6px 10px', fontSize:'12px'}}
+                    style={{padding:'6px 10px', fontSize:'12px', fontWeight:'600', color:'var(--text-primary)'}}
                   >Balance</button>
                 </div>
               </div>

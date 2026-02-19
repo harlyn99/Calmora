@@ -26,6 +26,8 @@ import GoalsPage from './pages/GoalsPage'
 import ReviewPage from './pages/ReviewPage'
 import PomodoroStatsPage from './pages/PomodoroStatsPage'
 import WellnessPage from './pages/WellnessPage'
+import VirtualPetPage from './pages/VirtualPetPage'
+import MusicPlayerPage from './pages/MusicPlayerPage'
 import useKeyboardShortcuts from './utils/useKeyboardShortcuts'
 import './styles/global.css'
 
@@ -64,6 +66,8 @@ function AppRoutes() {
       <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
       <Route path="/stats" element={<ProtectedRoute><PomodoroStatsPage /></ProtectedRoute>} />
       <Route path="/wellness" element={<ProtectedRoute><WellnessPage /></ProtectedRoute>} />
+      <Route path="/pet" element={<ProtectedRoute><VirtualPetPage /></ProtectedRoute>} />
+      <Route path="/music" element={<ProtectedRoute><MusicPlayerPage /></ProtectedRoute>} />
 
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
