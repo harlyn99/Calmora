@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Heart, Utensils, Gamepad2, Moon, Sparkles, Award, Gift, Home, Activity, Camera, Star, Zap, Lock, Bath, Footprints, TreePine } from 'lucide-react'
+import { Heart, Utensils, Gamepad2, Moon, Sparkles, Award, Gift, Home, Activity, Camera, Star, Zap, Lock, Bath, Footprints, TreePine, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import './VirtualPetPage.css'
 
@@ -818,7 +818,7 @@ export default function VirtualPetPage() {
             </div>
           </>
         ) : (
-          /* Room View */}
+          /* Room View */
           <div className="room-display" style={{ background: ROOM_THEMES.find(t => t.id === pet.roomTheme)?.bg }}>
             <div className="room-content">
               <div className="room-pet-container">
