@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Heart, Utensils, Gamepad2, Moon, Sparkles, Award, Gift, Home, Activity, Play, X, Shirt, Zap } from 'lucide-react'
+import { Heart, Utensils, Gamepad2, Moon, Sparkles, Award, Gift, Home, Activity, Camera, Star, Zap, Lock, Bath, Footprints, TreePine } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import './VirtualPetPage.css'
 
 const PET_TYPES = [
   { id: 'bear', name: 'Beruang', emoji: '🐻', color: '#8B7355', secondary: '#6B5345' },
   { id: 'dog', name: 'Guguk', emoji: '🐶', color: '#D4A574', secondary: '#C49564' },
-  { id: 'elephant', name: 'Gajah', emoji: '🐘', color: '#9CA3AF', secondary: '#6B7280' },
   { id: 'cat', name: 'Kucing', emoji: '🐱', color: '#C4A584', secondary: '#B49574' },
   { id: 'bunny', name: 'Kelinci', emoji: '🐰', color: '#E8D5C4', secondary: '#D8C5B4' }
 ]
@@ -23,17 +22,30 @@ const FOODS = [
 const CLOTHES = [
   { id: 'shirt_red', name: 'Kaos Merah', cost: 150, icon: '👕', color: '#ef4444', type: 'shirt' },
   { id: 'shirt_blue', name: 'Kaos Biru', cost: 150, icon: '👕', color: '#3b82f6', type: 'shirt' },
-  { id: 'shirt_green', name: 'Kaos Hijau', cost: 150, icon: '👕', color: '#22c55e', type: 'shirt' },
-  { id: 'bow', name: 'Pita', cost: 200, icon: '🎀', color: '#ec4899', type: 'accessory' },
-  { id: 'hat', name: 'Topi', cost: 250, icon: '🎩', color: '#8B4513', type: 'accessory' },
-  { id: 'glasses', name: 'Kacamata', cost: 180, icon: '👓', color: '#1e293b', type: 'accessory' }
+  { id: 'bow_pink', name: 'Pita Pink', cost: 200, icon: '🎀', color: '#ec4899', type: 'bow' },
+  { id: 'hat', name: 'Topi', cost: 250, icon: '🎩', color: '#8B4513', type: 'hat' }
+]
+
+const ROOM_THEMES = [
+  { id: 'default', name: 'Kamar', cost: 0, bg: 'linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%)', icon: '🏠' },
+  { id: 'garden', name: 'Taman', cost: 500, bg: 'linear-gradient(180deg, #a8edea 0%, #fed6e3 100%)', icon: '🌳' },
+  { id: 'beach', name: 'Pantai', cost: 500, bg: 'linear-gradient(180deg, #4facfe 0%, #00f2fe 100%)', icon: '🏖️' },
+  { id: 'sunset', name: 'Senja', cost: 500, bg: 'linear-gradient(180deg, #ff9a8b 0%, #ff6a88 100%)', icon: '🌅' },
+  { id: 'forest', name: 'Hutan', cost: 750, bg: 'linear-gradient(180deg, #56ab2f 0%, #a8e063 100%)', icon: '🌲' },
+  { id: 'space', name: 'Angkasa', cost: 1000, bg: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)', icon: '🌌' }
 ]
 
 const MINIGAMES = [
-  { id: 'catch', name: 'Tangkap Bola', icon: '⚾', difficulty: 0.7, duration: 20 },
-  { id: 'whack', name: 'Pukul Mole', icon: '🔨', difficulty: 0.6, duration: 25 },
-  { id: 'memory', name: 'Memory Card', icon: '🃏', difficulty: 0.5, duration: 60 }
+  { id: 'whack', name: 'Pukul Mole', icon: '🔨', difficulty: 0.6, duration: 20, target: 10 },
+  { id: 'memory', name: 'Memory Card', icon: '🃏', difficulty: 0.5, duration: 90, target: 4 },
+  { id: 'bubble', name: 'Pecah Bubble', icon: '🫧', difficulty: 0.6, duration: 18, target: 12 }
 ]
+
+const EVOLUTION_STAGES = {
+  1: { stage: 'baby', name: 'Baby', size: 0.85 },
+  5: { stage: 'child', name: 'Child', size: 1.0 },
+  10: { stage: 'adult', name: 'Adult', size: 1.1 }
+}
 
 export default function VirtualPetPage() {
   const navigate = useNavigate()
@@ -49,14 +61,18 @@ export default function VirtualPetPage() {
     energy: 80,
     fun: 70,
     health: 100,
-    coins: 200,
-    items: [],
+    hygiene: 100,
+    coins: 500,
     foods: [],
     clothes: [],
     equippedClothes: [],
+    roomTheme: 'default',
+    unlockedThemes: ['default'],
+    photos: [],
     isSick: false,
     isSleeping: false,
-    consecutivePlays: 0
+    isWalking: false,
+    walkPosition: 50
   })
   
   const [animation, setAnimation] = useState(null)
@@ -72,11 +88,22 @@ export default function VirtualPetPage() {
   const [dayCount, setDayCount] = useState(1)
   const [showRename, setShowRename] = useState(false)
   const [newName, setNewName] = useState('')
+  const [showRoom, setShowRoom] = useState(false)
+  const [showPhotos, setShowPhotos] = useState(false)
+  const [viewMode, setViewMode] = useState('pet')
   
   // Minigame states
-  const [catchGame, setCatchGame] = useState({ ballX: 50, score: 0, timeLeft: 20, balls: [] })
-  const [whackGame, setWhackGame] = useState({ moles: [], score: 0, timeLeft: 25, clicked: [], activeMoles: [] })
-  const [memoryGame, setMemoryGame] = useState({ cards: [], flipped: [], matched: [], moves: 0, attempts: 0 })
+  const [whackGame, setWhackGame] = useState({ score: 0, timeLeft: 20, clicked: [], activeMoles: [], round: 1, totalRounds: 3 })
+  const [memoryGame, setMemoryGame] = useState({ cards: [], flipped: [], matched: [], moves: 0, round: 1, totalRounds: 3, isProcessing: false })
+  const [bubbleGame, setBubbleGame] = useState({ bubbles: [], score: 0, timeLeft: 18, round: 1, totalRounds: 3 })
+
+  const getEvolutionStage = (level) => {
+    if (level >= 10) return EVOLUTION_STAGES[10]
+    if (level >= 5) return EVOLUTION_STAGES[5]
+    return EVOLUTION_STAGES[1]
+  }
+
+  const evolutionStage = getEvolutionStage(pet.level)
 
   // Load from localStorage
   useEffect(() => {
@@ -112,14 +139,15 @@ export default function VirtualPetPage() {
         const newHunger = Math.min(100, p.hunger + 1)
         const newEnergy = p.isSleeping ? Math.min(100, p.energy + 1) : Math.max(0, p.energy - 0.3)
         const newFun = Math.max(0, p.fun - 2)
+        const newHygiene = Math.max(0, p.hygiene - 0.5)
         let newHappiness = p.happiness - 0.5
         let newHealth = p.health
         let isSick = p.isSick
 
-        if (newHunger > 85 && Math.random() < 0.03) {
+        if (newHygiene < 30 && Math.random() < 0.05) {
           isSick = true
-          newHealth = Math.max(0, p.health - 10)
-          showMessage('😷 ' + p.name + ' got sick!')
+          newHealth = Math.max(0, p.health - 8)
+          showMessage('😷 ' + p.name + ' got sick! Needs bath!')
         }
 
         if (isSick) {
@@ -135,7 +163,7 @@ export default function VirtualPetPage() {
         const isSleeping = p.isSleeping && newEnergy >= 100 ? false : p.isSleeping
 
         return {
-          ...p, hunger: newHunger, energy: newEnergy, fun: newFun,
+          ...p, hunger: newHunger, energy: newEnergy, fun: newFun, hygiene: newHygiene,
           happiness: Math.max(0, Math.min(100, newHappiness)),
           health: newHealth, isSick, isSleeping
         }
@@ -144,32 +172,59 @@ export default function VirtualPetPage() {
     return () => clearInterval(timer)
   }, [])
 
-  // Level up
+  // Level up & evolution
   useEffect(() => {
     if (pet.xp >= pet.xpToNext) {
+      const newLevel = pet.level + 1
+      const newStage = getEvolutionStage(newLevel)
+      const oldStage = getEvolutionStage(pet.level)
+      
       setPet(p => ({
-        ...p, level: p.level + 1, xp: p.xp - p.xpToNext,
-        xpToNext: Math.floor(p.xpToNext * 1.5), coins: p.coins + 50, health: 100
+        ...p, 
+        level: newLevel, 
+        xp: p.xp - p.xpToNext,
+        xpToNext: Math.floor(p.xpToNext * 1.5), 
+        coins: p.coins + 50, 
+        health: 100
       }))
-      showMessage('🎉 Level Up! +50 coins! Full heal!')
-      createParticles('levelup')
+      
+      if (newStage.stage !== oldStage.stage) {
+        showMessage(`🎉 ${pet.name} evolved to ${newStage.name}!`)
+        createParticles('evolution')
+      } else {
+        showMessage('🎉 Level Up! +50 coins! Full heal!')
+        createParticles('levelup')
+      }
     }
   }, [pet.xp, pet.xpToNext])
 
+  // Walking animation
+  useEffect(() => {
+    if (pet.isWalking) {
+      const interval = setInterval(() => {
+        setPet(p => ({
+          ...p,
+          walkPosition: p.walkPosition + (Math.random() > 0.5 ? 5 : -5)
+        }))
+      }, 500)
+      return () => clearInterval(interval)
+    }
+  }, [pet.isWalking])
+
   const createParticles = (type) => {
     const newParticles = []
-    const count = type === 'levelup' ? 20 : 10
+    const count = type === 'evolution' ? 30 : type === 'levelup' ? 20 : 10
     for (let i = 0; i < count; i++) {
       newParticles.push({
         id: Date.now() + i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        emoji: type === 'levelup' ? '⭐' : type === 'heart' ? '❤️' : '✨',
+        emoji: type === 'evolution' ? '✨' : type === 'levelup' ? '⭐' : type === 'heart' ? '❤️' : type === 'bubble' ? '🫧' : '✨',
         type
       })
     }
     setParticles(newParticles)
-    setTimeout(() => setParticles([]), 2000)
+    setTimeout(() => setParticles([]), 2500)
   }
 
   const showMessage = (msg) => {
@@ -233,6 +288,23 @@ export default function VirtualPetPage() {
     else setPetExpression('normal')
   }
 
+  const takeBath = () => {
+    if (pet.hygiene >= 100) {
+      showMessage('Already clean!')
+      return
+    }
+    setPet(p => ({ ...p, hygiene: 100, happiness: Math.min(100, p.happiness + 10) }))
+    showMessage('🛁 So clean! +10 happy!')
+    setAnimation('bath')
+    createParticles('bubble')
+    setTimeout(() => setAnimation(null), 2000)
+  }
+
+  const toggleWalk = () => {
+    setPet(p => ({ ...p, isWalking: !p.isWalking, energy: p.energy - 5 }))
+    showMessage(pet.isWalking ? 'Stopped walking!' : 'Walking around! -5 energy')
+  }
+
   const buyItem = (item, type) => {
     if (pet.coins >= item.cost) {
       const itemsKey = type === 'food' ? 'foods' : 'clothes'
@@ -252,6 +324,26 @@ export default function VirtualPetPage() {
     }
   }
 
+  const buyRoomTheme = (theme) => {
+    if (pet.unlockedThemes.includes(theme.id)) {
+      setPet(p => ({ ...p, roomTheme: theme.id }))
+      showMessage(`Room changed to ${theme.name}!`)
+      return
+    }
+    if (pet.coins >= theme.cost) {
+      setPet(p => ({
+        ...p,
+        coins: p.coins - theme.cost,
+        roomTheme: theme.id,
+        unlockedThemes: [...p.unlockedThemes, theme.id]
+      }))
+      showMessage(`🏠 Unlocked ${theme.name} room!`)
+      createParticles('sparkle')
+    } else {
+      showMessage('❌ Not enough coins!')
+    }
+  }
+
   const useFood = (food) => {
     if (!pet.foods.find(f => f.id === food.id)) return
     setPet(p => ({
@@ -262,7 +354,7 @@ export default function VirtualPetPage() {
       foods: p.foods.filter(f => f.id !== food.id),
       isSick: p.isSick && p.health + (food.heal || 0) >= 50 ? false : p.isSick
     }))
-    showMessage(`🍽️ Used ${food.name}! +${food.fill} fill +${food.happy} happy ${food.heal > 0 ? '+' + food.heal + ' health' : ''}`)
+    showMessage(`🍽️ Used ${food.name}!`)
     setAnimation('eat')
     setTimeout(() => setAnimation(null), 1500)
     createParticles('heart')
@@ -281,6 +373,19 @@ export default function VirtualPetPage() {
   const unequipClothes = (type) => {
     setPet(p => ({ ...p, equippedClothes: p.equippedClothes.filter(c => c.type !== type) }))
     showMessage('Unequipped!')
+  }
+
+  const takePhoto = () => {
+    const photo = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString(),
+      pet: { ...pet },
+      expression: petExpression,
+      evolution: evolutionStage.stage
+    }
+    setPet(p => ({ ...p, photos: [photo, ...p.photos].slice(0, 50) }))
+    showMessage('📸 Photo saved!')
+    createParticles('sparkle')
   }
 
   const changePet = (type) => {
@@ -304,42 +409,15 @@ export default function VirtualPetPage() {
     setShowMinigame(true)
     setGameResult(null)
     
-    if (game.id === 'catch') {
-      setCatchGame({ ballX: 50, score: 0, timeLeft: game.duration, balls: [] })
-      startCatchGame(game.duration)
-    } else if (game.id === 'whack') {
-      setWhackGame({ moles: [], score: 0, timeLeft: game.duration, clicked: [], activeMoles: [] })
+    if (game.id === 'whack') {
+      setWhackGame({ score: 0, timeLeft: game.duration, clicked: [], activeMoles: [], round: 1, totalRounds: 3 })
       startWhackGame(game.duration)
     } else if (game.id === 'memory') {
       startMemoryGame()
+    } else if (game.id === 'bubble') {
+      setBubbleGame({ bubbles: [], score: 0, timeLeft: game.duration, round: 1, totalRounds: 3 })
+      startBubbleGame(game.duration)
     }
-  }
-
-  // Catch Ball Game
-  const startCatchGame = (duration) => {
-    const interval = setInterval(() => {
-      setCatchGame(prev => {
-        if (prev.timeLeft <= 0) {
-          clearInterval(interval)
-          endMinigame(prev.score >= 5, prev.score)
-          return prev
-        }
-        
-        const newBalls = prev.balls.filter(b => b.y < 100).map(b => ({ ...b, y: b.y + 4 }))
-        const caught = newBalls.filter(b => b.y >= 85 && Math.abs(b.x - prev.ballX) < 15)
-        const newScore = prev.score + caught.length
-        
-        if (Math.random() < 0.4 && newBalls.length < 4) {
-          newBalls.push({ x: Math.random() * 80 + 10, y: 0, id: Date.now() })
-        }
-        
-        return { ...prev, balls: newBalls, score: newScore, timeLeft: prev.timeLeft - 1 }
-      })
-    }, 1000)
-  }
-
-  const moveBasket = (dir) => {
-    setCatchGame(prev => ({ ...prev, ballX: Math.max(10, Math.min(90, prev.ballX + dir * 12)) }))
   }
 
   // Whack Game
@@ -347,27 +425,35 @@ export default function VirtualPetPage() {
     const moleInterval = setInterval(() => {
       setWhackGame(prev => {
         if (prev.timeLeft <= 0) return prev
-        
-        const newActiveMoles = prev.activeMoles.filter(m => Date.now() - m.time < 1200)
-        
-        if (Math.random() < 0.5 && newActiveMoles.length < 3) {
+        const newActiveMoles = prev.activeMoles.filter(m => Date.now() - m.time < 1000)
+        if (Math.random() < 0.7 && newActiveMoles.length < 4) {
           const pos = Math.floor(Math.random() * 9)
           if (!newActiveMoles.find(m => m.pos === pos)) {
             newActiveMoles.push({ pos, time: Date.now(), id: Date.now() })
           }
         }
-        
         return { ...prev, activeMoles: newActiveMoles }
       })
-    }, 800)
+    }, 600)
 
     const timerInterval = setInterval(() => {
       setWhackGame(prev => {
         if (prev.timeLeft <= 0) {
           clearInterval(timerInterval)
           clearInterval(moleInterval)
-          endMinigame(prev.score >= 5, prev.score)
-          return prev
+          if (prev.score >= 10) {
+            if (prev.round < prev.totalRounds) {
+              setWhackGame({ score: 0, timeLeft: duration, clicked: [], activeMoles: [], round: prev.round + 1, totalRounds: prev.totalRounds })
+              startWhackGame(duration)
+              return prev
+            } else {
+              endMinigame(true, prev.score)
+              return prev
+            }
+          } else {
+            endMinigame(false, prev.score)
+            return prev
+          }
         }
         return { ...prev, timeLeft: prev.timeLeft - 1 }
       })
@@ -393,83 +479,107 @@ export default function VirtualPetPage() {
   const startMemoryGame = () => {
     const emojis = ['🐾', '🦴', '🐟', '🥕', '🐾', '🦴', '🐟', '🥕']
     const shuffled = emojis.sort(() => Math.random() - 0.5)
-    setMemoryGame({ cards: shuffled, flipped: [], matched: [], moves: 0, attempts: 0 })
+    setMemoryGame({ cards: shuffled, flipped: [], matched: [], moves: 0, round: 1, totalRounds: 3, isProcessing: false })
   }
 
   const flipCard = (index) => {
-    if (memoryGame.flipped.length >= 2 || memoryGame.flipped.includes(index) || memoryGame.matched.includes(index)) return
+    if (memoryGame.isProcessing || memoryGame.flipped.length >= 2 || memoryGame.flipped.includes(index) || memoryGame.matched.includes(index)) return
     
     setMemoryGame(prev => {
       const newFlipped = [...prev.flipped, index]
-      
       if (newFlipped.length === 2) {
         const [first, second] = newFlipped
         if (prev.cards[first] === prev.cards[second]) {
+          prev.isProcessing = true
           setTimeout(() => {
-            setMemoryGame(p => ({ ...p, matched: [...p.matched, first, second], attempts: p.attempts + 1 }))
+            setMemoryGame(p => {
+              const newMatched = [...p.matched, first, second]
+              if (newMatched.length === 8) {
+                if (p.round < p.totalRounds) {
+                  const emojis = ['🐾', '🦴', '🐟', '🥕', '🐾', '🦴', '🐟', '🥕']
+                  const shuffled = emojis.sort(() => Math.random() - 0.5)
+                  return { cards: shuffled, flipped: [], matched: [], moves: p.moves + 1, round: p.round + 1, totalRounds: p.totalRounds, isProcessing: false }
+                } else {
+                  endMinigame(true, p.moves)
+                  return { ...p, isProcessing: false }
+                }
+              }
+              return { ...p, matched: newMatched, flipped: [], isProcessing: false }
+            })
           }, 500)
         } else {
-          setTimeout(() => {
-            setMemoryGame(p => ({ ...p, flipped: [], attempts: p.attempts + 1 }))
-          }, 1000)
+          prev.isProcessing = true
+          setTimeout(() => setMemoryGame(p => ({ ...p, flipped: [], isProcessing: false })), 1000)
         }
-        return { ...prev, flipped: newFlipped, moves: prev.moves + 1 }
+        return { ...prev, flipped: newFlipped, moves: prev.moves + 1, isProcessing: true }
       }
       return { ...prev, flipped: newFlipped }
     })
   }
 
-  useEffect(() => {
-    if (memoryGame.matched.length === 8 && memoryGame.cards.length > 0) {
-      endMinigame(true, memoryGame.moves)
-    }
-  }, [memoryGame.matched])
+  // Bubble Game - NEW!
+  const startBubbleGame = (duration) => {
+    const bubbleInterval = setInterval(() => {
+      setBubbleGame(prev => {
+        if (prev.timeLeft <= 0) return prev
+        const newBubbles = prev.bubbles.filter(b => b.y > -10).map(b => ({ ...b, y: b.y - 3 }))
+        if (Math.random() < 0.4 && newBubbles.length < 6) {
+          newBubbles.push({ x: Math.random() * 80 + 10, y: 100, id: Date.now(), size: Math.random() * 20 + 30 })
+        }
+        return { ...prev, bubbles: newBubbles }
+      })
+    }, 800)
+
+    const timerInterval = setInterval(() => {
+      setBubbleGame(prev => {
+        if (prev.timeLeft <= 0) {
+          clearInterval(timerInterval)
+          clearInterval(bubbleInterval)
+          if (prev.score >= 12) {
+            if (prev.round < prev.totalRounds) {
+              setBubbleGame({ bubbles: [], score: 0, timeLeft: duration, round: prev.round + 1, totalRounds: prev.totalRounds })
+              startBubbleGame(duration)
+              return prev
+            } else {
+              endMinigame(true, prev.score)
+              return prev
+            }
+          } else {
+            endMinigame(false, prev.score)
+            return prev
+          }
+        }
+        return { ...prev, timeLeft: prev.timeLeft - 1 }
+      })
+    }, 1000)
+  }
+
+  const popBubble = (id) => {
+    setBubbleGame(prev => ({
+      ...prev,
+      score: prev.score + 1,
+      bubbles: prev.bubbles.filter(b => b.id !== id)
+    }))
+    createParticles('bubble')
+  }
 
   const endMinigame = (won, extraData) => {
     setGameResult(won ? 'win' : 'lose')
-    
     if (won) {
-      const xpGain = 25
-      const coinGain = 20
-      const happyGain = 20
-      setPet(p => ({
-        ...p,
-        xp: p.xp + xpGain,
-        coins: p.coins + coinGain,
-        happiness: Math.min(100, p.happiness + happyGain),
-        fun: Math.min(100, p.fun + 25)
-      }))
-      showMessage(`🎉 Won! +${xpGain}XP +${coinGain}coins!`)
+      setPet(p => ({ ...p, xp: p.xp + 30, coins: p.coins + 25, happiness: Math.min(100, p.happiness + 25), fun: Math.min(100, p.fun + 30) }))
+      showMessage(`🎉 Won! +30XP +25coins!`)
       createParticles('win')
     } else {
-      const fellAndHurt = Math.random() < 0.2
-      if (fellAndHurt) {
-        const damage = Math.floor(Math.random() * 10) + 3
-        setPet(p => ({ ...p, health: Math.max(0, p.health - damage), happiness: Math.max(0, p.happiness - 10) }))
-        showMessage(`😵 Fell! -${damage} health!`)
-        setPetExpression('hurt')
-        setAnimation('hurt')
-        setTimeout(() => { setAnimation(null); updateExpression() }, 2000)
-      } else {
-        setPet(p => ({ ...p, happiness: Math.max(0, p.happiness - 5) }))
-        showMessage('😢 Lost! Try again!')
-      }
+      setPet(p => ({ ...p, happiness: Math.max(0, p.happiness - 5) }))
+      showMessage('😢 Lost! Try again!')
     }
-    
-    setTimeout(() => {
-      setShowMinigame(false)
-      setSelectedGame(null)
-      setGameResult(null)
-    }, 2500)
+    setTimeout(() => { setShowMinigame(false); setSelectedGame(null); setGameResult(null) }, 2500)
   }
 
   const healPet = () => {
     if (pet.health >= 100 && !pet.isSick) { showMessage('Already healthy!'); return }
     if (pet.coins >= 20) {
-      setPet(p => ({
-        ...p, health: Math.min(100, p.health + 30), coins: p.coins - 20,
-        isSick: p.health + 30 >= 50 ? false : p.isSick
-      }))
+      setPet(p => ({ ...p, health: Math.min(100, p.health + 30), coins: p.coins - 20, isSick: p.health + 30 >= 50 ? false : p.isSick }))
       showMessage(`💖 Healed! +30 health! -20 coins`)
       createParticles('heart')
       setPetExpression('happy')
@@ -484,17 +594,17 @@ export default function VirtualPetPage() {
 
   const getExpression = () => {
     if (pet.health < 30) return { emoji: '🤒', text: 'Sick', color: '#ef4444' }
+    if (pet.hygiene < 30) return { emoji: '🤢', text: 'Dirty', color: '#f97316' }
     if (petExpression === 'angry') return { emoji: '😠', text: 'Angry', color: '#f97316' }
     if (petExpression === 'sad') return { emoji: '😢', text: 'Sad', color: '#60a5fa' }
     if (petExpression === 'happy') return { emoji: '😄', text: 'Happy', color: '#4ade80' }
     if (petExpression === 'tired') return { emoji: '😴', text: 'Tired', color: '#a78bfa' }
-    if (petExpression === 'hurt') return { emoji: '🤕', text: 'Hurt', color: '#f43f5e' }
     return { emoji: '😊', text: 'Normal', color: '#4ade80' }
   }
 
   const expression = getExpression()
 
-  const StatBar = ({ icon: Icon, value, color, label, showHealth }) => (
+  const StatBar = ({ icon: Icon, value, color, label, showHygiene }) => (
     <div className="stat-bar">
       <div className="stat-header">
         <Icon size={16} />
@@ -504,19 +614,14 @@ export default function VirtualPetPage() {
       <div className="stat-track">
         <div className="stat-fill" style={{ width: `${value}%`, backgroundColor: color }} />
       </div>
-      {showHealth && pet.isSick && <span className="sick-badge">🤒</span>}
     </div>
   )
-
-  const petType = PET_TYPES.find(p => p.id === pet.type) || PET_TYPES[0]
 
   return (
     <div className="virtual-pet-page">
       <nav className="pet-top-nav">
         <div className="pet-nav-container">
-          <button className="pet-nav-btn" onClick={() => navigate('/dashboard')}>
-            <Home size={20} /><span>Home</span>
-          </button>
+          <button className="pet-nav-btn" onClick={() => navigate('/dashboard')}><Home size={20} /><span>Home</span></button>
           <h1>🐾 Virtual Pet</h1>
           <div className="pet-stats-mini">
             <span className="mini-stat">💰 {pet.coins}</span>
@@ -529,188 +634,231 @@ export default function VirtualPetPage() {
       {message && <div className="message-toast">{message}</div>}
       {particles.length > 0 && (
         <div className="particles-container">
-          {particles.map(p => (
-            <div key={p.id} className="particle" style={{ left: p.x + '%', top: p.y + '%' }}>{p.emoji}</div>
-          ))}
+          {particles.map(p => (<div key={p.id} className="particle" style={{ left: p.x + '%', top: p.y + '%' }}>{p.emoji}</div>))}
         </div>
       )}
 
       <div className="pet-container">
-        <div className="pet-main-section">
-          {/* Pet Display */}
-          <div className={`pet-display ${animation || ''} ${pet.isSleeping ? 'sleeping' : ''}`}>
-            <div className="pet-avatar-3d">
-              {animation === 'happy' && (
-                <div className="effect-overlay happy-effect"><span>❤️</span><span>💕</span><span>✨</span></div>
-              )}
-              {animation === 'eat' && (
-                <div className="effect-overlay eat-effect"><span>🍖</span><span>😋</span><span>✨</span></div>
-              )}
+        {/* View Mode Toggle */}
+        <div className="view-mode-toggle">
+          <button className={`mode-btn ${viewMode === 'pet' ? 'active' : ''}`} onClick={() => setViewMode('pet')}><Sparkles size={18} /> Pet</button>
+          <button className={`mode-btn ${viewMode === 'room' ? 'active' : ''}`} onClick={() => setViewMode('room')}><TreePine size={18} /> Place</button>
+        </div>
 
-              <div className={`pet-body pet-${pet.type}`}>
-                {/* Clothes - Shirt */}
-                {pet.equippedClothes.find(c => c.type === 'shirt') && (
-                  <div className="pet-clothe pet-shirt" style={{ backgroundColor: pet.equippedClothes.find(c => c.type === 'shirt').color }}></div>
-                )}
-                
-                {/* Ears */}
-                <div className="pet-ears">
-                  <div className={`pet-ear left pet-ear-${pet.type} ${animation === 'happy' ? 'wiggle' : ''}`}></div>
-                  <div className={`pet-ear right pet-ear-${pet.type} ${animation === 'happy' ? 'wiggle' : ''}`}></div>
-                </div>
-                
-                {/* Head */}
-                <div className="pet-head">
-                  {/* Hat accessory */}
-                  {pet.equippedClothes.find(c => c.type === 'accessory' && c.name === 'Topi') && (
-                    <div className="pet-hat" style={{ backgroundColor: pet.equippedClothes.find(c => c.name === 'Topi').color }}></div>
-                  )}
-                  
-                  <div className="pet-face">
-                    {/* Eyes */}
-                    <div className="pet-eyes">
-                      <div className={`pet-eye left ${petExpression === 'sad' ? 'sad' : ''} ${petExpression === 'angry' ? 'angry' : ''} ${animation === 'sleep' || pet.isSleeping ? 'closed' : ''} ${petExpression === 'hurt' ? 'hurt' : ''}`}></div>
-                      <div className={`pet-eye right ${petExpression === 'sad' ? 'sad' : ''} ${petExpression === 'angry' ? 'angry' : ''} ${animation === 'sleep' || pet.isSleeping ? 'closed' : ''} ${petExpression === 'hurt' ? 'hurt' : ''}`}></div>
+        {viewMode === 'pet' ? (
+          <>
+            {/* Pet Display */}
+            <div className={`pet-display ${animation || ''} ${pet.isSleeping ? 'sleeping' : ''}`}>
+              <div className="pet-scene" style={{ background: ROOM_THEMES.find(t => t.id === pet.roomTheme)?.bg }}>
+                <div className="pet-avatar-container" style={{ left: `${pet.walkPosition}%` }}>
+                  <div className={`pet-avatar-3d ${pet.isWalking ? 'walking' : ''}`} style={{ transform: `scale(${evolutionStage.size})` }}>
+                    {/* Cute connected pet body */}
+                    <div className={`cute-pet-body pet-${pet.type}`}>
+                      {/* Tail - connected to body */}
+                      <div className={`cute-tail pet-tail-${pet.type} ${animation === 'happy' || pet.isWalking ? 'wagging' : ''}`}></div>
+                      
+                      {/* Body - main connected part */}
+                      <div className="cute-body-main">
+                        {/* Shirt */}
+                        {pet.equippedClothes.find(c => c.type === 'shirt') && (
+                          <div className="pet-shirt" style={{ backgroundColor: pet.equippedClothes.find(c => c.type === 'shirt').color }}></div>
+                        )}
+                        
+                        {/* Legs - connected to body bottom */}
+                        <div className={`cute-legs ${pet.isWalking ? 'walking' : ''}`}>
+                          <div className="cute-leg left"></div>
+                          <div className="cute-leg right"></div>
+                        </div>
+                      </div>
+                      
+                      {/* Head - connected to body top */}
+                      <div className="cute-head">
+                        {/* Hat */}
+                        {pet.equippedClothes.find(c => c.type === 'hat') && (
+                          <div className="pet-hat" style={{ backgroundColor: pet.equippedClothes.find(c => c.type === 'hat').color }}></div>
+                        )}
+                        
+                        {/* Ears - connected to head top */}
+                        <div className="cute-ears">
+                          <div className={`cute-ear left pet-ear-${pet.type}`}></div>
+                          <div className={`cute-ear right pet-ear-${pet.type}`}></div>
+                        </div>
+                        
+                        {/* Face */}
+                        <div className="cute-face">
+                          {/* Big dot eyes */}
+                          <div className="cute-eyes">
+                            <div className={`cute-eye left ${pet.isSleeping || animation === 'sleep' ? 'closed' : ''}`}></div>
+                            <div className={`cute-eye right ${pet.isSleeping || animation === 'sleep' ? 'closed' : ''}`}></div>
+                          </div>
+                          
+                          {/* Cheeks */}
+                          <div className="cute-cheeks">
+                            <div className="cute-cheek left"></div>
+                            <div className="cute-cheek right"></div>
+                          </div>
+                          
+                          {/* Nose */}
+                          <div className="cute-nose"></div>
+                          
+                          {/* Mouth */}
+                          <div className={`cute-mouth ${petExpression} ${animation === 'eat' ? 'eating' : ''}`}></div>
+                        </div>
+                      </div>
+                      
+                      {/* Arms - connected to body sides */}
+                      <div className="cute-arms">
+                        <div className={`cute-arm left ${animation === 'happy' ? 'waving' : ''}`}></div>
+                        <div className={`cute-arm right ${animation === 'train' ? 'flexing' : ''}`}></div>
+                      </div>
+                      
+                      {/* Bow accessory */}
+                      {pet.equippedClothes.find(c => c.type === 'bow') && (
+                        <div className="pet-bow" style={{ backgroundColor: pet.equippedClothes.find(c => c.type === 'bow').color }}>
+                          <div className="bow-loop left"></div>
+                          <div className="bow-loop right"></div>
+                        </div>
+                      )}
+                      
+                      {/* Bath bubbles */}
+                      {animation === 'bath' && (
+                        <div className="bath-bubbles">
+                          <span>🫧</span><span>🫧</span><span>🫧</span>
+                        </div>
+                      )}
                     </div>
-                    {/* Glasses accessory */}
-                    {pet.equippedClothes.find(c => c.type === 'accessory' && c.name === 'Kacamata') && (
-                      <div className="pet-glasses"></div>
-                    )}
-                    {/* Eyebrows */}
-                    {petExpression === 'angry' && (
-                      <div className="pet-eyebrows"><div className="eyebrow left"></div><div className="eyebrow right"></div></div>
-                    )}
-                    {/* Tears */}
-                    {petExpression === 'sad' && (
-                      <div className="pet-tears"><div className="tear left"></div><div className="tear right"></div></div>
-                    )}
-                    {/* Cheeks */}
-                    <div className="pet-cheeks"><div className="pet-cheek left"></div><div className="pet-cheek right"></div></div>
-                    {/* Nose */}
-                    <div className={`pet-nose pet-nose-${pet.type}`}></div>
-                    {/* Mouth */}
-                    <div className={`pet-mouth ${petExpression} ${animation === 'eat' ? 'eating' : ''}`}></div>
+                  </div>
+                  
+                  {/* Sleep ZZZ */}
+                  {(animation === 'sleep' || pet.isSleeping) && (
+                    <div className="sleep-zzz"><span>Z</span><span>z</span><span>z</span></div>
+                  )}
+                </div>
+              </div>
+
+              <div className="pet-info">
+                <div className="evolution-badge">{evolutionStage.name}</div>
+                <h2 className="pet-name">
+                  {pet.name}
+                  <button className="edit-name-btn" onClick={() => setShowRename(true)}>✏️</button>
+                  <button className="edit-name-btn" onClick={() => setShowPetSelect(true)}>🔄</button>
+                </h2>
+                <p className="pet-mood" style={{ color: expression.color }}>{expression.emoji} {expression.text}</p>
+                <div className="pet-level">
+                  <Sparkles size={16} /> Level {pet.level}
+                  <div className="xp-bar"><div className="xp-fill" style={{ width: `${(pet.xp / pet.xpToNext) * 100}%` }} /></div>
+                  <small>{pet.xp}/{pet.xpToNext} XP</small>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="action-buttons-row">
+              <button className="action-icon-btn" onClick={takePhoto}><Camera size={24} /><span>Photo</span></button>
+              <button className="action-icon-btn" onClick={takeBath}><Bath size={24} /><span>Bath</span></button>
+              <button className="action-icon-btn" onClick={toggleWalk}><Footprints size={24} /><span>{pet.isWalking ? 'Stop' : 'Walk'}</span></button>
+              <button className="action-icon-btn" onClick={() => setViewMode('room')}><TreePine size={24} /><span>Place</span></button>
+            </div>
+
+            {/* Actions Below Pet */}
+            <div className="actions-below-pet">
+              <h3>🎮 Actions</h3>
+              <div className="actions-grid">
+                <button className="action-btn feed" onClick={() => handleAction('feed')} disabled={pet.hunger <= 10 || pet.isSleeping}>
+                  <Utensils size={28} /><span>Feed</span><small>+5 💰</small>
+                </button>
+                <button className="action-btn play" onClick={() => handleAction('play')} disabled={pet.energy < 10 || pet.isSleeping || pet.health < 30}>
+                  <Gamepad2 size={28} /><span>Play</span><small>+8 💰</small>
+                </button>
+                <button className="action-btn rest" onClick={() => handleAction('rest')} disabled={pet.energy >= 90}>
+                  <Moon size={28} /><span>Rest</span><small>+2 💰</small>
+                </button>
+                <button className="action-btn train" onClick={() => handleAction('train')} disabled={pet.energy < 20 || pet.isSleeping || pet.health < 50}>
+                  <Sparkles size={28} /><span>Train</span><small>+10 💰</small>
+                </button>
+              </div>
+
+              <div className="quick-actions">
+                <button className="quick-action-btn" onClick={() => { setShopTab('food'); setShowShop(true); }}>
+                  <Utensils size={20} /><span>Food</span><small>{pet.foods.length}</small>
+                </button>
+                <button className="quick-action-btn" onClick={() => { setShopTab('clothes'); setShowShop(true); }}>
+                  <Gift size={20} /><span>Clothes</span><small>{pet.clothes.length}</small>
+                </button>
+                <button className="quick-action-btn" onClick={healPet}>
+                  <Activity size={20} /><span>Heal</span><small>-20 💰</small>
+                </button>
+                <button className="quick-action-btn" onClick={toggleSleep}>
+                  <Moon size={20} /><span>{pet.isSleeping ? 'Wake' : 'Sleep'}</span><small>{pet.isSleeping ? '☀️' : '🌙'}</small>
+                </button>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="stats-grid">
+              <StatBar icon={Heart} value={pet.happiness} color="#ff6b9d" label="Happiness" />
+              <StatBar icon={Utensils} value={pet.hunger} color="#ffa726" label="Hunger" />
+              <StatBar icon={Moon} value={pet.energy} color="#7e57c2" label="Energy" />
+              <StatBar icon={Activity} value={pet.health} color={pet.health < 50 ? '#ef4444' : '#4ade80'} label="Health" />
+              <StatBar icon={Bath} value={pet.hygiene} color={pet.hygiene < 50 ? '#f97316' : '#22c55e'} label="Hygiene" />
+            </div>
+
+            {/* Minigames */}
+            <div className="minigames-section">
+              <h3>🎮 Minigames (3 Rounds)</h3>
+              <div className="minigames-grid">
+                {MINIGAMES.map(game => (
+                  <button key={game.id} className="minigame-card" onClick={() => playMinigame(game)} disabled={pet.isSleeping || pet.health < 30}>
+                    <span className="minigame-icon">{game.icon}</span>
+                    <span className="minigame-name">{game.name}</span>
+                    <small>{game.duration}s | Target: {game.target}</small>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          /* Room View */}
+          <div className="room-display" style={{ background: ROOM_THEMES.find(t => t.id === pet.roomTheme)?.bg }}>
+            <div className="room-content">
+              <div className="room-pet-container">
+                <div className="room-pet" style={{ transform: `scale(${evolutionStage.size * 1.2})` }}>
+                  <div className={`cute-pet-body pet-${pet.type} room-pet-body`}>
+                    <div className="cute-tail pet-tail-${pet.type}"></div>
+                    <div className="cute-body-main">
+                      <div className="cute-legs"><div className="cute-leg left"></div><div className="cute-leg right"></div></div>
+                    </div>
+                    <div className="cute-head">
+                      <div className="cute-ears">
+                        <div className={`cute-ear left pet-ear-${pet.type}`}></div>
+                        <div className={`cute-ear right pet-ear-${pet.type}`}></div>
+                      </div>
+                      <div className="cute-face">
+                        <div className="cute-eyes">
+                          <div className="cute-eye left"></div>
+                          <div className="cute-eye right"></div>
+                        </div>
+                        <div className="cute-nose"></div>
+                        <div className="cute-mouth"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                
-                {/* Body */}
-                <div className="pet-torso"></div>
-                
-                {/* Arms */}
-                <div className="pet-arms">
-                  <div className={`pet-arm left ${animation === 'play' ? 'waving' : ''}`}></div>
-                  <div className={`pet-arm right ${animation === 'train' ? 'flexing' : ''}`}></div>
-                </div>
-                
-                {/* Legs - Curled when sleeping */}
-                <div className={`pet-legs ${pet.isSleeping ? 'curled' : ''}`}>
-                  <div className={`pet-leg left ${animation === 'happy' ? 'waving' : ''}`}></div>
-                  <div className="pet-leg right"></div>
-                </div>
-                
-                {/* Tail */}
-                <div className={`pet-tail pet-tail-${pet.type} ${animation === 'happy' ? 'wagging' : ''}`}></div>
-                
-                {/* Trunk */}
-                {pet.type === 'elephant' && (
-                  <div className={`pet-trunk ${animation === 'happy' ? 'swinging' : ''}`}></div>
-                )}
-
-                {/* Bow accessory */}
-                {pet.equippedClothes.find(c => c.type === 'accessory' && c.name === 'Pita') && (
-                  <div className="pet-bow" style={{ backgroundColor: pet.equippedClothes.find(c => c.name === 'Pita').color }}></div>
-                )}
-
-                {/* Bandage */}
-                {(pet.health < 50 || pet.isSick) && (
-                  <div className="pet-bandage"><span>🩹</span></div>
-                )}
               </div>
-              
-              {/* Sleep ZZZ */}
-              {(animation === 'sleep' || pet.isSleeping) && (
-                <div className="sleep-zzz"><span className="zzz-1">Z</span><span className="zzz-2">z</span><span className="zzz-3">z</span></div>
-              )}
-            </div>
-
-            <div className="pet-info">
-              <h2 className="pet-name">
-                {pet.name}
-                <button className="edit-name-btn" onClick={() => setShowRename(true)}>✏️</button>
-                <button className="edit-name-btn" onClick={() => setShowPetSelect(true)}>🔄</button>
-              </h2>
-              <p className="pet-mood" style={{ color: expression.color }}>{expression.emoji} {expression.text}</p>
-              <div className="pet-level">
-                <Sparkles size={16} /> Level {pet.level}
-                <div className="xp-bar"><div className="xp-fill" style={{ width: `${(pet.xp / pet.xpToNext) * 100}%` }} /></div>
-                <small>{pet.xp}/{pet.xpToNext} XP</small>
+              <div className="room-info">
+                <h3>{pet.name}'s {ROOM_THEMES.find(t => t.id === pet.roomTheme)?.name}</h3>
+                <p>Level: {pet.level} ({evolutionStage.name})</p>
+                <p>Hygiene: {Math.round(pet.hygiene)}%</p>
               </div>
             </div>
           </div>
-
-          {/* Actions Panel - Beside Pet */}
-          <div className="actions-panel">
-            <h3>🎮 Actions</h3>
-            <div className="actions-grid-vertical">
-              <button className="action-btn feed" onClick={() => handleAction('feed')} disabled={pet.hunger <= 10 || pet.isSleeping}>
-                <Utensils size={24} /><div><span>Feed</span><small>+5 💰</small></div>
-              </button>
-              <button className="action-btn play" onClick={() => handleAction('play')} disabled={pet.energy < 10 || pet.isSleeping || pet.health < 30}>
-                <Gamepad2 size={24} /><div><span>Play</span><small>+8 💰</small></div>
-              </button>
-              <button className="action-btn rest" onClick={() => handleAction('rest')} disabled={pet.energy >= 90}>
-                <Moon size={24} /><div><span>Rest</span><small>+2 💰</small></div>
-              </button>
-              <button className="action-btn train" onClick={() => handleAction('train')} disabled={pet.energy < 20 || pet.isSleeping || pet.health < 50}>
-                <Sparkles size={24} /><div><span>Train</span><small>+10 💰</small></div>
-              </button>
-            </div>
-
-            <div className="quick-actions-vertical">
-              <button className="quick-action-btn" onClick={() => { setShopTab('food'); setShowShop(true); }}>
-                <Utensils size={20} /><span>Use Food</span><small>{pet.foods.length} items</small>
-              </button>
-              <button className="quick-action-btn" onClick={() => { setShopTab('clothes'); setShowShop(true); }}>
-                <Shirt size={20} /><span>Wardrobe</span><small>{pet.clothes.length} items</small>
-              </button>
-              <button className="quick-action-btn" onClick={healPet}>
-                <Activity size={20} /><span>Heal</span><small>-20 💰</small>
-              </button>
-              <button className="quick-action-btn" onClick={toggleSleep}>
-                <Moon size={20} /><span>{pet.isSleeping ? 'Wake' : 'Sleep'}</span><small>{pet.isSleeping ? '☀️' : '🌙'}</small>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="stats-grid">
-          <StatBar icon={Heart} value={pet.happiness} color="#ff6b9d" label="Happiness" />
-          <StatBar icon={Utensils} value={pet.hunger} color="#ffa726" label="Hunger" />
-          <StatBar icon={Moon} value={pet.energy} color="#7e57c2" label="Energy" />
-          <StatBar icon={Gamepad2} value={pet.fun} color="#26c6da" label="Fun" />
-          <StatBar icon={Activity} value={pet.health} color={pet.health < 50 ? '#ef4444' : '#4ade80'} label="Health" showHealth />
-        </div>
-
-        {/* Minigames */}
-        <div className="minigames-section">
-          <h3>🎮 Minigames</h3>
-          <div className="minigames-grid">
-            {MINIGAMES.map(game => (
-              <button key={game.id} className="minigame-card" onClick={() => playMinigame(game)} disabled={pet.isSleeping || pet.health < 30}>
-                <span className="minigame-icon">{game.icon}</span>
-                <span className="minigame-name">{game.name}</span>
-                <small>{game.duration}s | Win: +25XP +20💰</small>
-              </button>
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* Stats Summary */}
         <div className="stats-summary">
           <div className="stat-card"><h4>Level</h4><p>{pet.level}</p></div>
-          <div className="stat-card"><h4>Coins</h4><p>{pet.coins}</p></div>
-          <div className="stat-card"><h4>Items</h4><p>{pet.foods.length + pet.clothes.length}</p></div>
+          <div className="stat-card"><h4>Stage</h4><p>{evolutionStage.name}</p></div>
+          <div className="stat-card"><h4>Photos</h4><p>{pet.photos.length}</p></div>
           <div className="stat-card"><h4>Mood</h4><p>{expression.emoji}</p></div>
         </div>
       </div>
@@ -752,16 +900,14 @@ export default function VirtualPetPage() {
         <div className="modal-overlay" onClick={() => setShowShop(false)}>
           <div className="modal-content shop-modal" onClick={e => e.stopPropagation()}>
             <div className="shop-header">
-              <h3>🎁 Shop & Inventory</h3>
+              <h3>🎁 Shop</h3>
               <button className="close-minigame" onClick={() => setShowShop(false)}><X size={20} /></button>
             </div>
             <p className="modal-subtitle">Coins: 💰 {pet.coins}</p>
-            
             <div className="shop-tabs">
               <button className={`shop-tab ${shopTab === 'food' ? 'active' : ''}`} onClick={() => setShopTab('food')}>🍎 Food</button>
               <button className={`shop-tab ${shopTab === 'clothes' ? 'active' : ''}`} onClick={() => setShopTab('clothes')}>👕 Clothes</button>
             </div>
-
             {shopTab === 'food' && (
               <div className="shop-content">
                 <h4>🛒 Buy Food</h4>
@@ -771,17 +917,12 @@ export default function VirtualPetPage() {
                       <div className="reward-icon">{item.icon}</div>
                       <span className="reward-name">{item.name}</span>
                       <span className="reward-cost">💰 {item.cost}</span>
-                      <span className="reward-effects">
-                        {item.fill > 0 && <span>🍽️+{item.fill}</span>}
-                        {item.happy > 0 && <span>😊+{item.happy}</span>}
-                        {item.heal > 0 && <span>❤️+{item.heal}</span>}
-                      </span>
                     </button>
                   ))}
                 </div>
                 <h4>🎒 Your Food</h4>
                 <div className="rewards-grid">
-                  {pet.foods.length === 0 && <p className="empty-inventory">No food items</p>}
+                  {pet.foods.length === 0 && <p className="empty-inventory">No food</p>}
                   {pet.foods.map(item => (
                     <button key={item.id} className="reward-card owned" onClick={() => useFood(item)}>
                       <div className="reward-icon">{item.icon}</div>
@@ -792,7 +933,6 @@ export default function VirtualPetPage() {
                 </div>
               </div>
             )}
-
             {shopTab === 'clothes' && (
               <div className="shop-content">
                 <h4>🛒 Buy Clothes</h4>
@@ -802,7 +942,6 @@ export default function VirtualPetPage() {
                       <div className="reward-icon" style={{ background: item.color }}>{item.icon}</div>
                       <span className="reward-name">{item.name}</span>
                       <span className="reward-cost">💰 {item.cost}</span>
-                      <span className="reward-effects"><span>{item.type === 'shirt' ? '👕 Shirt' : '🎀 Accessory'}</span></span>
                     </button>
                   ))}
                 </div>
@@ -815,7 +954,7 @@ export default function VirtualPetPage() {
                       <button key={item.id} className={`reward-card owned ${isEquipped ? 'equipped' : ''}`} onClick={() => isEquipped ? unequipClothes(item.type) : equipClothes(item)}>
                         <div className="reward-icon" style={{ background: item.color }}>{item.icon}</div>
                         <span className="reward-name">{item.name}</span>
-                        <span className="use-badge">{isEquipped ? 'Unequip' : 'Equip'}</span>
+                        <span className="use-badge">{isEquipped ? 'On' : 'Off'}</span>
                       </button>
                     )
                   })}
@@ -823,6 +962,51 @@ export default function VirtualPetPage() {
               </div>
             )}
             <button className="close-btn" onClick={() => setShowShop(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* Room Themes Modal */}
+      {showRoom && (
+        <div className="modal-overlay" onClick={() => setShowRoom(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3>🏠 Places</h3>
+            <p className="modal-subtitle">Coins: 💰 {pet.coins}</p>
+            <div className="room-themes-grid">
+              {ROOM_THEMES.map(theme => {
+                const isUnlocked = pet.unlockedThemes.includes(theme.id)
+                const isCurrent = pet.roomTheme === theme.id
+                return (
+                  <button key={theme.id} className={`room-theme-card ${isCurrent ? 'current' : ''} ${isUnlocked ? 'unlocked' : ''}`} onClick={() => buyRoomTheme(theme)} style={{ background: theme.bg }}>
+                    <span className="room-theme-icon">{theme.icon}</span>
+                    <span className="room-theme-name" style={{ color: theme.id === 'space' ? '#fff' : '#333' }}>{theme.name}</span>
+                    {!isUnlocked && <span className="room-theme-cost">💰 {theme.cost}</span>}
+                    {isUnlocked && !isCurrent && <span className="room-theme-unlocked">✓</span>}
+                    {isCurrent && <span className="room-theme-current">Current</span>}
+                  </button>
+                )
+              })}
+            </div>
+            <button className="close-btn" onClick={() => setShowRoom(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* Photos Modal */}
+      {showPhotos && (
+        <div className="modal-overlay" onClick={() => setShowPhotos(false)}>
+          <div className="modal-content photos-modal" onClick={e => e.stopPropagation()}>
+            <h3>📸 Photo Album</h3>
+            <div className="photos-grid">
+              {pet.photos.length === 0 && <p className="empty-inventory">No photos yet</p>}
+              {pet.photos.map(photo => (
+                <div key={photo.id} className="photo-card">
+                  <div className="photo-pet">{PET_TYPES.find(p => p.id === photo.pet.type)?.emoji || '🐾'}</div>
+                  <div className="photo-info"><span>{photo.date}</span><span>{photo.evolution}</span></div>
+                </div>
+              ))}
+            </div>
+            <button className="close-btn" onClick={() => setShowPhotos(false)}>Close</button>
           </div>
         </div>
       )}
@@ -835,44 +1019,24 @@ export default function VirtualPetPage() {
               <h3>{selectedGame.icon} {selectedGame.name}</h3>
               <button className="close-minigame" onClick={() => setShowMinigame(false)}><X size={20} /></button>
             </div>
-            
             {!gameResult ? (
               <div className="minigame-content">
-                {selectedGame.id === 'catch' && (
-                  <>
-                    <div className="catch-game">
-                      <div className="catch-area">
-                        {catchGame.balls.map(ball => (
-                          <div key={ball.id} className="catch-ball" style={{ left: ball.x + '%', top: ball.y + '%' }}>⚾</div>
-                        ))}
-                        <div className="catch-basket" style={{ left: catchGame.ballX + '%' }}>🧺</div>
-                      </div>
-                      <div className="catch-controls">
-                        <button onClick={() => moveBasket(-1)}>◀ Left</button>
-                        <button onClick={() => moveBasket(1)}>Right ▶</button>
-                      </div>
-                    </div>
-                    <div className="game-stats"><span>Score: {catchGame.score} | Need: 5</span><span>Time: {catchGame.timeLeft}s</span></div>
-                  </>
-                )}
-
                 {selectedGame.id === 'whack' && (
                   <>
+                    <div className="game-round-indicator">Round {whackGame.round}/{whackGame.totalRounds}</div>
                     <div className="whack-game">
                       {[0,1,2,3,4,5,6,7,8].map(pos => (
                         <div key={pos} className={`whack-hole ${whackGame.activeMoles.find(m => m.pos === pos) ? 'mole-up' : ''}`} onClick={() => whackMole(pos)}>
-                          {whackGame.activeMoles.find(m => m.pos === pos) && !whackGame.clicked.includes(pos) && (
-                            <span className="mole">🦫</span>
-                          )}
+                          {whackGame.activeMoles.find(m => m.pos === pos) && !whackGame.clicked.includes(pos) && (<span className="mole">🦫</span>)}
                         </div>
                       ))}
                     </div>
-                    <div className="game-stats"><span>Score: {whackGame.score} | Need: 5</span><span>Time: {whackGame.timeLeft}s</span></div>
+                    <div className="game-stats"><span>Score: {whackGame.score} | Need: 10</span><span>Time: {whackGame.timeLeft}s</span></div>
                   </>
                 )}
-
                 {selectedGame.id === 'memory' && (
                   <>
+                    <div className="game-round-indicator">Round {memoryGame.round}/{memoryGame.totalRounds}</div>
                     <div className="memory-game">
                       {memoryGame.cards.map((card, index) => (
                         <div key={index} className={`memory-card ${memoryGame.flipped.includes(index) || memoryGame.matched.includes(index) ? 'flipped' : ''}`} onClick={() => flipCard(index)}>
@@ -883,14 +1047,21 @@ export default function VirtualPetPage() {
                     <div className="game-stats"><span>Moves: {memoryGame.moves}</span><span>Matched: {memoryGame.matched.length / 4}/4</span></div>
                   </>
                 )}
+                {selectedGame.id === 'bubble' && (
+                  <>
+                    <div className="game-round-indicator">Round {bubbleGame.round}/{bubbleGame.totalRounds}</div>
+                    <div className="bubble-game">
+                      {bubbleGame.bubbles.map(bubble => (
+                        <div key={bubble.id} className="bubble" style={{ left: bubble.x + '%', top: bubble.y + '%', width: bubble.size, height: bubble.size }} onClick={() => popBubble(bubble.id)}>🫧</div>
+                      ))}
+                    </div>
+                    <div className="game-stats"><span>Score: {bubbleGame.score} | Need: 12</span><span>Time: {bubbleGame.timeLeft}s</span></div>
+                  </>
+                )}
               </div>
             ) : (
               <div className={`game-result ${gameResult}`}>
-                {gameResult === 'win' ? (
-                  <><span className="result-emoji">🎉</span><h4>You Won!</h4><p>+25XP +20coins +20happy!</p></>
-                ) : (
-                  <><span className="result-emoji">😢</span><h4>Oops!</h4><p>Try again!</p></>
-                )}
+                {gameResult === 'win' ? (<><span className="result-emoji">🎉</span><h4>You Won!</h4><p>+30XP +25coins!</p></>) : (<><span className="result-emoji">😢</span><h4>Oops!</h4><p>Try again!</p></>)}
               </div>
             )}
           </div>
