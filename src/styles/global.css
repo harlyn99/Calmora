@@ -799,32 +799,27 @@ input[type="checkbox"]:checked, .task-checkbox.checked, .habit-check-btn.complet
 }
 
 /* Icon styling - follows theme */
-svg.lucide,
-.lucide-icon {
+svg.lucide {
   color: var(--icon-color);
   transition: var(--transition);
 }
 
-[data-theme='light'] svg.lucide,
-[data-theme='light'] .lucide-icon {
-  color: var(--icon-color);
-}
-
-[data-theme='dark'] svg.lucide,
-[data-theme='dark'] .lucide-icon {
-  color: var(--icon-color);
-}
-
-/* Active/focused icons */
 button:hover svg.lucide,
 a:hover svg.lucide,
-.menu-item:hover svg.lucide,
-.nav-menu a:hover svg.lucide {
+.menu-item:hover svg.lucide {
   color: var(--icon-active);
 }
 
-/* Icon in active states */
-.toggle-btn.active svg.lucide,
-.stat-icon svg.lucide {
-  color: inherit;
+/* Stats icons */
+.stats-icon {
+  color: var(--accent-1) !important;
+}
+
+/* Navigation icons */
+.nav-menu a svg {
+  color: var(--icon-color);
+}
+
+.nav-menu a:hover svg {
+  color: var(--icon-active);
 }

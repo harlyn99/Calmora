@@ -9,9 +9,7 @@ import SmartGreeting from '../components/SmartGreeting'
 import JournalComposer from '../components/JournalComposer'
 import InspirationalQuotes from '../components/InspirationalQuotes'
 import QuickActions from '../components/QuickActions'
-import CircularProgress from '../components/CircularProgress'
 import adapter from '../utils/dataAdapter'
-import { Target, Flame, Award } from 'lucide-react'
 import './Dashboard.css'
 
 export const Dashboard = () => {
@@ -70,48 +68,6 @@ export const Dashboard = () => {
           </div>
         )}
 
-        {/* Stats Widgets with Circular Progress */}
-        <div className="dashboard-stats-grid">
-          <div className="stats-card-gradient glass-md">
-            <div className="stats-card-header">
-              <Target className="stats-icon" size={24} />
-              <span>Tasks</span>
-            </div>
-            <CircularProgress 
-              progress={todos.length > 0 ? Math.round((todos.filter(t => t.completed).length / todos.length) * 100) : 0}
-              size={100}
-              strokeWidth={8}
-              label={`${todos.filter(t => t.completed).length}/${todos.length}`}
-            />
-          </div>
-          
-          <div className="stats-card-gradient glass-md">
-            <div className="stats-card-header">
-              <Flame className="stats-icon" size={24} />
-              <span>Focus Time</span>
-            </div>
-            <CircularProgress 
-              progress={Math.min((parseInt(focusTime) / 120) * 100, 100)}
-              size={100}
-              strokeWidth={8}
-              label={`${focusTime} min`}
-            />
-          </div>
-          
-          <div className="stats-card-gradient glass-md">
-            <div className="stats-card-header">
-              <Award className="stats-icon" size={24} />
-              <span>Journal</span>
-            </div>
-            <CircularProgress 
-              progress={Math.min((journalEntries.length / 30) * 100, 100)}
-              size={100}
-              strokeWidth={8}
-              label={`${journalEntries.length} entries`}
-            />
-          </div>
-        </div>
-
         {/* Calm mode - show journal write area and mood tracker */}
         {mode === 'calm' && (
           <div className="calm-area neomorph-md" style={{ padding: 16, marginTop: 12 }}>
@@ -124,10 +80,10 @@ export const Dashboard = () => {
         <div className="shortcuts-section">
           <h2 className="section-title">Quick Access</h2>
           <div className="shortcuts-grid">
-            {shortcuts.map((shortcut, index) => (
+            {shortcuts.map((shortcut) => (
               <button
                 key={shortcut.path}
-                className={`shortcut-card glass-card card-hover-lift stagger-${(index % 8) + 1}`}
+                className={`shortcut-card neomorph-md ${shortcut.color}`}
                 onClick={() => navigate(shortcut.path)}
               >
                 <span className="shortcut-emoji">{shortcut.icon}</span>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Menu, Settings, Moon, Sun, LogOut, User, Info, Sparkles } from 'lucide-react'
-import { useTheme } from '../contexts/ThemeContext'
+import { Menu, Settings, LogOut, User, Info } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
 import { mockSyncNow } from '../services/sync'
@@ -9,7 +8,6 @@ import './TopNavigation.css'
 
 export const TopNavigation = () => {
   const navigate = useNavigate()
-  const { isDark, toggleTheme, lightModeStyle, toggleLightModeStyle } = useTheme()
   const { user, logout } = useAuth()
   const [showMenu, setShowMenu] = React.useState(false)
   const { mode, setMode } = useEnergyMode()
@@ -76,17 +74,9 @@ export const TopNavigation = () => {
                 <Settings size={18} /> Settings
               </button>
 
-              <button className="menu-item" onClick={toggleTheme}>
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                {isDark ? 'Light Mode' : 'Dark Mode'}
+              <button className="menu-item" onClick={() => navigate('/settings')}>
+                <Palette size={18} /> Theme Settings
               </button>
-
-              {!isDark && (
-                <button className="menu-item" onClick={toggleLightModeStyle}>
-                  <Sparkles size={18} />
-                  Light: {lightModeStyle === 'ethereal' ? 'Daylight' : 'Space'}
-                </button>
-              )}
 
                   <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
                     <div style={{display:'flex', alignItems:'center', gap:8}}>

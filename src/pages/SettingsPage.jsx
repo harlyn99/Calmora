@@ -7,7 +7,7 @@ import { Bell, Keyboard, Palette } from 'lucide-react'
 import './SettingsPage.css'
 
 export const SettingsPage = () => {
-  const { isDark, toggleTheme, activeTheme, setTheme, themes } = useTheme()
+  const { activeTheme, setTheme, specialThemes } = useTheme()
   const [showShortcutsModal, setShowShortcutsModal] = useState(false)
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
 
@@ -29,19 +29,7 @@ export const SettingsPage = () => {
         {/* Theme Settings */}
         <div className="settings-section neomorph-md">
           <h3>Appearance</h3>
-          <div className="setting-item">
-            <div>
-              <p className="setting-label">Dark Mode</p>
-              <p className="setting-desc">Choose your preferred theme</p>
-            </div>
-            <button
-              className={`theme-toggle ${isDark ? 'dark' : 'light'}`}
-              onClick={toggleTheme}
-            >
-              <span className="toggle-switch"></span>
-            </button>
-          </div>
-
+          
           {/* Color Themes */}
           <div className="color-themes-section">
             <div className="setting-label-row">
@@ -50,14 +38,14 @@ export const SettingsPage = () => {
             </div>
             <p className="setting-desc">Choose your favorite soft color palette</p>
             <div className="color-themes-grid">
-              {Object.entries(themes).map(([key, theme]) => (
+              {Object.entries(specialThemes).map(([key, theme]) => (
                 <button
                   key={key}
                   className={`color-theme-btn ${activeTheme === key ? 'active' : ''}`}
                   onClick={() => setTheme(key)}
                   style={{ '--theme-color': theme.accent1 }}
                 >
-                  <div className="color-preview" style={{ background: `linear-gradient(135deg, ${theme.accent1}, ${theme.accent2})` }} />
+                  <div className="color-preview" style={{ background: `linear-gradient(135deg, ${theme.gradient.join(', ')})` }} />
                   <span className="color-name">{theme.name}</span>
                   {activeTheme === key && <span className="color-check">✓</span>}
                 </button>

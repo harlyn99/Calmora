@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { EnergyModeProvider } from './contexts/EnergyModeContext'
+import { TimeThemeProvider } from './contexts/TimeThemeContext'
+import { XPProvider } from './contexts/XPContext'
+import { SoundProvider } from './contexts/SoundContext'
 import { useEffect, useState } from 'react'
 import { initDB } from './services/dbService'
 import OnboardingModal from './components/OnboardingModal'
@@ -84,17 +87,22 @@ export function App() {
     <ThemeProvider>
       <AuthProvider>
         <EnergyModeProvider>
-          <BrowserRouter>
-            {/* Space Aesthetic Effects */}
-            <AnimatedBackground />
-            <ParticleSystem particleCount={50} cursorInteraction={true} constellation={true} />
-            
-            <AppKeyboardShortcuts />
-            <AppRoutes />
-            {showOnboarding && (
-              <OnboardingModal onClose={() => { localStorage.setItem('seenOnboarding', '1'); setShowOnboarding(false) }} />
-            )}
-          </BrowserRouter>
+          <TimeThemeProvider>
+            <XPProvider>
+              <SoundProvider>
+                <BrowserRouter>
+                  <AnimatedBackground />
+                  <ParticleSystem particleCount={50} cursorInteraction={true} constellation={true} />
+                  
+                  <AppKeyboardShortcuts />
+                  <AppRoutes />
+                  {showOnboarding && (
+                    <OnboardingModal onClose={() => { localStorage.setItem('seenOnboarding', '1'); setShowOnboarding(false) }} />
+                  )}
+                </BrowserRouter>
+              </SoundProvider>
+            </XPProvider>
+          </TimeThemeProvider>
         </EnergyModeProvider>
       </AuthProvider>
     </ThemeProvider>
