@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react'
 import { initDB } from './services/dbService'
 import OnboardingModal from './components/OnboardingModal'
 import AnimatedBackground from './components/Background'
-import { ParticleSystem, CursorFollower } from './components/ParticleSystem'
-import { MorphingOrbs } from './components/MorphingOrbs'
+import { ParticleSystem } from './components/ParticleSystem'
 import { LoginPage } from './pages/LoginPage'
 import { Dashboard } from './pages/Dashboard'
 import { TasksPage } from './pages/TasksPage'
@@ -20,7 +19,6 @@ import { ProfilePage } from './pages/ProfilePage'
 import { AboutPage } from './pages/AboutPage'
 import HabitTrackerPage from './pages/HabitTrackerPage'
 import MoodTrackerPage from './pages/MoodTrackerPage'
-import QuickNotesPage from './pages/QuickNotesPage'
 import GoalsPage from './pages/GoalsPage'
 import ReviewPage from './pages/ReviewPage'
 import PomodoroStatsPage from './pages/PomodoroStatsPage'
@@ -59,7 +57,6 @@ function AppRoutes() {
       <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
       <Route path="/habits" element={<ProtectedRoute><HabitTrackerPage /></ProtectedRoute>} />
       <Route path="/mood" element={<ProtectedRoute><MoodTrackerPage /></ProtectedRoute>} />
-      <Route path="/notes" element={<ProtectedRoute><QuickNotesPage /></ProtectedRoute>} />
       <Route path="/goals" element={<ProtectedRoute><GoalsPage /></ProtectedRoute>} />
       <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
       <Route path="/stats" element={<ProtectedRoute><PomodoroStatsPage /></ProtectedRoute>} />
@@ -88,11 +85,9 @@ export function App() {
       <AuthProvider>
         <EnergyModeProvider>
           <BrowserRouter>
-            {/* Global Aesthetic Components */}
-            <MorphingOrbs />
+            {/* Space Aesthetic Effects */}
             <AnimatedBackground />
-            <ParticleSystem particleCount={30} cursorInteraction={true} constellation={true} />
-            <CursorFollower />
+            <ParticleSystem particleCount={50} cursorInteraction={true} constellation={true} />
             
             <AppKeyboardShortcuts />
             <AppRoutes />

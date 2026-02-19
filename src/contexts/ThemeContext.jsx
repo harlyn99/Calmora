@@ -121,10 +121,16 @@ export const ThemeProvider = ({ children }) => {
     return saved || 'lavender'
   })
 
+  const [lightModeStyle, setLightModeStyle] = useState(() => {
+    const saved = localStorage.getItem('lightModeStyle')
+    return saved || 'space' // 'space' or 'ethereal'
+  })
+
   useEffect(() => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
-  }, [isDark])
+    document.documentElement.setAttribute('data-light-style', lightModeStyle)
+  }, [isDark, lightModeStyle])
 
   useEffect(() => {
     localStorage.setItem('colorTheme', activeTheme)
@@ -141,19 +147,36 @@ export const ThemeProvider = ({ children }) => {
     root.style.setProperty('--accent-energy', theme.accentEnergy)
     root.style.setProperty('--accent-peace', theme.accentPeace)
 
-    // Override background based on theme mode
+    // Override background based on theme mode and style
     if (isDark) {
       // Dark mode - use soft black backgrounds
       root.style.setProperty('--bg-primary', '#0a0a0a')
       root.style.setProperty('--bg-secondary', '#121212')
       root.style.setProperty('--bg-tertiary', '#1a1a1a')
+    } else if (lightModeStyle === 'space') {
+      // Light mode - Space theme
+      root.style.setProperty('--bg-primary', '#0f0f23')
+      root.style.setProperty('--bg-secondary', '#1a1a3e')
+      root.style.setProperty('--bg-tertiary', '#252550')
+      root.style.setProperty('--accent-1', '#6496ff')
+      root.style.setProperty('--accent-2', '#88aaff')
+      root.style.setProperty('--accent-gradient', 'linear-gradient(135deg, #6496ff 0%, #88aaff 100%)')
+      root.style.setProperty('--gradient-1', '#0f0f23')
+      root.style.setProperty('--gradient-2', '#1a1a3e')
+      root.style.setProperty('--gradient-3', '#252550')
     } else {
-      // Light mode - use color theme backgrounds
-      root.style.setProperty('--bg-primary', theme.bgPrimary)
-      root.style.setProperty('--bg-secondary', theme.bgSecondary)
-      root.style.setProperty('--bg-tertiary', '#fff9f3')
+      // Light mode - Ethereal Daylight theme
+      root.style.setProperty('--bg-primary', '#fef9f3')
+      root.style.setProperty('--bg-secondary', '#ffffff')
+      root.style.setProperty('--bg-tertiary', '#fff5eb')
+      root.style.setProperty('--accent-1', '#ff9a8b')
+      root.style.setProperty('--accent-2', '#ff6a88')
+      root.style.setProperty('--accent-gradient', 'linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%)')
+      root.style.setProperty('--gradient-1', '#ffecd2')
+      root.style.setProperty('--gradient-2', '#fcb69f')
+      root.style.setProperty('--gradient-3', '#ff9a8b')
     }
-  }, [activeTheme, isDark])
+  }, [activeTheme, isDark, lightModeStyle])
 
   const toggleTheme = () => setIsDark(!isDark)
 
@@ -163,14 +186,24 @@ export const ThemeProvider = ({ children }) => {
     }
   }
 
+  const toggleLightModeStyle = () => {
+    setLightModeStyle(prev => {
+      const newStyle = prev === 'ethereal' ? 'space' : 'ethereal'
+      localStorage.setItem('lightModeStyle', newStyle)
+      return newStyle
+    })
+  }
+
   return (
-    <ThemeContext.Provider value={{ 
-      isDark, 
-      toggleTheme, 
-      activeTheme, 
+    <ThemeContext.Provider value={{
+      isDark,
+      toggleTheme,
+      activeTheme,
       setTheme,
       themes,
-      themeList: Object.keys(themes)
+      themeList: Object.keys(themes),
+      lightModeStyle,
+      toggleLightModeStyle
     }}>
       {children}
     </ThemeContext.Provider>

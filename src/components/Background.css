@@ -43,6 +43,13 @@
   animation: floatParticle infinite;
 }
 
+.particle.star {
+  background: white;
+  opacity: 0.6;
+  animation: twinkle 3s ease-in-out infinite;
+  box-shadow: 0 0 4px white;
+}
+
 @keyframes floatParticle {
   0%, 100% {
     transform: translateY(100vh) scale(0);
@@ -57,6 +64,17 @@
   100% {
     transform: translateY(-100px) scale(1);
     opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
   }
 }
 

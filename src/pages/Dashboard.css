@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: transparent;
   position: relative;
+  z-index: 10;
 }
 
 .dashboard-container {
@@ -13,7 +14,7 @@
   flex-direction: column;
   gap: 32px;
   position: relative;
-  z-index: 1;
+  z-index: 11;
 }
 
 /* Dashboard Stats Grid with Circular Progress */

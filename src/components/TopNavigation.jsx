@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Menu, Settings, Moon, Sun, LogOut, User, Info } from 'lucide-react'
+import { Menu, Settings, Moon, Sun, LogOut, User, Info, Sparkles } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
@@ -9,7 +9,7 @@ import './TopNavigation.css'
 
 export const TopNavigation = () => {
   const navigate = useNavigate()
-  const { isDark, toggleTheme } = useTheme()
+  const { isDark, toggleTheme, lightModeStyle, toggleLightModeStyle } = useTheme()
   const { user, logout } = useAuth()
   const [showMenu, setShowMenu] = React.useState(false)
   const { mode, setMode } = useEnergyMode()
@@ -39,7 +39,6 @@ export const TopNavigation = () => {
           <li><a href="#" onClick={() => navigate('/habits')}>Habits</a></li>
           <li><a href="#" onClick={() => navigate('/mood')}>Mood</a></li>
           <li><a href="#" onClick={() => navigate('/goals')}>Goals</a></li>
-          <li><a href="#" onClick={() => navigate('/notes')}>Notes</a></li>
           <li><a href="#" onClick={() => navigate('/wellness')}>Wellness</a></li>
           <li><a href="#" onClick={() => navigate('/review')}>Review</a></li>
           <li><a href="#" onClick={() => navigate('/stats')}>Stats</a></li>
@@ -81,6 +80,13 @@ export const TopNavigation = () => {
                 {isDark ? <Sun size={18} /> : <Moon size={18} />}
                 {isDark ? 'Light Mode' : 'Dark Mode'}
               </button>
+
+              {!isDark && (
+                <button className="menu-item" onClick={toggleLightModeStyle}>
+                  <Sparkles size={18} />
+                  Light: {lightModeStyle === 'ethereal' ? 'Daylight' : 'Space'}
+                </button>
+              )}
 
                   <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
                     <div style={{display:'flex', alignItems:'center', gap:8}}>

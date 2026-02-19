@@ -6,7 +6,7 @@ import './TopNavigation.css'
   box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   transition: var(--transition);
 }
 
@@ -19,6 +19,8 @@ import './TopNavigation.css'
   align-items: center;
   height: 70px;
   gap: 40px;
+  position: relative;
+  z-index: 1001;
 }
 
 .nav-logo {
@@ -143,6 +145,7 @@ import './TopNavigation.css'
   box-shadow: var(--shadow-md);
   min-width: 210px;
   overflow: hidden;
+  z-index: 9999;
 }
 
 .menu-header {
