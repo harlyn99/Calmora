@@ -32,8 +32,7 @@ export const TopNavigation = () => {
         {/* Center Navigation */}
         <ul className="nav-menu">
           <li><a href="#" onClick={() => navigate('/dashboard')}>Home</a></li>
-          <li><a href="#" onClick={() => navigate('/planner')}>Planner</a></li>
-          <li><a href="#" onClick={() => navigate('/todo')}>To-Do</a></li>
+          <li><a href="#" onClick={() => navigate('/tasks')}>Tasks</a></li>
           <li><a href="#" onClick={() => navigate('/journal')}>Journal</a></li>
           <li><a href="#" onClick={() => navigate('/timer')}>Timer</a></li>
           <li><a href="#" onClick={() => navigate('/meditation')}>Meditation</a></li>

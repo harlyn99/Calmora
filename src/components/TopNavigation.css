@@ -91,11 +91,23 @@ import './TopNavigation.css'
   border-radius: 8px;
   white-space: nowrap;
   display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-menu a svg {
+  color: var(--icon-color);
+  transition: var(--transition);
 }
 
 .nav-menu a:hover {
   color: var(--accent-1);
   background: rgba(212, 165, 116, 0.1);
+}
+
+.nav-menu a:hover svg {
+  color: var(--icon-active);
 }
 
 .nav-right {
@@ -165,9 +177,18 @@ import './TopNavigation.css'
   font-family: var(--font-sans);
 }
 
+.menu-item svg {
+  color: var(--icon-color);
+  transition: var(--transition);
+}
+
 .menu-item:hover:not(:disabled) {
   background: var(--bg-tertiary);
   color: var(--accent-1);
+}
+
+.menu-item:hover:not(:disabled) svg {
+  color: var(--icon-active);
 }
 
 .menu-item:disabled {

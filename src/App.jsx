@@ -8,8 +8,7 @@ import { initDB } from './services/dbService'
 import OnboardingModal from './components/OnboardingModal'
 import { LoginPage } from './pages/LoginPage'
 import { Dashboard } from './pages/Dashboard'
-import { TodoPage } from './pages/TodoPage'
-import { PlannerPage } from './pages/PlannerPage'
+import { TasksPage } from './pages/TasksPage'
 import { JournalPage } from './pages/JournalPage'
 import { TimerPage } from './pages/TimerPage'
 import { MeditationPage } from './pages/MeditationPage'
@@ -48,8 +47,7 @@ function AppRoutes() {
 
       {/* Protected Routes */}
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/todo" element={<ProtectedRoute><TodoPage /></ProtectedRoute>} />
-      <Route path="/planner" element={<ProtectedRoute><PlannerPage /></ProtectedRoute>} />
+      <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
       <Route path="/journal" element={<ProtectedRoute><JournalPage /></ProtectedRoute>} />
       <Route path="/timer" element={<ProtectedRoute><TimerPage /></ProtectedRoute>} />
       <Route path="/meditation" element={<ProtectedRoute><MeditationPage /></ProtectedRoute>} />

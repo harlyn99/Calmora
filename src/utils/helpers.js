@@ -36,3 +36,10 @@ export const formatTime = (date) => {
     minute: '2-digit'
   })
 }
+
+export const formatMonthYear = (date) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  })
+}

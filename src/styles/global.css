@@ -8,51 +8,69 @@
   --bg-primary: #faf8f6;
   --bg-secondary: #f3ede4;
   --bg-tertiary: #fff9f3;
-  
+
   --text-primary: #2a2420;
   --text-secondary: #6b6459;
   --text-muted: #a89883;
-  
+
   --shadow-sm: 0 2px 8px rgba(42, 36, 32, 0.06);
   --shadow-md: 0 8px 24px rgba(42, 36, 32, 0.1);
   --shadow-lg: 0 16px 48px rgba(42, 36, 32, 0.12);
   --shadow-inset: inset 0 2px 8px rgba(255, 255, 255, 0.8), inset 0 -2px 8px rgba(42, 36, 32, 0.1);
-  
+
   --accent-1: #d4a574;
   --accent-2: #b89968;
   --accent-3: #8b7355;
-  
+
   --success: #6b9f7f;
   --warning: #d4a574;
   --error: #c94d5c;
-  
+
   --border-color: rgba(42, 36, 32, 0.08);
+  
+  /* Light theme specific colors */
+  --icon-color: #6b6459;
+  --icon-active: #d4a574;
+  --calendar-bg: #ffffff;
+  --calendar-cell-bg: #f8f9fa;
+  --calendar-cell-hover: #e9ecef;
+  --calendar-today-bg: #d4a574;
+  --calendar-selected-bg: #6b9f7f;
 }
 
-/* Dark Mode Variables */
+/* Dark Mode Variables - Deep Soft Black Theme */
 [data-theme='dark'] {
-  --bg-primary: #1a1f2e;
-  --bg-secondary: #232e42;
-  --bg-tertiary: #2a3a52;
-  
-  --text-primary: #e8dcd4;
-  --text-secondary: #c4b5a0;
-  --text-muted: #8b7d6f;
-  
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
-  --shadow-inset: inset 0 2px 8px rgba(255, 255, 255, 0.05), inset 0 -2px 8px rgba(0, 0, 0, 0.3);
-  
-  --accent-1: #d4a574;
-  --accent-2: #b89968;
-  --accent-3: #8b7355;
-  
-  --success: #7ab89a;
-  --warning: #d4a574;
-  --error: #e67e8f;
-  
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --bg-tertiary: #1a1a1a;
+
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6a6a6a;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.8);
+  --shadow-inset: inset 0 2px 8px rgba(255, 255, 255, 0.03), inset 0 -2px 8px rgba(0, 0, 0, 0.6);
+
+  --accent-1: #6b9f7f;
+  --accent-2: #5a8a6a;
+  --accent-3: #4a755a;
+
+  --success: #5a9a7a;
+  --warning: #c9a55a;
+  --error: #d96a7a;
+
   --border-color: rgba(255, 255, 255, 0.08);
+  
+  /* Dark theme specific colors */
+  --icon-color: #8a8a8a;
+  --icon-active: #6b9f7f;
+  --calendar-bg: #1a1a1a;
+  --calendar-cell-bg: #121212;
+  --calendar-cell-hover: #252525;
+  --calendar-today-bg: #6b9f7f;
+  --calendar-selected-bg: #5a9a7a;
 }
 
 * {
@@ -262,3 +280,33 @@ body {
   .mini-insight-grid { grid-template-columns: 1fr; }
 }
 
+/* Icon styling - follows theme */
+svg.lucide,
+.lucide-icon {
+  color: var(--icon-color);
+  transition: var(--transition);
+}
+
+[data-theme='light'] svg.lucide,
+[data-theme='light'] .lucide-icon {
+  color: var(--icon-color);
+}
+
+[data-theme='dark'] svg.lucide,
+[data-theme='dark'] .lucide-icon {
+  color: var(--icon-color);
+}
+
+/* Active/focused icons */
+button:hover svg.lucide,
+a:hover svg.lucide,
+.menu-item:hover svg.lucide,
+.nav-menu a:hover svg.lucide {
+  color: var(--icon-active);
+}
+
+/* Icon in active states */
+.toggle-btn.active svg.lucide,
+.stat-icon svg.lucide {
+  color: inherit;
+}

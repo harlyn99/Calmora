@@ -4,32 +4,70 @@
 }
 
 .habit-container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 20px 80px;
 }
 
+/* Header */
 .habit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.habit-header h1 {
+.header-left h1 {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 8px 0;
+  margin-bottom: 4px;
 }
 
 .habit-subtitle {
-  color: var(--text-secondary);
   font-size: 14px;
-  margin: 0;
+  color: var(--text-secondary);
+}
+
+.view-toggle {
+  display: flex;
+  gap: 8px;
+  background: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+.toggle-btn.active {
+  background: var(--accent-1);
+  color: white;
 }
 
 /* Stats Cards */
 .habit-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -37,31 +75,38 @@
 .habit-stat-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
-  background: var(--card-bg);
-  border-radius: 12px;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--bg-secondary);
   border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.habit-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .stat-icon {
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  flex-shrink: 0;
 }
 
 .stat-icon.flame {
-  background: rgba(255, 107, 53, 0.15);
-  color: #ff6b35;
+  background: rgba(248, 81, 73, 0.15);
+  color: var(--error);
 }
 
-.stat-icon.trophy {
-  background: rgba(255, 193, 7, 0.15);
-  color: #ffc107;
+.stat-icon.target {
+  background: rgba(210, 153, 34, 0.15);
+  color: var(--warning);
 }
 
 .stat-icon.check {
-  background: rgba(76, 175, 80, 0.15);
-  color: #4caf50;
+  background: rgba(63, 185, 80, 0.15);
+  color: var(--success);
 }
 
 .stat-info {
@@ -78,218 +123,490 @@
 .stat-label {
   font-size: 12px;
   color: var(--text-secondary);
+  margin-top: 2px;
 }
 
 /* Add Habit Form */
 .add-habit-form {
   display: flex;
   gap: 12px;
+  padding: 16px;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .habit-input {
   flex: 1;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 2px solid var(--border-color);
-  background: var(--input-bg);
+  min-width: 200px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 15px;
-  transition: border-color 0.2s;
+  font-size: 14px;
+  transition: var(--transition);
 }
 
 .habit-input:focus {
   outline: none;
-  border-color: var(--accent-color);
+  border-color: var(--accent-1);
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
 }
 
 .add-habit-btn {
-  padding: 14px 20px;
-  border: none;
-  border-radius: 12px;
-  background: var(--accent-color);
-  color: white;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: transform 0.2s, opacity 0.2s;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(212, 165, 116, 0.3);
 }
 
 .add-habit-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
 }
 
-.add-habit-btn:active {
-  transform: translateY(0);
+/* Week View */
+.week-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-/* Habits List */
-.habits-list {
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.week-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nav-btn, .today-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:hover, .today-btn:hover {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  color: white;
+}
+
+.today-btn {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.habits-week-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
+.habit-week-item {
+  padding: 20px;
+  transition: var(--transition);
+}
+
+.habit-week-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.habit-week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.habit-week-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.habit-week-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.habit-week-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.streak-badge, .rate-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.streak-badge {
+  background: rgba(248, 81, 73, 0.15);
+  color: var(--error);
+}
+
+.rate-badge {
+  background: rgba(210, 153, 34, 0.15);
+  color: var(--warning);
+}
+
+.delete-habit-btn {
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-habit-btn:hover {
+  background: var(--error);
+  color: white;
+}
+
+.habit-week-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.habit-week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.day-label {
+  font-size: 11px;
   color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.day-label.today {
+  color: var(--accent-1);
+}
+
+.day-number {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.day-number.today {
+  color: var(--accent-1);
+  font-weight: 700;
+}
+
+.habit-check-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.habit-check-btn:hover {
+  border-color: var(--accent-1);
+  background: var(--bg-secondary);
+}
+
+.habit-check-btn.completed {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.habit-check-btn.today-highlight {
+  border-color: var(--accent-1);
+  box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.2);
+}
+
+/* Month View */
+.month-view {
+  padding: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.habits-month-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.habit-month-item {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.habit-month-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.habit-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.habit-month-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.habit-month-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.habit-month-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.habit-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 8px 4px;
+  text-transform: uppercase;
+}
+
+.habit-calendar-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  min-height: 45px;
+}
+
+.habit-calendar-cell:hover {
+  border-color: var(--accent-1);
+  background: var(--bg-tertiary);
+}
+
+.habit-calendar-cell.completed {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.habit-calendar-cell.today {
+  border-color: var(--accent-1);
+  box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.3);
+}
+
+.habit-calendar-cell.empty {
+  background: transparent;
+  border: none;
+  cursor: default;
+}
+
+.cell-day {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cell-check {
+  position: absolute;
+  bottom: 4px;
+}
+
+/* Empty State */
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
 }
 
 .empty-icon {
+  color: var(--text-muted);
   margin-bottom: 16px;
   opacity: 0.5;
 }
 
 .empty-state p {
+  color: var(--text-secondary);
   font-size: 15px;
-  margin: 0;
-}
-
-.habit-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: var(--card-bg);
-  border-radius: 14px;
-  border: 1px solid var(--border-color);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.habit-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.habit-info {
-  flex: 1;
-  min-width: 150px;
-}
-
-.habit-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0 0 6px 0;
-}
-
-.habit-streak {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.flame-icon {
-  color: #ff6b35;
-}
-
-/* Week View */
-.habit-week {
-  display: flex;
-  gap: 8px;
-}
-
-.habit-day {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.day-name {
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.day-name.today {
-  color: var(--accent-color);
-  font-weight: 600;
-}
-
-.habit-check {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 2px solid var(--border-color);
-  background: var(--bg-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  transition: all 0.2s;
-}
-
-.habit-check.today {
-  border-color: var(--accent-color);
-}
-
-.habit-check:hover {
-  border-color: var(--accent-color);
-  transform: scale(1.05);
-}
-
-.habit-check.completed {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-}
-
-.habit-check.completed.today {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-}
-
-/* Delete Button */
-.delete-habit-btn {
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.delete-habit-btn:hover {
-  background: rgba(244, 67, 54, 0.1);
-  color: #f44336;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .habit-container {
-    padding: 16px;
+  .habit-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .view-toggle {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .toggle-btn span {
+    display: none;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 10px;
   }
 
   .habit-stats {
     grid-template-columns: 1fr;
   }
 
-  .habit-item {
-    flex-wrap: wrap;
+  .add-habit-form {
+    flex-direction: column;
   }
 
-  .habit-week {
+  .habit-input, .add-habit-btn {
     width: 100%;
-    justify-content: space-between;
   }
 
-  .habit-day {
-    flex: 1;
+  .habit-week-days {
+    gap: 4px;
   }
 
-  .habit-check {
+  .habit-check-btn {
     width: 32px;
     height: 32px;
   }
+
+  .habit-calendar-grid {
+    gap: 2px;
+  }
+
+  .habit-calendar-cell {
+    min-height: 35px;
+  }
+
+  .cell-day {
+    font-size: 10px;
+  }
+
+  .cell-check {
+    bottom: 2px;
+  }
+}
+
+/* Dark mode specific styles */
+[data-theme='dark'] .habit-week-item {
+  background: var(--bg-tertiary);
+}
+
+[data-theme='dark'] .habit-month-item {
+  background: var(--bg-tertiary);
+}
+
+[data-theme='dark'] .habit-calendar-cell {
+  background: var(--bg-primary);
+}
+
+[data-theme='dark'] .toggle-btn.active {
+  background: var(--accent-1);
+}
+
+[data-theme='dark'] .add-habit-btn {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  box-shadow: 0 4px 16px rgba(88, 166, 255, 0.3);
+}
+
+[data-theme='dark'] .add-habit-btn:hover {
+  box-shadow: 0 6px 20px rgba(88, 166, 255, 0.4);
+}
+
+[data-theme='dark'] .habit-input:focus {
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+[data-theme='dark'] .habit-calendar-cell.today {
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3);
+}
+
+[data-theme='dark'] .stat-icon.flame {
+  background: rgba(248, 81, 73, 0.2);
+}
+
+[data-theme='dark'] .stat-icon.target {
+  background: rgba(210, 153, 34, 0.2);
+}
+
+[data-theme='dark'] .stat-icon.check {
+  background: rgba(63, 185, 80, 0.2);
 }

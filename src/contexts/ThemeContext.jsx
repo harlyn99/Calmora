@@ -140,11 +140,18 @@ export const ThemeProvider = ({ children }) => {
     root.style.setProperty('--accent-soft', theme.accentSoft)
     root.style.setProperty('--accent-energy', theme.accentEnergy)
     root.style.setProperty('--accent-peace', theme.accentPeace)
-    
-    // Only override background if in light mode
-    if (!isDark) {
+
+    // Override background based on theme mode
+    if (isDark) {
+      // Dark mode - use soft black backgrounds
+      root.style.setProperty('--bg-primary', '#0a0a0a')
+      root.style.setProperty('--bg-secondary', '#121212')
+      root.style.setProperty('--bg-tertiary', '#1a1a1a')
+    } else {
+      // Light mode - use color theme backgrounds
       root.style.setProperty('--bg-primary', theme.bgPrimary)
       root.style.setProperty('--bg-secondary', theme.bgSecondary)
+      root.style.setProperty('--bg-tertiary', '#fff9f3')
     }
   }, [activeTheme, isDark])
 

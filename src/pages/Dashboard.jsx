@@ -39,17 +39,17 @@ export const Dashboard = () => {
   const focusTime = localStorage.getItem('focusTime') || '0'
 
   const allShortcuts = [
-    { title: 'Planner', icon: '📅', path: '/planner', color: 'accent-warm' },
-    { title: 'To-Do', icon: '✓', path: '/todo', color: 'accent-cool' },
+    { title: 'Tasks', icon: '📋', path: '/tasks', color: 'accent-warm' },
     { title: 'Journal', icon: '📝', path: '/journal', color: 'accent-soft' },
     { title: 'Focus Timer', icon: '⏱️', path: '/timer', color: 'accent-energy' },
     { title: 'Meditation', icon: '🧘', path: '/meditation', color: 'accent-peace' },
+    { title: 'Habits', icon: '🎯', path: '/habits', color: 'accent-cool' },
   ]
 
   // adjust visible shortcuts based on mode
   let shortcuts = allShortcuts
   if (mode === 'focus') {
-    shortcuts = allShortcuts.filter(s => s.path === '/todo' || s.path === '/timer')
+    shortcuts = allShortcuts.filter(s => s.path === '/tasks' || s.path === '/timer')
   } else if (mode === 'calm') {
     shortcuts = allShortcuts.filter(s => s.path === '/journal' || s.path === '/meditation')
   }
