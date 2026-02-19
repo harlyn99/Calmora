@@ -816,10 +816,42 @@ a:hover svg.lucide,
 }
 
 /* Navigation icons */
+.nav-menu a {
+  color: var(--text-secondary);
+}
+
 .nav-menu a svg {
   color: var(--icon-color);
 }
 
+.nav-menu a:hover {
+  color: var(--accent-1);
+}
+
 .nav-menu a:hover svg {
   color: var(--icon-active);
+}
+
+/* Text colors - ensure readability */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+}
+
+p, span, label {
+  color: var(--text-secondary);
+}
+
+/* Button text */
+button, .btn {
+  color: var(--text-primary);
+}
+
+/* Input text */
+input, textarea, select {
+  color: var(--text-primary);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Menu, Settings, LogOut, User, Info } from 'lucide-react'
+import { Menu, Settings, LogOut, User, Info, Palette } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
 import { mockSyncNow } from '../services/sync'
@@ -29,17 +29,17 @@ export const TopNavigation = () => {
 
         {/* Center Navigation */}
         <ul className="nav-menu">
-          <li><a href="#" onClick={() => navigate('/dashboard')}>Home</a></li>
-          <li><a href="#" onClick={() => navigate('/tasks')}>Tasks</a></li>
-          <li><a href="#" onClick={() => navigate('/journal')}>Journal</a></li>
-          <li><a href="#" onClick={() => navigate('/timer')}>Timer</a></li>
-          <li><a href="#" onClick={() => navigate('/meditation')}>Meditation</a></li>
-          <li><a href="#" onClick={() => navigate('/habits')}>Habits</a></li>
-          <li><a href="#" onClick={() => navigate('/mood')}>Mood</a></li>
-          <li><a href="#" onClick={() => navigate('/goals')}>Goals</a></li>
-          <li><a href="#" onClick={() => navigate('/wellness')}>Wellness</a></li>
-          <li><a href="#" onClick={() => navigate('/review')}>Review</a></li>
-          <li><a href="#" onClick={() => navigate('/stats')}>Stats</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/dashboard') }}>Home</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/tasks') }}>Tasks</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/journal') }}>Journal</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/timer') }}>Timer</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/meditation') }}>Meditation</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/habits') }}>Habits</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/mood') }}>Mood</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/goals') }}>Goals</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/wellness') }}>Wellness</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/review') }}>Review</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/stats') }}>Stats</a></li>
         </ul>
 
         {/* Right Side - Menu Button */}
@@ -56,17 +56,24 @@ export const TopNavigation = () => {
           {showMenu && (
             <div className="dropdown-menu fade-in">
               <div className="menu-header">
-                <span>{user?.username}</span>
+                <span>{user?.username || 'User'}</span>
               </div>
               <hr className="menu-divider" />
-              
+
               <button className="menu-item" onClick={() => {
                 navigate('/profile')
                 setShowMenu(false)
               }}>
                 <User size={18} /> Profile
               </button>
-              
+
+              <button className="menu-item" onClick={() => {
+                navigate('/settings')
+                setShowMenu(false)
+              }}>
+                <Palette size={18} /> Themes
+              </button>
+
               <button className="menu-item" onClick={() => {
                 navigate('/settings')
                 setShowMenu(false)
@@ -74,69 +81,38 @@ export const TopNavigation = () => {
                 <Settings size={18} /> Settings
               </button>
 
-              <button className="menu-item" onClick={() => navigate('/settings')}>
-                <Palette size={18} /> Theme Settings
-              </button>
+              <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
+                <div style={{display:'flex', alignItems:'center', gap:8}}>
+                  <span>📡</span>
+                  <small style={{color: 'var(--text-muted)'}}>{lastSync ? `Last synced: ${lastSync}` : 'Last synced: never'}</small>
+                </div>
+                <div style={{display:'flex', gap:8}}>
+                  <button
+                    onClick={async () => {
+                      const res = await mockSyncNow()
+                      if (res && res.date) setLastSync(res.date)
+                    }}
+                    className="neomorph-button"
+                    style={{padding:'6px 10px', fontSize:'12px'}}
+                  >Sync</button>
 
-                  <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
-                    <div style={{display:'flex', alignItems:'center', gap:8}}>
-                      <span>📡</span>
-                      <small style={{color: 'var(--text-muted)'}}>{lastSync ? `Last synced: ${lastSync}` : 'Last synced: never'}</small>
-                    </div>
-                    <div style={{display:'flex', gap:8}}>
-                      <button
-                        onClick={async () => {
-                          const res = await mockSyncNow()
-                          if (res && res.date) setLastSync(res.date)
-                        }}
-                        className="neomorph-button"
-                        style={{marginTop:6, padding:'6px 10px'}}
-                      >Sync Now</button>
-
-                      <button
-                        className="neomorph-button"
-                        style={{marginTop:6, padding:'6px 10px'}}
-                        onClick={async () => {
-                          // export data
-                          const mod = await import('../utils/dataAdapter')
-                          const data = await mod.default.exportAll()
-                          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-                          const url = URL.createObjectURL(blob)
-                          const a = document.createElement('a')
-                          a.href = url
-                          a.download = 'calmora-backup.json'
-                          a.click()
-                          URL.revokeObjectURL(url)
-                        }}
-                      >Export</button>
-
-                      <label style={{marginTop:6, padding:'6px 10px'}} className="neomorph-button" aria-label="Import data">
-                        Import
-                        <input
-                          type="file"
-                          accept="application/json"
-                          style={{display:'none'}}
-                          onChange={async (e) => {
-                            const f = e.target.files && e.target.files[0]
-                            if (!f) return
-                            const text = await f.text()
-                            try {
-                              const parsed = JSON.parse(text)
-                              // naive import to localStorage and DB
-                              if (parsed.todos) localStorage.setItem('todos', JSON.stringify(parsed.todos))
-                              if (parsed.journals) localStorage.setItem('journalEntries', JSON.stringify(parsed.journals))
-                              if (parsed.sessions) localStorage.setItem('focusSessions', JSON.stringify(parsed.sessions))
-                              if (parsed.energyMode) localStorage.setItem('energyMode', parsed.energyMode)
-                              if (parsed.lastSync) localStorage.setItem('lastSync', parsed.lastSync)
-                              window.location.reload()
-                            } catch (err) {
-                              console.error('Import failed', err)
-                            }
-                          }}
-                        />
-                      </label>
-                    </div>
-                  </div>
+                  <button
+                    className="neomorph-button"
+                    style={{padding:'6px 10px', fontSize:'12px'}}
+                    onClick={async () => {
+                      const mod = await import('../utils/dataAdapter')
+                      const data = await mod.default.exportAll()
+                      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = 'calmora-backup.json'
+                      a.click()
+                      URL.revokeObjectURL(url)
+                    }}
+                  >Export</button>
+                </div>
+              </div>
 
               <div className="menu-divider" />
               <div style={{padding: '8px 12px'}}>
@@ -145,17 +121,17 @@ export const TopNavigation = () => {
                   <button
                     className={`neomorph-button ${mode === 'focus' ? 'primary' : ''}`}
                     onClick={() => setMode('focus')}
-                    style={{padding:'6px 10px'}}
+                    style={{padding:'6px 10px', fontSize:'12px'}}
                   >Focus</button>
                   <button
                     className={`neomorph-button ${mode === 'calm' ? 'primary' : ''}`}
                     onClick={() => setMode('calm')}
-                    style={{padding:'6px 10px'}}
+                    style={{padding:'6px 10px', fontSize:'12px'}}
                   >Calm</button>
                   <button
                     className={`neomorph-button ${mode === 'balance' ? 'primary' : ''}`}
                     onClick={() => setMode('balance')}
-                    style={{padding:'6px 10px'}}
+                    style={{padding:'6px 10px', fontSize:'12px'}}
                   >Balance</button>
                 </div>
               </div>

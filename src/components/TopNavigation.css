@@ -137,14 +137,15 @@ import './TopNavigation.css'
 /* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
-  top: 60px;
-  right: 0;
+  top: 70px;
+  right: 20px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  box-shadow: var(--shadow-md);
-  min-width: 210px;
-  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  min-width: 240px;
+  max-height: 80vh;
+  overflow-y: auto;
   z-index: 9999;
 }
 

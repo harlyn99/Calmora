@@ -1,0 +1,276 @@
+.polaroid-wall {
+  padding: 32px 20px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.polaroid-wall-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.title-deco {
+  color: var(--accent-1);
+  font-size: 24px;
+  opacity: 0.6;
+}
+
+.polaroid-wall-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 8px;
+}
+
+.polaroid-card {
+  background: var(--bg-primary);
+  border-radius: 4px;
+  padding: 12px 12px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: rotate(var(--rotation));
+  animation: polaroidAppear 0.6s ease-out backwards;
+  animation-delay: var(--delay);
+  position: relative;
+  overflow: hidden;
+}
+
+.polaroid-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
+  opacity: 0.6;
+}
+
+.polaroid-card:hover {
+  transform: rotate(0) translateY(-8px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+@keyframes polaroidAppear {
+  from {
+    opacity: 0;
+    transform: rotate(var(--rotation)) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--rotation)) translateY(0);
+  }
+}
+
+/* Aesthetic Filters */
+.polaroid-card.sepia .polaroid-image {
+  filter: sepia(0.4);
+}
+
+.polaroid-card.vintage .polaroid-image {
+  filter: sepia(0.3) contrast(0.9);
+}
+
+.polaroid-card.soft .polaroid-image {
+  filter: brightness(1.1) contrast(0.95);
+}
+
+.polaroid-card.mono .polaroid-image {
+  filter: grayscale(1);
+}
+
+.polaroid-card.warm .polaroid-image {
+  filter: sepia(0.2) brightness(1.05);
+}
+
+.polaroid-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.polaroid-emoji {
+  font-size: 48px;
+  filter: grayscale(0.3);
+  transition: var(--transition);
+}
+
+.polaroid-card:hover .polaroid-emoji {
+  filter: grayscale(0);
+  transform: scale(1.1);
+}
+
+.polaroid-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.polaroid-card:hover .polaroid-overlay {
+  opacity: 1;
+}
+
+.polaroid-caption {
+  text-align: center;
+}
+
+.caption-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin: 0 0 8px 0;
+  font-style: italic;
+}
+
+.caption-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* Modal */
+.polaroid-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.polaroid-modal-content {
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+  animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--bg-secondary);
+  transform: rotate(90deg);
+}
+
+.modal-polaroid {
+  background: var(--bg-primary);
+  padding: 12px 12px 24px;
+  border-radius: 4px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-emoji {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  margin-bottom: 16px;
+  filter: grayscale(0.3);
+}
+
+.modal-content {
+  padding: 0 8px;
+}
+
+.modal-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px 0;
+}
+
+.modal-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .polaroid-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
+
+  .polaroid-emoji {
+    font-size: 36px;
+  }
+
+  .modal-emoji {
+    font-size: 56px;
+  }
+}

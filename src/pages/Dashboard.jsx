@@ -4,11 +4,10 @@ import { TopNavigation } from '../components/TopNavigation'
 import { useAuth } from '../contexts/AuthContext'
 import { getGreeting, formatDate } from '../utils/helpers'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
-import MiniInsight from '../components/MiniInsight'
 import SmartGreeting from '../components/SmartGreeting'
-import JournalComposer from '../components/JournalComposer'
 import InspirationalQuotes from '../components/InspirationalQuotes'
 import QuickActions from '../components/QuickActions'
+import PolaroidWall from '../components/PolaroidWall'
 import adapter from '../utils/dataAdapter'
 import './Dashboard.css'
 
@@ -37,22 +36,6 @@ export const Dashboard = () => {
   const completedTodos = todos.filter(t => t.completed).length
   const focusTime = localStorage.getItem('focusTime') || '0'
 
-  const allShortcuts = [
-    { title: 'Tasks', icon: '📋', path: '/tasks', color: 'accent-warm' },
-    { title: 'Journal', icon: '📝', path: '/journal', color: 'accent-soft' },
-    { title: 'Focus Timer', icon: '⏱️', path: '/timer', color: 'accent-energy' },
-    { title: 'Meditation', icon: '🧘', path: '/meditation', color: 'accent-peace' },
-    { title: 'Habits', icon: '🎯', path: '/habits', color: 'accent-cool' },
-  ]
-
-  // adjust visible shortcuts based on mode
-  let shortcuts = allShortcuts
-  if (mode === 'focus') {
-    shortcuts = allShortcuts.filter(s => s.path === '/tasks' || s.path === '/timer')
-  } else if (mode === 'calm') {
-    shortcuts = allShortcuts.filter(s => s.path === '/journal' || s.path === '/meditation')
-  }
-
   return (
     <div className="dashboard-wrapper">
       <TopNavigation />
@@ -61,56 +44,17 @@ export const Dashboard = () => {
         {/* Smart Greeting */}
         <SmartGreeting stats={{ todos, focusSessions: focusSessions.length || 0, journalEntries }} />
 
-        {/* Mini Insight - hide on focus mode to reduce distractions */}
-        {mode !== 'focus' && (
-          <div style={{ marginTop: 12 }}>
-            <MiniInsight />
-          </div>
-        )}
-
-        {/* Calm mode - show journal write area and mood tracker */}
-        {mode === 'calm' && (
-          <div className="calm-area neomorph-md" style={{ padding: 16, marginTop: 12 }}>
-            <h2 className="section-title">Journal & Mood</h2>
-            <JournalComposer />
-          </div>
-        )}
-
-        {/* Shortcuts Grid */}
-        <div className="shortcuts-section">
-          <h2 className="section-title">Quick Access</h2>
-          <div className="shortcuts-grid">
-            {shortcuts.map((shortcut) => (
-              <button
-                key={shortcut.path}
-                className={`shortcut-card neomorph-md ${shortcut.color}`}
-                onClick={() => navigate(shortcut.path)}
-              >
-                <span className="shortcut-emoji">{shortcut.icon}</span>
-                <span className="shortcut-title">{shortcut.title}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Activity */}
-        {journalEntries.length > 0 && (
-          <div className="recent-section">
-            <h2 className="section-title">Last Journal Entry</h2>
-            <div className="neomorph-md recent-entry">
-              <p className="entry-date">{formatDate(new Date(journalEntries[journalEntries.length - 1].date))}</p>
-              <p className="entry-preview">{journalEntries[journalEntries.length - 1].content.substring(0, 150)}...</p>
-              <button className="read-more-btn" onClick={() => navigate('/journal')}>
-                Read More →
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Motivational Quote */}
         <div className="quote-section">
           <InspirationalQuotes />
         </div>
+
+        {/* Polaroid Memory Wall */}
+        {journalEntries.length > 0 && (
+          <div className="memory-wall-section">
+            <PolaroidWall entries={journalEntries} />
+          </div>
+        )}
 
         {/* Quick Actions FAB */}
         <QuickActions />

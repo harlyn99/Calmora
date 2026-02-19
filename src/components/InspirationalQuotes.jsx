@@ -35,12 +35,19 @@ const quotes = [
   { text: "Dream it. Wish it. Do it.", author: "Unknown" }
 ]
 
+// Aesthetic decorative element
+const getAestheticDeco = () => {
+  const decos = ['✦', '◇', '○', '△', '⋆', '⟡', '✧', '◈']
+  return decos[Math.floor(Math.random() * decos.length)]
+}
+
 export const InspirationalQuotes = () => {
   const [currentQuote, setCurrentQuote] = useState(() => {
     const saved = localStorage.getItem('currentQuote')
     return saved ? JSON.parse(saved) : quotes[0]
   })
   const [copied, setCopied] = useState(false)
+  const [deco] = useState(() => getAestheticDeco())
 
   useEffect(() => {
     localStorage.setItem('currentQuote', JSON.stringify(currentQuote))
@@ -62,6 +69,7 @@ export const InspirationalQuotes = () => {
   return (
     <div className="quote-card">
       <div className="quote-content">
+        <span className="quote-deco">{deco}</span>
         <p className="quote-text">"{currentQuote.text}"</p>
         <p className="quote-author">— {currentQuote.author}</p>
       </div>

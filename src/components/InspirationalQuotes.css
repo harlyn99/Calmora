@@ -1,70 +1,82 @@
 .quote-card {
-  background: linear-gradient(135deg, rgba(103, 58, 183, 0.1), rgba(33, 150, 243, 0.1));
-  border: 1px solid rgba(103, 58, 183, 0.2);
-  border-radius: 14px;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
+  padding: 28px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.quote-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
 }
 
 .quote-content {
-  flex: 1;
+  margin-bottom: 16px;
+}
+
+.quote-deco {
+  display: block;
+  font-size: 24px;
+  color: var(--accent-1);
+  margin-bottom: 12px;
+  opacity: 0.6;
 }
 
 .quote-text {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--text-primary);
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   font-style: italic;
 }
 
 .quote-author {
   font-size: 13px;
   color: var(--text-secondary);
+  text-align: right;
   margin: 0;
-  font-weight: 500;
 }
 
 .quote-actions {
   display: flex;
   gap: 8px;
-  flex-shrink: 0;
+  justify-content: flex-end;
 }
 
 .quote-action-btn {
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 10px;
-  background: rgba(128, 128, 128, 0.1);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
   color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: var(--transition);
 }
 
 .quote-action-btn:hover {
-  background: rgba(128, 128, 128, 0.2);
-  color: var(--text-primary);
+  background: var(--accent-1);
+  color: white;
+  border-color: var(--accent-1);
 }
 
-.quote-action-btn.copied {
-  background: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
-}
-
-@media (max-width: 768px) {
-  .quote-card {
-    flex-direction: column;
-  }
-
-  .quote-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
+.quote-action-btn:active {
+  transform: scale(0.95);
 }
