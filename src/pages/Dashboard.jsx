@@ -9,8 +9,10 @@ import SmartGreeting from '../components/SmartGreeting'
 import JournalComposer from '../components/JournalComposer'
 import InspirationalQuotes from '../components/InspirationalQuotes'
 import QuickActions from '../components/QuickActions'
+import AnimatedBackground from '../components/Background'
+import CircularProgress from '../components/CircularProgress'
 import adapter from '../utils/dataAdapter'
-import { Calendar, CheckCircle, BookOpen, Clock, Zap, Moon } from 'lucide-react'
+import { Calendar, CheckCircle, BookOpen, Clock, Zap, Moon, Target, Flame, Award } from 'lucide-react'
 import './Dashboard.css'
 
 export const Dashboard = () => {
@@ -56,8 +58,9 @@ export const Dashboard = () => {
 
   return (
     <div className="dashboard-wrapper">
+      <AnimatedBackground />
       <TopNavigation />
-      
+
       <div className="dashboard-container fade-in">
         {/* Smart Greeting */}
         <SmartGreeting stats={{ todos, focusSessions: focusSessions.length || 0, journalEntries }} />
@@ -68,6 +71,48 @@ export const Dashboard = () => {
             <MiniInsight />
           </div>
         )}
+
+        {/* New Stats Widgets with Circular Progress */}
+        <div className="dashboard-stats-grid">
+          <div className="stats-card-gradient glass-md">
+            <div className="stats-card-header">
+              <Target className="stats-icon" size={24} />
+              <span>Tasks</span>
+            </div>
+            <CircularProgress 
+              progress={todos.length > 0 ? Math.round((todos.filter(t => t.completed).length / todos.length) * 100) : 0}
+              size={100}
+              strokeWidth={8}
+              label={`${todos.filter(t => t.completed).length}/${todos.length}`}
+            />
+          </div>
+          
+          <div className="stats-card-gradient glass-md">
+            <div className="stats-card-header">
+              <Flame className="stats-icon" size={24} />
+              <span>Focus Time</span>
+            </div>
+            <CircularProgress 
+              progress={Math.min((parseInt(focusTime) / 120) * 100, 100)}
+              size={100}
+              strokeWidth={8}
+              label={`${focusTime} min`}
+            />
+          </div>
+          
+          <div className="stats-card-gradient glass-md">
+            <div className="stats-card-header">
+              <Award className="stats-icon" size={24} />
+              <span>Journal</span>
+            </div>
+            <CircularProgress 
+              progress={Math.min((journalEntries.length / 30) * 100, 100)}
+              size={100}
+              strokeWidth={8}
+              label={`${journalEntries.length} entries`}
+            />
+          </div>
+        </div>
 
         {/* Calm mode - show journal write area and mood tracker */}
         {mode === 'calm' && (
@@ -81,10 +126,10 @@ export const Dashboard = () => {
         <div className="shortcuts-section">
           <h2 className="section-title">Quick Access</h2>
           <div className="shortcuts-grid">
-            {shortcuts.map((shortcut) => (
+            {shortcuts.map((shortcut, index) => (
               <button
                 key={shortcut.path}
-                className={`shortcut-card neomorph-md ${shortcut.color}`}
+                className={`shortcut-card glass-card card-hover-lift stagger-${(index % 8) + 1}`}
                 onClick={() => navigate(shortcut.path)}
               >
                 <span className="shortcut-emoji">{shortcut.icon}</span>
