@@ -30,7 +30,7 @@ export const TopNavigation = () => {
     { path: '/goals', label: 'Goals' },
     { path: '/wellness', label: 'Wellness' },
     { path: '/ai', label: 'AI' },
-    { path: '/pet', label: 'Pet' },
+    { path: '/cute-pet', label: 'Pet' },
     { path: '/music', label: 'Music' },
     { path: '/review', label: 'Review' },
     { path: '/stats', label: 'Stats' },

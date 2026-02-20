@@ -115,11 +115,8 @@ export default function MiniPetWidget() {
         </div>
         
         <div className="pet-interact-buttons">
-          <button className="pet-interact-btn" onClick={() => window.location.href = '/pet'}>
-            Classic →
-          </button>
           <button className="pet-interact-btn cute" onClick={() => window.location.href = '/cute-pet'}>
-            Cute ver. →
+            Open Pet →
           </button>
         </div>
       </div>
