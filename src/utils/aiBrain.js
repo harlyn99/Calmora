@@ -272,19 +272,24 @@ const getTimeGreeting = () => {
   return 'night'
 }
 
-// Generate contextual response
+// Generate contextual response with structured reasoning
 export const generateSmartResponse = (message, personality = 'calm', conversationContext = []) => {
   const emotion = detectEmotion(message)
   const theme = AI_THEMES[personality] || AI_THEMES.calm
-  
+
   // Store in history
   conversationHistory.push({ message, emotion, timestamp: Date.now() })
   if (conversationHistory.length > 20) conversationHistory.shift()
-  
+
   // Track mood
   if (emotion !== 'neutral' && emotion !== 'grateful') {
     userMoodHistory.push({ emotion, timestamp: Date.now() })
     if (userMoodHistory.length > 50) userMoodHistory.shift()
+  }
+
+  // Structured reasoning helper
+  const formatReasonedResponse = (reasoning, conclusion) => {
+    return `💭 **Analysis:**\n${reasoning}\n\n✅ **Conclusion:**\n${conclusion}`
   }
 
   // 1. Handle greetings
@@ -299,63 +304,92 @@ export const generateSmartResponse = (message, personality = 'calm', conversatio
     return responses[Math.floor(Math.random() * responses.length)]
   }
 
-  // 2. Handle specific emotions with priority
+  // 2. Handle specific emotions with priority - structured responses
   if (emotion === 'sad' || emotion === 'lonely') {
-    const responses = AI_KNOWLEDGE.empathy
+    const empathy = AI_KNOWLEDGE.empathy[Math.floor(Math.random() * AI_KNOWLEDGE.empathy.length)]
     const followUp = AI_KNOWLEDGE.followUps.feelings[Math.floor(Math.random() * AI_KNOWLEDGE.followUps.feelings.length)]
-    return `${responses[Math.floor(Math.random() * responses.length)]} ${followUp}`
+    return formatReasonedResponse(
+      `I notice you're feeling ${emotion}. This is a valid emotional state that humans experience.`,
+      `${empathy} ${followUp}`
+    )
   }
-  
+
   if (emotion === 'anxious' || emotion === 'overwhelmed') {
-    return AI_KNOWLEDGE.encouragement[emotion] || AI_KNOWLEDGE.encouragement.anxious
+    return formatReasonedResponse(
+      `Anxiety often stems from uncertainty about future outcomes. Let's break this down:\n• What you can control: your actions and responses\n• What you can't control: external events and others' actions`,
+      `${AI_KNOWLEDGE.encouragement[emotion] || AI_KNOWLEDGE.encouragement.anxious} Focus on what you can control, one step at a time.`
+    )
   }
-  
+
   if (emotion === 'tired') {
-    return AI_KNOWLEDGE.encouragement.tired + " Remember to take care of yourself!"
+    return formatReasonedResponse(
+      `Fatigue can be physical, mental, or emotional. Consider:\n• Physical: rest, hydration, nutrition\n• Mental: take breaks, reduce cognitive load\n• Emotional: process feelings, practice self-compassion`,
+      `${AI_KNOWLEDGE.encouragement.tired} Remember to take care of yourself!`
+    )
   }
-  
+
   if (emotion === 'happy' || emotion === 'excited') {
-    return AI_KNOWLEDGE.encouragement.excited + " What happened? Tell me more!"
+    return formatReasonedResponse(
+      `Positive emotions are important for well-being. They:\n• Build resilience\n• Broaden thinking\n• Strengthen social bonds`,
+      `${AI_KNOWLEDGE.encouragement.excited} What happened? Tell me more!`
+    )
   }
-  
+
   if (emotion === 'failed') {
-    return AI_KNOWLEDGE.encouragement.failed + " What did you learn from this?"
+    return formatReasonedResponse(
+      `Failure is data, not identity. Analysis:\n• What was attempted\n• What the outcome was\n• What can be learned\n• What can be adjusted next time`,
+      `${AI_KNOWLEDGE.encouragement.failed} What did you learn from this?`
+    )
   }
-  
+
   if (emotion === 'proud') {
-    return AI_KNOWLEDGE.encouragement.proud
+    return formatReasonedResponse(
+      `Pride indicates achievement aligned with values. This is worth celebrating and remembering for future motivation.`,
+      `${AI_KNOWLEDGE.encouragement.proud}`
+    )
   }
-  
+
   if (emotion === 'confused') {
-    return AI_KNOWLEDGE.encouragement.confused + " What's confusing you? Let's figure it out together."
+    return formatReasonedResponse(
+      `Confusion often means you're encountering something new. Steps to clarity:\n• Identify what's unclear\n• Break it into smaller parts\n• Ask specific questions`,
+      `${AI_KNOWLEDGE.encouragement.confused} What's confusing you? Let's figure it out together.`
+    )
   }
 
   if (emotion === 'motivated') {
-    const responses = AI_KNOWLEDGE.motivation
-    return responses[Math.floor(Math.random() * responses.length)]
-  }
-  
-  if (emotion === 'productive') {
-    const responses = AI_KNOWLEDGE.productivity
-    return responses[Math.floor(Math.random() * responses.length)]
+    const motivation = AI_KNOWLEDGE.motivation[Math.floor(Math.random() * AI_KNOWLEDGE.motivation.length)]
+    return formatReasonedResponse(
+      `Motivation is energy for action. To maintain it:\n• Set clear, achievable goals\n• Track progress\n• Celebrate small wins`,
+      motivation
+    )
   }
 
-  // 3. Check for questions
+  if (emotion === 'productive') {
+    const productivity = AI_KNOWLEDGE.productivity[Math.floor(Math.random() * AI_KNOWLEDGE.productivity.length)]
+    return formatReasonedResponse(
+      `Productivity is about effective action, not just busyness. Key principles:\n• Prioritize important over urgent\n• Focus on one thing at a time\n• Rest is part of productivity`,
+      productivity
+    )
+  }
+
+  // 3. Check for questions - structured responses
   if (message.includes('?')) {
     if (message.toLowerCase().includes('how are you')) {
       const timeOfDay = getTimeGreeting()
       const greetings = AI_KNOWLEDGE.greetings[timeOfDay]
       return greetings[Math.floor(Math.random() * greetings.length)] + " How about you?"
     }
-    
+
     if (message.toLowerCase().includes('what should') || message.toLowerCase().includes('advice')) {
-      return "That's a great question! Let me think... " + 
-        AI_KNOWLEDGE.productivity[Math.floor(Math.random() * AI_KNOWLEDGE.productivity.length)] + 
-        " What specifically are you wondering about?"
+      const advice = AI_KNOWLEDGE.productivity[Math.floor(Math.random() * AI_KNOWLEDGE.productivity.length)]
+      return formatReasonedResponse(
+        `Let me analyze your situation:\n• First, understand the problem clearly\n• Consider available options\n• Evaluate pros and cons\n• Take action based on your values`,
+        `My advice: ${advice} What specifically are you wondering about?`
+      )
     }
   }
 
-  // 4. Default: personality-based response with context
+  // 4. Default: personality-based response with structured thinking
   const styleResponses = {
     gentle: AI_KNOWLEDGE.empathy,
     energetic: AI_KNOWLEDGE.motivation,
@@ -363,10 +397,10 @@ export const generateSmartResponse = (message, personality = 'calm', conversatio
     playful: AI_KNOWLEDGE.playful,
     empathetic: AI_KNOWLEDGE.selfCare
   }
-  
+
   const responses = styleResponses[theme.responseStyle] || AI_KNOWLEDGE.empathy
   const baseResponse = responses[Math.floor(Math.random() * responses.length)]
-  
+
   // Add follow-up question to keep conversation going
   const followUps = AI_KNOWLEDGE.followUps.howAreYou
   const followUp = followUps[Math.floor(Math.random() * followUps.length)]

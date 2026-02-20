@@ -410,6 +410,14 @@
   border-bottom-left-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  white-space: pre-wrap; /* Preserve line breaks */
+  word-wrap: break-word;
+  line-height: 1.6;
+}
+
+.ai-message.ai .ai-message-content p strong {
+  font-weight: 600;
+  color: var(--accent-1, #667eea);
 }
 
 .ai-message.user .ai-message-content p {

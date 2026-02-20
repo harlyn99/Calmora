@@ -639,6 +639,14 @@
   animation: chew 0.3s ease-in-out infinite;
 }
 
+.cute-mouth.mouth-open {
+  width: 28px;
+  height: 28px;
+  background: #3D3D3D;
+  border-radius: 50%;
+  border: none;
+}
+
 @keyframes chew {
   0%, 100% { transform: translateX(-50%) scale(1); }
   50% { transform: translateX(-50%) scale(1.2); }
@@ -1398,6 +1406,349 @@
 /* GAME RESULT */
 .game-result { padding: 30px; text-align: center; }
 .game-result .result-emoji { font-size: 80px; display: block; margin-bottom: 16px; }
+
+/* ========================================
+   NEW: EATING ANIMATION - APPLE OBJECT
+   ======================================== */
+.eating-apple {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  font-size: 48px;
+  z-index: 100;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  animation: appleBob 0.5s ease-in-out infinite;
+}
+
+@keyframes appleBob {
+  0%, 100% { transform: translateX(-50%) scale(1) translateY(0); }
+  50% { transform: translateX(-50%) scale(1) translateY(-5px); }
+}
+
+/* ========================================
+   NEW: SLEEP ROTATION & CURL
+   ======================================== */
+.pet-avatar-container.sleeping .cute-pet-body {
+  animation: sleepBreathe 4s ease-in-out infinite;
+}
+
+@keyframes sleepBreathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.02) rotate(2deg); }
+}
+
+.pet-avatar-container.sleeping .cute-head {
+  transform: rotate(10deg);
+}
+
+.pet-avatar-container.sleeping .cute-body-main {
+  transform: rotate(5deg);
+}
+
+/* Sleep rotation based on bed */
+.pet-avatar-container.sleeping-on-bed {
+  transform: rotate(15deg) translateY(10px);
+}
+
+/* ========================================
+   NEW: BLUSH VISIBILITY
+   ======================================== */
+.cute-cheeks.hidden {
+  opacity: 0;
+}
+
+.cute-cheeks.visible {
+  opacity: 1;
+  animation: blushPulse 2s ease-in-out infinite;
+}
+
+@keyframes blushPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ========================================
+   NEW: CLOTHES OVERLAY LAYERS
+   ======================================== */
+.pet-shirt {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 60px;
+  border-radius: 20px 20px 30px 30px;
+  z-index: 20;
+  box-shadow: inset -4px -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Pajamas - looser fit */
+.pet-shirt[data-type="pajamas"] {
+  width: 90px;
+  height: 70px;
+  border-radius: 25px 25px 35px 35px;
+}
+
+/* Sweater - puffy */
+.pet-shirt[data-type="sweater"] {
+  width: 95px;
+  height: 65px;
+  border-radius: 25px 25px 30px 30px;
+  box-shadow: inset -6px -3px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   NEW: ACCESSORIES LAYERS
+   ======================================== */
+.pet-bow {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 30px;
+  z-index: 30;
+}
+
+.bow-loop {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: inherit;
+  top: 0;
+}
+
+.bow-loop.left { left: 0; }
+.bow-loop.right { right: 0; }
+
+.pet-glasses {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 25px;
+  z-index: 25;
+}
+
+.pet-scarf {
+  position: absolute;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 20px;
+  background: inherit;
+  border-radius: 10px;
+  z-index: 22;
+}
+
+/* ========================================
+   NEW: ENVIRONMENT LAYERS
+   ======================================== */
+.pet-scene {
+  position: relative;
+  overflow: hidden;
+}
+
+.pet-scene::before {
+  /* Wall layer */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 50%;
+  background: var(--wall-bg, #F5F5F0);
+  z-index: 1;
+}
+
+.pet-scene::after {
+  /* Floor layer */
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--floor-bg, #D4C4B0);
+  z-index: 1;
+}
+
+/* Environment type modifiers */
+.pet-scene[data-environment="forest"]::before {
+  background: linear-gradient(180deg, #A8D5A0 0%, #88C080 50%, #68A860 100%);
+}
+
+.pet-scene[data-environment="forest"]::after {
+  background: linear-gradient(180deg, #568050 0%, #487040 100%);
+}
+
+.pet-scene[data-environment="garden"]::before {
+  background: linear-gradient(180deg, #E5F5FF 0%, #D0EBFF 50%, #C0E0FF 100%);
+}
+
+.pet-scene[data-environment="garden"]::after {
+  background: linear-gradient(180deg, #88C080 0%, #78B070 100%);
+}
+
+/* Lighting effects */
+.pet-scene[data-lighting="warm"] {
+  filter: sepia(0.2) saturate(1.1);
+}
+
+.pet-scene[data-lighting="soft"] {
+  filter: brightness(1.05) contrast(0.95);
+}
+
+.pet-scene[data-lighting="dim"] {
+  filter: brightness(0.85);
+}
+
+.pet-scene[data-lighting="bright"] {
+  filter: brightness(1.1) saturate(1.05);
+}
+
+/* ========================================
+   NEW: FURNITURE GRID
+   ======================================== */
+.furniture-grid {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  height: 40%;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.furniture-item {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transition: transform 0.2s;
+}
+
+.furniture-item:hover {
+  transform: scale(1.1);
+}
+
+/* ========================================
+   NEW: WIND ANIMATION (GARDEN/FOREST)
+   ======================================== */
+@keyframes windSway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.pet-scene[data-environment="garden"] .cute-pet-body,
+.pet-scene[data-environment="forest"] .cute-pet-body {
+  animation: windSway 3s ease-in-out infinite;
+}
+
+/* ========================================
+   NEW: SHOP TABS & REWARD CARDS
+   ======================================== */
+.shop-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 2px solid #f0f0f0;
+  overflow-x: auto;
+}
+
+.shop-tab {
+  flex: 1;
+  min-width: 80px;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.shop-tab.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.shop-info {
+  padding: 12px 16px;
+  background: #f9f9f9;
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+}
+
+.reward-card {
+  position: relative;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reward-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.reward-card.owned {
+  border-color: #4ade80;
+  background: #f0fdf4;
+}
+
+.reward-card.equipped {
+  border-color: #667eea;
+  background: #f0f4ff;
+}
+
+.reward-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  border-radius: 50%;
+  background: #f5f5f5;
+}
+
+.reward-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: #333;
+}
+
+.reward-cost {
+  font-weight: 700;
+  font-size: 14px;
+  color: #f59e0b;
+}
+
+.reward-bonus {
+  font-size: 11px;
+  color: #4ade80;
+  font-weight: 600;
+  background: #f0fdf4;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
 .game-result.win .result-emoji { animation: winCelebrate 0.5s ease-in-out infinite; }
 
 @keyframes winCelebrate {
