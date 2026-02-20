@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calmora - AI Chat Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        /* AI Chat Component */
+        .ai-chat-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .ai-chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .ai-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .ai-status {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .ai-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ai-icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Suggestions */
+        .ai-suggestions {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #f8f9ff, #fff5f7);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .suggestions-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .suggestions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .suggestion-chip {
+            padding: 10px 14px;
+            background: white;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #374151;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .suggestion-chip:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Messages */
+        .ai-messages-container {
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: linear-gradient(180deg, #fafbff 0%, #fff9fc 100%);
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 75%;
+        }
+
+        .message-text {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #374151;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .message.user .message-text {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 6px;
+        }
+
+        /* Input Area */
+        .ai-input-area {
+            padding: 16px 20px;
+            background: white;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+            background: #f3f4f6;
+            border-radius: 24px;
+            padding: 8px 16px;
+            margin-bottom: 10px;
+        }
+
+        .input-wrapper textarea {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            resize: none;
+            height: 40px;
+        }
+
+        .input-wrapper textarea:focus {
+            outline: none;
+        }
+
+        .voice-btn, .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .voice-btn {
+            background: transparent;
+            color: #9ca3af;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .input-hints {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 16px;
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: typing 1.4s ease-in-out infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(-6px); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>🧘 Calmora</h1>
+            <p>Your Personal Productivity Space</p>
+        </div>
+
+        <!-- AI Chat Section -->
+        <div class="ai-chat-section">
+            <div class="ai-chat-header">
+                <div class="ai-header-left">
+                    <div class="ai-avatar">
+                        <span style="font-size: 24px;">✨</span>
+                    </div>
+                    <div class="ai-info">
+                        <h3>Calmo</h3>
+                        <span class="ai-status">Online • Ready to help</span>
+                    </div>
+                </div>
+                <div class="ai-header-actions">
+                    <button class="ai-icon-btn" onclick="toggleVoice()" title="Voice">🔊</button>
+                    <button class="ai-icon-btn" onclick="clearChat()" title="Clear">🔄</button>
+                </div>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="ai-suggestions">
+                <div class="suggestions-header">
+                    <span>💡</span>
+                    <span>Suggestions for you</span>
+                </div>
+                <div class="suggestions-list">
+                    <button class="suggestion-chip" onclick="sendSuggestion('I am feeling stressed')">🧘 I am feeling stressed</button>
+                    <button class="suggestion-chip" onclick="sendSuggestion('Help me build a habit')">💪 Help me build a habit</button>
+                    <button class="suggestion-chip" onclick="sendSuggestion('How is my pet doing?')">🐾 How is my pet doing?</button>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="ai-messages-container" id="messagesContainer">
+                <div class="message ai">
+                    <div class="message-avatar">✨</div>
+                    <div class="message-content">
+                        <div class="message-text">Hi! I am Calmo ✨ Your personal AI companion for productivity and wellness. How can I help you today?</div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="ai-input-area">
+                <div class="input-wrapper">
+                    <button class="voice-btn" onclick="toggleVoice()">🎤</button>
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Ask Calmo anything..."
+                        onkeypress="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"
+                    ></textarea>
+                    <button class="send-btn" onclick="sendMessage()">➤</button>
+                </div>
+                <div class="input-hints">
+                    <span>Try: "I am feeling stressed"</span>
+                    <span>•</span>
+                    <span>"Help me build a habit"</span>
+                    <span>•</span>
+                    <span>"How is my pet doing?"</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Dashboard Content -->
+        <div class="header">
+            <h2>💭 Inspirational Quote</h2>
+            <p style="margin-top: 12px; font-style: italic;">"The journey of a thousand miles begins with a single step." - Lao Tzu</p>
+        </div>
+    </div>
+
+    <script>
+        let voiceEnabled = false;
+
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            alert('Voice ' + (voiceEnabled ? 'enabled' : 'disabled'));
+        }
+
+        function clearChat() {
+            document.getElementById('messagesContainer').innerHTML = `
+                <div class="message ai">
+                    <div class="message-avatar">✨</div>
+                    <div class="message-content">
+                        <div class="message-text">Conversation reset! Calmo here, ready to help! ✨</div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendSuggestion(text) {
+            document.getElementById('messageInput').value = text;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            const container = document.getElementById('messagesContainer');
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `
+                <div class="message-avatar">👤</div>
+                <div class="message-content">
+                    <div class="message-text">${message}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+            `;
+            container.appendChild(userMsg);
+            
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+
+            // Show typing indicator
+            const typing = document.createElement('div');
+            typing.className = 'message ai';
+            typing.id = 'typing';
+            typing.innerHTML = `
+                <div class="message-avatar">✨</div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(typing);
+            container.scrollTop = container.scrollHeight;
+
+            // Simulate AI response
+            setTimeout(() => {
+                typing.remove();
+                
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai';
+                aiMsg.innerHTML = `
+                    <div class="message-avatar">✨</div>
+                    <div class="message-content">
+                        <div class="message-text">${getAIResponse(message)}</div>
+                        <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                    </div>
+                `;
+                container.appendChild(aiMsg);
+                container.scrollTop = container.scrollHeight;
+
+                if (voiceEnabled) {
+                    speakResponse(getAIResponse(message));
+                }
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function getAIResponse(input) {
+            const lower = input.toLowerCase();
+            
+            if (lower.includes('stress') || lower.includes('anxious')) {
+                return "Take a deep breath with me. 🧘‍♀️ In... and out... You are not alone in this. Want to talk about what is stressing you? Your feelings are valid. Stress is temporary. 💙";
+            }
+            if (lower.includes('habit')) {
+                return "Building habits is a journey! 🌱 The key is consistency over perfection. Start small - even 2 minutes counts! What habit are you working on?";
+            }
+            if (lower.includes('pet')) {
+                return "Your pet is doing great! 🐾 They reflect your journey - keep nurturing both of you! Want to check their status?";
+            }
+            if (lower.includes('tired') || lower.includes('exhausted')) {
+                return "Rest is productive too. 💤 Take care of yourself. Your body and mind need recovery to perform well!";
+            }
+            if (lower.includes('happy') || lower.includes('excited')) {
+                return "That is AMAZING! 🎉 I love your energy! Keep crushing it!";
+            }
+            
+            return "That is interesting! 🤔 Tell me more about that. I am here to listen and help. 💙 What else is on your mind?";
+        }
+
+        function speakResponse(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Auto-scroll
+        const container = document.getElementById('messagesContainer');
+        container.scrollTop = container.scrollHeight;
+    </script>
+</body>
+</html>

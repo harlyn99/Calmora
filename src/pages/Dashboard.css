@@ -13,6 +13,12 @@
   gap: 32px;
 }
 
+/* AI Chat Wrapper */
+.ai-chat-wrapper {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
 /* Greeting Card */
 .greeting-card {
   padding: 32px;

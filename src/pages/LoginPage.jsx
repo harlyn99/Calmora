@@ -1,120 +1,188 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Mail, Lock } from 'lucide-react'
+import { LogIn, User, Mail, Lock, Eye, EyeOff } from 'lucide-react'
 import './LoginPage.css'
 
-export const LoginPage = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLogin, setIsLogin] = useState(true)
-  const [error, setError] = useState('')
+export function LoginPage() {
   const navigate = useNavigate()
   const { login, register } = useAuth()
+  
+  const [isRegister, setIsRegister] = useState(false)
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  })
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-
-    if (!username || !password) {
-      setError('Please fill in all fields')
-      return
-    }
+    setLoading(true)
 
     try {
-      if (isLogin) {
-        login(username, password)
+      let result
+      if (isRegister) {
+        result = await register(formData.username, formData.email, formData.password)
       } else {
-        register(username, password)
+        result = await login(formData.username, formData.password)
       }
-      navigate('/dashboard')
+
+      if (result.success) {
+        navigate('/dashboard')
+      } else {
+        setError(result.error || 'Authentication failed')
+      }
     } catch (err) {
-      setError('Authentication failed. Please try again.')
+      setError('Connection error. Please try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
   return (
-    <div className="login-container">
-      {/* Background Elements */}
-      <div className="bg-gradient"></div>
-      <div className="floating-element el-1"></div>
-      <div className="floating-element el-2"></div>
-      <div className="floating-element el-3"></div>
-
-      {/* Main Content */}
-      <div className="login-card fade-in">
-        {/* Header */}
-        <div className="login-header">
-          <h1>✨ Calmora</h1>
-          <p className="subtitle">Your personal productivity sanctuary</p>
-        </div>
-
-        {/* Greeting */}
-        <div className="greeting-section">
-          <p>Welcome back, friend</p>
-          <p className="greeting-icon">🌙 ☀️ 🌙</p>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="auth-form">
-          {/* Username Input */}
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <div className="input-wrapper">
-              <Mail size={18} />
-              <input
-                id="username"
-                type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
+    <div className="login-wrapper">
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-header">
+            <div className="logo-section">
+              <div className="logo-icon">🧘</div>
+              <h1>Calmora</h1>
             </div>
+            <p className="subtitle">Your Personal Productivity Space</p>
           </div>
 
-          {/* Password Input */}
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-wrapper">
-              <Lock size={18} />
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {error && <div className="error-message">{error}</div>}
-
-          {/* Submit Button */}
-          <button type="submit" className="neomorph-button primary login-button">
-            {isLogin ? 'Sign In' : 'Create Account'}
-          </button>
-        </form>
-
-        {/* Toggle Auth Mode */}
-        <div className="auth-toggle">
-          <p>
-            {isLogin ? "Don't have an account?" : 'Already have an account?'}
+          <div className="auth-toggle">
             <button
-              type="button"
-              onClick={() => {
-                setIsLogin(!isLogin)
-                setError('')
-              }}
+              className={`toggle-btn ${!isRegister ? 'active' : ''}`}
+              onClick={() => setIsRegister(false)}
             >
-              {isLogin ? 'Sign Up' : 'Sign In'}
+              <LogIn size={18} />
+              <span>Login</span>
             </button>
-          </p>
+            <button
+              className={`toggle-btn ${isRegister ? 'active' : ''}`}
+              onClick={() => setIsRegister(true)}
+            >
+              <User size={18} />
+              <span>Register</span>
+            </button>
+          </div>
+
+          {error && (
+            <div className="error-message">
+              <span>⚠️</span> {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label className="form-label">
+                <User size={18} />
+                <span>Username</span>
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Enter username"
+                className="form-input"
+                required
+                autoComplete="username"
+              />
+            </div>
+
+            {isRegister && (
+              <div className="form-group">
+                <label className="form-label">
+                  <Mail size={18} />
+                  <span>Email</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter email"
+                  className="form-input"
+                  required
+                  autoComplete="email"
+                />
+              </div>
+            )}
+
+            <div className="form-group">
+              <label className="form-label">
+                <Lock size={18} />
+                <span>Password</span>
+              </label>
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter password"
+                  className="form-input"
+                  required
+                  autoComplete="current-password"
+                  minLength={6}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className="submit-btn" disabled={loading}>
+              {loading ? (
+                <span className="loading-spinner">⏳</span>
+              ) : (
+                <>
+                  {isRegister ? <User size={20} /> : <LogIn size={20} />}
+                  {isRegister ? 'Create Account' : 'Sign In'}
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="login-footer">
+            <p>
+              {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
+              <button
+                className="link-btn"
+                onClick={() => setIsRegister(!isRegister)}
+              >
+                {isRegister ? 'Login' : 'Register'}
+              </button>
+            </p>
+          </div>
         </div>
 
-        {/* Demo Note */}
-        <div className="demo-note">
-          <p>💡 Demo: Use any username and password</p>
+        <div className="login-features">
+          <h3>✨ Features</h3>
+          <ul>
+            <li>📝 Task Management & To-Do Lists</li>
+            <li>🎯 Habit Tracker with Garden Growth</li>
+            <li> Mood Tracking & Insights</li>
+            <li>🐾 Virtual Pet Companion</li>
+            <li>⏱️ Focus Timer (Pomodoro)</li>
+            <li>📔 Journal & Reflection</li>
+            <li>🧘 Meditation & Breathing</li>
+            <li>🎵 Music Player</li>
+          </ul>
         </div>
       </div>
     </div>

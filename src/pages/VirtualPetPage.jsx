@@ -47,6 +47,26 @@ const EVOLUTION_STAGES = {
   10: { stage: 'adult', name: 'Adult', size: 1.1 }
 }
 
+// Mood-based evolution forms
+const MOOD_EVOLUTIONS = {
+  great: { name: 'Radiant', emoji: '✨', glow: '0 0 30px rgba(255, 215, 0, 0.8)', particles: 'sparkle' },
+  good: { name: 'Cheerful', emoji: '💫', glow: '0 0 25px rgba(100, 200, 100, 0.6)', particles: 'heart' },
+  okay: { name: 'Calm', emoji: '💭', glow: '0 0 20px rgba(150, 150, 200, 0.4)', particles: 'bubble' },
+  bad: { name: 'Concerned', emoji: '🌧️', glow: '0 0 20px rgba(100, 150, 200, 0.3)', particles: '' },
+  terrible: { name: 'Supportive', emoji: '🤗', glow: '0 0 25px rgba(200, 100, 150, 0.5)', particles: 'heart' }
+}
+
+// Garden plants based on habit streaks
+const GARDEN_PLANTS = [
+  { id: 'seedling', name: 'Seedling', emoji: '🌱', minStreak: 1, color: '#90EE90' },
+  { id: 'sprout', name: 'Sprout', emoji: '🌿', minStreak: 3, color: '#98FB98' },
+  { id: 'flower', name: 'Flower', emoji: '🌸', minStreak: 7, color: '#FFB6C1' },
+  { id: 'bloom', name: 'Bloom', emoji: '🌺', minStreak: 14, color: '#FF69B4' },
+  { id: 'tree', name: 'Tree', emoji: '🌳', minStreak: 30, color: '#228B22' },
+  { id: 'crystal', name: 'Crystal', emoji: '💎', minStreak: 60, color: '#00CED1' },
+  { id: 'star', name: 'Star Plant', emoji: '⭐', minStreak: 90, color: '#FFD700' }
+]
+
 export default function VirtualPetPage() {
   const navigate = useNavigate()
   
@@ -91,6 +111,15 @@ export default function VirtualPetPage() {
   const [showRoom, setShowRoom] = useState(false)
   const [showPhotos, setShowPhotos] = useState(false)
   const [viewMode, setViewMode] = useState('pet')
+
+  // Mood evolution & garden states
+  const [moodEvolution, setMoodEvolution] = useState('okay')
+  const [gardenPlants, setGardenPlants] = useState([])
+  const [seasonalTheme, setSeasonalTheme] = useState('spring')
+  const [weatherEffect, setWeatherEffect] = useState('clear')
+  const [achievementOrbs, setAchievementOrbs] = useState([])
+  const [whisperMemories, setWhisperMemories] = useState([])
+  const [focusCompanionMode, setFocusCompanionMode] = useState(false)
   
   // Minigame states
   const [whackGame, setWhackGame] = useState({ score: 0, timeLeft: 20, clicked: [], activeMoles: [], round: 1, totalRounds: 3 })
@@ -104,6 +133,26 @@ export default function VirtualPetPage() {
   }
 
   const evolutionStage = getEvolutionStage(pet.level)
+
+  // Calculate habit streak
+  const calculateStreak = (completedDates) => {
+    if (!completedDates?.length) return 0
+    const sorted = [...completedDates].sort((a, b) => new Date(b) - new Date(a))
+    const today = new Date().toISOString().split('T')[0]
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
+    let streak = 0
+    let currentDate = sorted.includes(today) ? today : sorted.includes(yesterday) ? yesterday : null
+    if (!currentDate) return 0
+    for (let i = 0; i < 365; i++) {
+      if (sorted.includes(currentDate)) {
+        streak++
+        currentDate = new Date(new Date(currentDate).getTime() - 86400000).toISOString().split('T')[0]
+      } else {
+        break
+      }
+    }
+    return streak
+  }
 
   // Load from localStorage
   useEffect(() => {
@@ -123,8 +172,71 @@ export default function VirtualPetPage() {
 
   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem('virtualPet', JSON.stringify(pet))
-  }, [pet])
+    localStorage.setItem('virtualPet', JSON.stringify({
+      ...pet,
+      moodEvolution,
+      gardenPlants,
+      seasonalTheme,
+      achievementOrbs,
+      whisperMemories
+    }))
+  }, [pet, moodEvolution, gardenPlants, seasonalTheme, achievementOrbs, whisperMemories])
+
+  // Sync with mood tracker - calculate average mood
+  useEffect(() => {
+    const moods = JSON.parse(localStorage.getItem('moods') || '[]')
+    if (moods.length > 0) {
+      const recentMoods = moods.slice(0, 10)
+      const avgMood = recentMoods.reduce((sum, m) => sum + m.mood, 0) / recentMoods.length
+      
+      if (avgMood >= 4.5) setMoodEvolution('great')
+      else if (avgMood >= 3.5) setMoodEvolution('good')
+      else if (avgMood >= 2.5) setMoodEvolution('okay')
+      else if (avgMood >= 1.5) setMoodEvolution('bad')
+      else setMoodEvolution('terrible')
+    }
+  }, [])
+
+  // Sync with habits - create garden plants
+  useEffect(() => {
+    const habits = JSON.parse(localStorage.getItem('habits') || '[]')
+    const newPlants = []
+    
+    habits.forEach(habit => {
+      const streak = calculateStreak(habit.completedDates)
+      if (streak > 0) {
+        const plant = GARDEN_PLANTS.slice().reverse().find(p => streak >= p.minStreak)
+        if (plant) {
+          newPlants.push({
+            id: habit.id,
+            name: habit.name,
+            plant: plant,
+            streak,
+            createdAt: habit.createdAt
+          })
+        }
+      }
+    })
+    
+    setGardenPlants(newPlants)
+  }, [])
+
+  // Seasonal theme based on current month
+  useEffect(() => {
+    const month = new Date().getMonth()
+    if (month >= 2 && month <= 4) setSeasonalTheme('spring')
+    else if (month >= 5 && month <= 7) setSeasonalTheme('summer')
+    else if (month >= 8 && month <= 10) setSeasonalTheme('autumn')
+    else setSeasonalTheme('winter')
+  }, [])
+
+  // Weather effect based on mood
+  useEffect(() => {
+    if (moodEvolution === 'great') setWeatherEffect('sunny')
+    else if (moodEvolution === 'good') setWeatherEffect('cloudy')
+    else if (moodEvolution === 'bad' || moodEvolution === 'terrible') setWeatherEffect('rainy')
+    else setWeatherEffect('clear')
+  }, [moodEvolution])
 
   // Day counter
   useEffect(() => {
@@ -374,6 +486,48 @@ export default function VirtualPetPage() {
     setPet(p => ({ ...p, equippedClothes: p.equippedClothes.filter(c => c.type !== type) }))
     showMessage('Unequipped!')
   }
+
+  // Whisper Journal - Pet remembers what you tell it
+  const addWhisperMemory = (text) => {
+    if (!text.trim()) return
+    const memory = {
+      id: Date.now(),
+      text: text.trim(),
+      date: new Date().toLocaleDateString(),
+      mood: moodEvolution
+    }
+    setWhisperMemories(prev => [memory, ...prev].slice(0, 50))
+    showMessage('💭 Pet remembered your whisper!')
+    createParticles('bubble')
+  }
+
+  const getWhisperQuote = () => {
+    if (whisperMemories.length === 0) return null
+    const random = whisperMemories[Math.floor(Math.random() * whisperMemories.length)]
+    return random
+  }
+
+  // Achievement Orbs
+  const checkAchievements = () => {
+    const newOrbs = []
+    
+    if (pet.level >= 5) newOrbs.push({ id: 'level5', name: 'Level 5', emoji: '🌟', date: new Date().toLocaleDateString() })
+    if (pet.level >= 10) newOrbs.push({ id: 'level10', name: 'Level 10', emoji: '⭐', date: new Date().toLocaleDateString() })
+    if (pet.coins >= 1000) newOrbs.push({ id: 'rich', name: 'Rich', emoji: '💰', date: new Date().toLocaleDateString() })
+    if (gardenPlants.some(p => p.streak >= 30)) newOrbs.push({ id: 'dedicated', name: 'Dedicated', emoji: '🏆', date: new Date().toLocaleDateString() })
+    if (moodEvolution === 'great') newOrbs.push({ id: 'happy', name: 'Happy Soul', emoji: '✨', date: new Date().toLocaleDateString() })
+    if (pet.photos.length >= 10) newOrbs.push({ id: 'photographer', name: 'Photographer', emoji: '📸', date: new Date().toLocaleDateString() })
+    
+    setAchievementOrbs(prev => {
+      const existingIds = prev.map(o => o.id)
+      const newOnes = newOrbs.filter(o => !existingIds.includes(o.id))
+      return [...prev, ...newOnes]
+    })
+  }
+
+  useEffect(() => {
+    checkAchievements()
+  }, [pet.level, pet.coins, gardenPlants, moodEvolution, pet.photos])
 
   const takePhoto = () => {
     const photo = {
@@ -642,18 +796,75 @@ export default function VirtualPetPage() {
         {/* View Mode Toggle */}
         <div className="view-mode-toggle">
           <button className={`mode-btn ${viewMode === 'pet' ? 'active' : ''}`} onClick={() => setViewMode('pet')}><Sparkles size={18} /> Pet</button>
-          <button className={`mode-btn ${viewMode === 'room' ? 'active' : ''}`} onClick={() => setViewMode('room')}><TreePine size={18} /> Place</button>
+          <button className={`mode-btn ${viewMode === 'garden' ? 'active' : ''}`} onClick={() => setViewMode('garden')}><TreePine size={18} /> Garden</button>
+          <button className={`mode-btn ${viewMode === 'room' ? 'active' : ''}`} onClick={() => setViewMode('room')}><Home size={18} /> Place</button>
+          <button className={`mode-btn ${viewMode === 'whisper' ? 'active' : ''}`} onClick={() => setViewMode('whisper')}><Heart size={18} /> Whisper</button>
+          <button className={`mode-btn ${viewMode === 'orbs' ? 'active' : ''}`} onClick={() => setViewMode('orbs')}><Award size={18} /> Orbs</button>
         </div>
 
         {viewMode === 'pet' ? (
           <>
             {/* Pet Display */}
             <div className={`pet-display ${animation || ''} ${pet.isSleeping ? 'sleeping' : ''}`}>
-              <div className="pet-scene" style={{ background: ROOM_THEMES.find(t => t.id === pet.roomTheme)?.bg }}>
+              <div className="pet-scene" style={{ 
+                background: ROOM_THEMES.find(t => t.id === pet.roomTheme)?.bg,
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                {/* Weather Effects */}
+                {weatherEffect === 'sunny' && (
+                  <div className="weather-effect sunny">
+                    <span className="sun">☀️</span>
+                    <div className="sun-rays"></div>
+                  </div>
+                )}
+                {weatherEffect === 'rainy' && (
+                  <div className="weather-effect rainy">
+                    {[...Array(20)].map((_, i) => (
+                      <div key={i} className="raindrop" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 2}s` }}>💧</div>
+                    ))}
+                  </div>
+                )}
+                {weatherEffect === 'cloudy' && (
+                  <div className="weather-effect cloudy">
+                    <span className="cloud">☁️</span>
+                    <span className="cloud cloud2">☁️</span>
+                  </div>
+                )}
+                
+                {/* Seasonal Particles */}
+                {seasonalTheme === 'spring' && (
+                  <div className="seasonal-particles">
+                    {[...Array(10)].map((_, i) => (
+                      <span key={i} className="sakura" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 3}s` }}>🌸</span>
+                    ))}
+                  </div>
+                )}
+                {seasonalTheme === 'autumn' && (
+                  <div className="seasonal-particles">
+                    {[...Array(10)].map((_, i) => (
+                      <span key={i} className="autumn-leaf" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 3}s` }}>🍂</span>
+                    ))}
+                  </div>
+                )}
+                {seasonalTheme === 'winter' && (
+                  <div className="seasonal-particles">
+                    {[...Array(15)].map((_, i) => (
+                      <span key={i} className="snowflake" style={{ left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 4}s` }}>❄️</span>
+                    ))}
+                  </div>
+                )}
+
                 <div className="pet-avatar-container" style={{ left: `${pet.walkPosition}%` }}>
+                  {/* Mood Evolution Glow */}
+                  <div className="mood-glow" style={{ 
+                    boxShadow: MOOD_EVOLUTIONS[moodEvolution]?.glow,
+                    filter: `brightness(${moodEvolution === 'great' ? 1.2 : moodEvolution === 'good' ? 1.1 : 1})`
+                  }}></div>
+                  
                   <div className={`pet-avatar-3d ${pet.isWalking ? 'walking' : ''}`} style={{ transform: `scale(${evolutionStage.size})` }}>
                     {/* Cute connected pet body */}
-                    <div className={`cute-pet-body pet-${pet.type}`}>
+                    <div className={`cute-pet-body pet-${pet.type} ${moodEvolution === 'great' ? 'radiant' : ''}`}>
                       {/* Tail - connected to body */}
                       <div className={`cute-tail pet-tail-${pet.type} ${animation === 'happy' || pet.isWalking ? 'wagging' : ''}`}></div>
                       
@@ -737,7 +948,12 @@ export default function VirtualPetPage() {
               </div>
 
               <div className="pet-info">
-                <div className="evolution-badge">{evolutionStage.name}</div>
+                <div className="evolution-badges">
+                  <div className="evolution-badge">{evolutionStage.name}</div>
+                  <div className="mood-evolution-badge" style={{ background: `linear-gradient(135deg, ${MOOD_EVOLUTIONS[moodEvolution]?.emoji === '✨' ? '#FFD700' : moodEvolution === 'good' ? '#98FB98' : moodEvolution === 'bad' ? '#87CEEB' : '#FFB6C1'}, transparent)` }}>
+                    {MOOD_EVOLUTIONS[moodEvolution]?.emoji} {MOOD_EVOLUTIONS[moodEvolution]?.name}
+                  </div>
+                </div>
                 <h2 className="pet-name">
                   {pet.name}
                   <button className="edit-name-btn" onClick={() => setShowRename(true)}>✏️</button>
@@ -817,6 +1033,118 @@ export default function VirtualPetPage() {
               </div>
             </div>
           </>
+        ) : viewMode === 'garden' ? (
+          /* Garden View - Habit Plants */
+          <div className="garden-view">
+            <div className="garden-header">
+              <h2>🌱 Habit Garden</h2>
+              <p>Your habits grow into beautiful plants!</p>
+              <div className="garden-stats">
+                <span className="garden-stat">🌿 {gardenPlants.length} Plants</span>
+                <span className="garden-stat">⭐ Best Streak: {gardenPlants.length > 0 ? Math.max(...gardenPlants.map(p => p.streak)) : 0}</span>
+              </div>
+            </div>
+            <div className="garden-plants-grid">
+              {gardenPlants.length === 0 ? (
+                <div className="garden-empty">
+                  <TreePine size={64} />
+                  <p>No plants yet! Complete habits to grow your garden.</p>
+                </div>
+              ) : (
+                gardenPlants.map(plant => (
+                  <div key={plant.id} className="garden-plant-card" style={{ borderColor: plant.plant.color }}>
+                    <div className="plant-emoji" style={{ fontSize: '3rem' }}>{plant.plant.emoji}</div>
+                    <div className="plant-info">
+                      <h4>{plant.name}</h4>
+                      <p className="plant-name">{plant.plant.name}</p>
+                      <div className="plant-streak">
+                        <Flame size={14} />
+                        <span>{plant.streak} day streak</span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        ) : viewMode === 'whisper' ? (
+          /* Whisper Journal - Pet Memories */
+          <div className="whisper-view">
+            <div className="whisper-header">
+              <h2>💭 Whisper Journal</h2>
+              <p>Share your thoughts with {pet.name}</p>
+            </div>
+            <div className="whisper-input-section">
+              <textarea
+                className="whisper-textarea"
+                placeholder="Whisper something to your pet..."
+                rows={3}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    addWhisperMemory(e.target.value)
+                    e.target.value = ''
+                  }
+                }}
+              />
+              <button className="whisper-submit-btn" onClick={(e) => {
+                const textarea = e.target.previousSibling
+                addWhisperMemory(textarea.value)
+                textarea.value = ''
+              }}>
+                <Heart size={18} /> Send Whisper
+              </button>
+            </div>
+            <div className="whisper-memories">
+              {whisperMemories.length === 0 ? (
+                <div className="whisper-empty">
+                  <Heart size={48} />
+                  <p>No whispers yet. Share your thoughts with {pet.name}!</p>
+                </div>
+              ) : (
+                whisperMemories.map(memory => (
+                  <div key={memory.id} className="whisper-memory-card">
+                    <div className="memory-mood" style={{ color: MOOD_EVOLUTIONS[memory.mood]?.emoji ? '#ffd700' : '#888' }}>
+                      {MOOD_EVOLUTIONS[memory.mood]?.emoji}
+                    </div>
+                    <div className="memory-content">
+                      <p className="memory-text">"{memory.text}"</p>
+                      <span className="memory-date">{memory.date}</span>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        ) : viewMode === 'orbs' ? (
+          /* Achievement Orbs */
+          <div className="orbs-view">
+            <div className="orbs-header">
+              <h2>⭐ Achievement Orbs</h2>
+              <p>Collect orbs by reaching milestones</p>
+              <div className="orbs-stats">
+                <span className="orbs-stat">🏆 {achievementOrbs.length} Orbs</span>
+              </div>
+            </div>
+            <div className="orbs-grid">
+              {achievementOrbs.length === 0 ? (
+                <div className="orbs-empty">
+                  <Award size={64} />
+                  <p>No orbs yet. Keep playing to earn achievements!</p>
+                </div>
+              ) : (
+                achievementOrbs.map(orb => (
+                  <div key={orb.id} className="orb-card">
+                    <div className="orb-emoji">{orb.emoji}</div>
+                    <div className="orb-info">
+                      <h4>{orb.name}</h4>
+                      <span className="orb-date">{orb.date}</span>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         ) : (
           /* Room View */
           <div className="room-display" style={{ background: ROOM_THEMES.find(t => t.id === pet.roomTheme)?.bg }}>

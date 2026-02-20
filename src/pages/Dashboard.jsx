@@ -8,6 +8,7 @@ import SmartGreeting from '../components/SmartGreeting'
 import InspirationalQuotes from '../components/InspirationalQuotes'
 import QuickActions from '../components/QuickActions'
 import PolaroidWall from '../components/PolaroidWall'
+import AIChat from '../components/AIChat'
 import adapter from '../utils/dataAdapter'
 import './Dashboard.css'
 
@@ -43,6 +44,11 @@ export const Dashboard = () => {
       <div className="dashboard-container fade-in">
         {/* Smart Greeting */}
         <SmartGreeting stats={{ todos, focusSessions: focusSessions.length || 0, journalEntries }} />
+
+        {/* AI Chat Section - NEW! */}
+        <div className="ai-chat-wrapper">
+          <AIChat />
+        </div>
 
         {/* Motivational Quote */}
         <div className="quote-section">

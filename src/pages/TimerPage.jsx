@@ -5,12 +5,27 @@ import storage from '../utils/storage'
 import './TimerPage.css'
 
 export const TimerPage = () => {
-  const [time, setTime] = useState(25 * 60) // 25 minutes default
+  const [time, setTime] = useState(25 * 60)
   const [isActive, setIsActive] = useState(false)
   const [sessions, setSessions] = useState(() => parseInt(localStorage.getItem('timerSessions') || '0'))
   const [totalMinutes, setTotalMinutes] = useState(() => parseInt(localStorage.getItem('totalFocusMinutes') || '0'))
   const [initialDuration, setInitialDuration] = useState(25 * 60)
   const [activePreset, setActivePreset] = useState(25)
+  
+  // Focus Companion Mode
+  const [focusCompanionEnabled, setFocusCompanionEnabled] = useState(false)
+  const [petMeditating, setPetMeditating] = useState(false)
+  const [focusPetType, setFocusPetType] = useState(() => {
+    const saved = localStorage.getItem('virtualPet')
+    return saved ? JSON.parse(saved).type : 'bear'
+  })
+
+  const PET_EMOJIS = {
+    bear: '🐻',
+    dog: '🐶',
+    cat: '🐱',
+    bunny: '🐰'
+  }
 
   useEffect(() => {
     let interval = null
@@ -19,9 +34,26 @@ export const TimerPage = () => {
       interval = setInterval(() => {
         setTime(time - 1)
       }, 1000)
+      
+      // Set pet meditating when timer starts
+      if (focusCompanionEnabled && !petMeditating) {
+        setPetMeditating(true)
+      }
     } else if (time === 0 && isActive) {
       // Timer finished
       setIsActive(false)
+      setPetMeditating(false)
+      
+      // Reward pet for focus session
+      if (focusCompanionEnabled) {
+        const savedPet = JSON.parse(localStorage.getItem('virtualPet') || '{}')
+        if (savedPet.type) {
+          savedPet.xp = (savedPet.xp || 0) + 20
+          savedPet.coins = (savedPet.coins || 0) + 15
+          savedPet.happiness = Math.min(100, (savedPet.happiness || 0) + 10)
+          localStorage.setItem('virtualPet', JSON.stringify(savedPet))
+        }
+      }
       setSessions(s => {
         const newSessions = s + 1
         localStorage.setItem('timerSessions', newSessions)
@@ -90,6 +122,30 @@ export const TimerPage = () => {
         <div className="timer-header">
           <h1>Focus Timer</h1>
           <p>Stay focused with the Pomodoro technique</p>
+        </div>
+
+        {/* Focus Companion Toggle */}
+        <div className="focus-companion-toggle">
+          <label className="companion-switch">
+            <input
+              type="checkbox"
+              checked={focusCompanionEnabled}
+              onChange={(e) => setFocusCompanionEnabled(e.target.checked)}
+            />
+            <span className="switch-slider"></span>
+            <span className="switch-label">
+              🐾 Focus Companion {focusCompanionEnabled && `(${PET_EMOJIS[focusPetType]})`}
+            </span>
+          </label>
+          {focusCompanionEnabled && (
+            <div className="companion-status">
+              {petMeditating ? (
+                <span className="meditating-status">🧘 {PET_EMOJIS[focusPetType]} Pet is meditating with you...</span>
+              ) : (
+                <span className="ready-status">✨ {PET_EMOJIS[focusPetType]} Ready to focus together!</span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Main Timer Display */}

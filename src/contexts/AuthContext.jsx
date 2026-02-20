@@ -1,47 +1,108 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import { authAPI, storage } from '../services/api'
 
-const AuthContext = createContext()
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('user')
-    return saved ? JSON.parse(saved) : null
-  })
-
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user))
-    } else {
-      localStorage.removeItem('user')
-    }
-  }, [user])
-
-  const login = (username, password) => {
-    // Simple mock auth - in production, verify with backend
-    const userData = { username, id: Date.now() }
-    setUser(userData)
-    return userData
-  }
-
-  const register = (username, password) => {
-    // Simple mock registration
-    const userData = { username, id: Date.now() }
-    setUser(userData)
-    return userData
-  }
-
-  const logout = () => setUser(null)
-  const isAuthenticated = !!user
-
-  return (
-    <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
+const AuthContext = createContext(null)
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used within AuthProvider')
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider')
+  }
   return context
+}
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null)
+  const [token, setToken] = useState(storage.getToken())
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const initAuth = async () => {
+      const storedToken = storage.getToken()
+      const storedUser = storage.getUser()
+
+      if (storedToken && storedUser) {
+        try {
+          const res = await authAPI.getCurrentUser(storedToken)
+          if (res.user) {
+            setUser(res.user)
+            setToken(storedToken)
+          } else {
+            // Token invalid, clear
+            storage.removeToken()
+            storage.removeUser()
+          }
+        } catch (error) {
+          console.error('Auth check failed:', error)
+          storage.removeToken()
+          storage.removeUser()
+        }
+      }
+      setLoading(false)
+    }
+
+    initAuth()
+  }, [])
+
+  const login = async (username, password) => {
+    const res = await authAPI.login(username, password)
+    
+    if (res.access_token) {
+      setToken(res.access_token)
+      setUser(res.user)
+      storage.setToken(res.access_token)
+      storage.setUser(res.user)
+      return { success: true }
+    }
+    
+    return { success: false, error: res.error }
+  }
+
+  const register = async (username, email, password) => {
+    const res = await authAPI.register(username, email, password)
+    
+    if (res.access_token) {
+      setToken(res.access_token)
+      setUser(res.user)
+      storage.setToken(res.access_token)
+      storage.setUser(res.user)
+      return { success: true }
+    }
+    
+    return { success: false, error: res.error }
+  }
+
+  const logout = () => {
+    setToken(null)
+    setUser(null)
+    storage.removeToken()
+    storage.removeUser()
+  }
+
+  const updateUser = async (data) => {
+    if (!token) return { success: false, error: 'Not authenticated' }
+    
+    const res = await authAPI.updateProfile(token, data)
+    
+    if (res.user) {
+      setUser(res.user)
+      storage.setUser(res.user)
+      return { success: true }
+    }
+    
+    return { success: false, error: res.error }
+  }
+
+  const value = {
+    user,
+    token,
+    loading,
+    login,
+    register,
+    logout,
+    updateUser,
+    isAuthenticated: !!token
+  }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
