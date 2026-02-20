@@ -10,8 +10,8 @@
 
 .ai-chat-container.embedded {
   width: 100%;
-  max-width: 700px;
-  height: 600px;
+  max-width: 800px;
+  height: 550px;
   margin: 0 auto;
 }
 
@@ -51,7 +51,6 @@
 
 .ai-avatar-minimized {
   font-size: 28px;
-  filter: grayscale(100%);
 }
 
 .ai-dot {
@@ -87,22 +86,22 @@
 }
 
 .ai-avatar-monochrome {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border: 2px solid rgba(102, 126, 234, 0.3);
-  filter: grayscale(100%);
+  font-size: 22px;
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  border: 2px solid var(--accent-1, #667eea);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
 
 .ai-avatar-monochrome:hover {
-  filter: grayscale(0%);
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .ai-info {
@@ -114,12 +113,12 @@
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0;
-  color: var(--text-primary, #2d3436);
+  color: #1a1a2e;
 }
 
 .ai-status {
   font-size: 0.85rem;
-  color: var(--text-muted, #666);
+  color: #4a5568;
   margin: 0;
 }
 
@@ -133,17 +132,18 @@
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  color: var(--text-primary, #2d3436);
+  color: #1a1a2e;
 }
 
 .ai-icon-btn:hover {
-  background: rgba(255, 255, 255, 1);
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  color: white;
   transform: scale(1.1);
 }
 
@@ -170,12 +170,13 @@
 .settings-header h4 {
   margin: 0;
   font-size: 1rem;
-  color: var(--text-primary, #2d3436);
+  color: #1a1a2e;
+  font-weight: 700;
 }
 
 .settings-subtitle {
   font-size: 0.85rem;
-  color: var(--text-muted, #666);
+  color: #4a5568;
   margin: 0 0 16px 0;
 }
 
@@ -211,25 +212,24 @@
 
 .personality-avatar {
   font-size: 32px;
-  filter: grayscale(100%);
 }
 
 .personality-option.active .personality-avatar {
-  filter: grayscale(0%);
+  transform: scale(1.1);
 }
 
 .personality-name {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-primary, #2d3436);
+  color: #1a1a2e;
 }
 
 .clear-chat-btn {
   width: 100%;
   padding: 12px;
   border-radius: 12px;
-  border: 2px solid rgba(255, 100, 100, 0.3);
-  background: rgba(255, 100, 100, 0.1);
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  background: rgba(220, 38, 38, 0.1);
   color: #dc2626;
   font-weight: 600;
   cursor: pointer;
@@ -237,7 +237,7 @@
 }
 
 .clear-chat-btn:hover {
-  background: rgba(255, 100, 100, 0.2);
+  background: rgba(220, 38, 38, 0.2);
   border-color: #dc2626;
 }
 
@@ -265,17 +265,20 @@
 .ai-empty-avatar {
   font-size: 64px;
   margin-bottom: 16px;
-  filter: grayscale(100%);
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .ai-empty-state h4 {
   font-size: 1.3rem;
   margin: 0 0 8px 0;
-  color: var(--text-primary, #2d3436);
+  color: #1a1a2e;
 }
 
 .ai-empty-state p {
-  color: var(--text-muted, #666);
+  color: #4a5568;
   margin: 0 0 24px 0;
 }
 
@@ -290,18 +293,21 @@
 .ai-suggestions button {
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: var(--card-bg, #ffffff);
-  color: var(--text-primary, #2d3436);
+  border: 1px solid var(--accent-1, #667eea);
+  background: rgba(255, 255, 255, 0.8);
+  color: #1a1a2e;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .ai-suggestions button:hover {
-  background: var(--bg-secondary, #f5f5f5);
-  border-color: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  color: white;
+  border-color: transparent;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 /* Message Styles */
@@ -328,11 +334,11 @@
 }
 
 .ai-message.system .ai-message-content {
-  background: rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, rgba(var(--accent-1-rgb, 102, 126, 234), 0.1), rgba(var(--accent-2-rgb, 118, 75, 162), 0.1));
   border-radius: 12px;
   padding: 8px 16px;
   font-size: 0.85rem;
-  color: var(--text-muted, #666);
+  color: var(--text-secondary, #4a5568);
   font-style: italic;
 }
 
@@ -341,20 +347,19 @@
 }
 
 .avatar-monochrome {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  filter: grayscale(100%);
+  font-size: 16px;
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .ai-message.user .avatar-monochrome {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  filter: none;
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
 }
 
 .ai-message-content {
@@ -372,21 +377,23 @@
 }
 
 .ai-message.ai .ai-message-content p {
-  background: var(--card-bg, #ffffff);
-  color: var(--text-primary, #2d3436);
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a1a2e;
   border-bottom-left-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .ai-message.user .ai-message-content p {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  color: #ffffff;
   border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.4);
 }
 
 .ai-message-time {
   font-size: 0.75rem;
-  color: var(--text-muted, #999);
+  color: #718096;
   padding: 0 4px;
 }
 
@@ -401,7 +408,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--text-muted, #999);
+  background: var(--accent-1, #667eea);
   animation: typing 1.4s infinite;
 }
 

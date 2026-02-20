@@ -309,12 +309,27 @@ export const ThemeProvider = ({ children }) => {
     }
   }
 
+  const getThemeColors = (themeName) => {
+    const theme = specialThemes[themeName] || lightCreamTheme
+    return {
+      bgPrimary: theme.bgPrimary,
+      bgSecondary: theme.bgSecondary,
+      bgTertiary: theme.bgTertiary,
+      textPrimary: theme.textPrimary || '#1a1a2e',
+      textSecondary: theme.textSecondary || '#4a5568',
+      accent1: theme.accent1 || theme.gradient?.[0] || '#667eea',
+      accent2: theme.accent2 || theme.gradient?.[1] || '#764ba2',
+      gradient: theme.gradient
+    }
+  }
+
   return (
     <ThemeContext.Provider value={{
       isDark,
       toggleTheme,
       activeTheme,
       setTheme,
+      getThemeColors,
       specialThemes,
       lightSpaceTheme,
       darkSpaceTheme,

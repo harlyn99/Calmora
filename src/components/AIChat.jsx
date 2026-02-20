@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Send, Settings, X, Minimize2, Maximize2, Sparkles } from 'lucide-react'
-import { AI_THEMES, generateSmartResponse, detectBestPersonality } from '../utils/aiBrain'
+import { AI_THEMES, generateSmartResponse, resetConversation } from '../utils/aiBrain'
+import { useTheme } from '../contexts/ThemeContext'
 import './AIChat.css'
 
 const AIChat = ({ embedded = false, onClose }) => {
+  const { activeTheme, getThemeColors } = useTheme()
+  const themeColors = getThemeColors(activeTheme)
+  
   const [messages, setMessages] = useState(() => {
     const saved = localStorage.getItem('aiChatMessages')
     return saved ? JSON.parse(saved) : []
@@ -79,6 +83,7 @@ const AIChat = ({ embedded = false, onClose }) => {
     if (confirm('Clear all chat history?')) {
       setMessages([])
       localStorage.removeItem('aiChatMessages')
+      resetConversation()
     }
   }
 
@@ -99,8 +104,8 @@ const AIChat = ({ embedded = false, onClose }) => {
 
   if (isMinimized && embedded) {
     return (
-      <div className="ai-chat-minimized" onClick={() => setIsMinimized(false)} style={{ background: currentTheme.bubbleColor }}>
-        <span className="ai-avatar-minimized" style={{ filter: 'grayscale(100%)' }}>{currentTheme.icon}</span>
+      <div className="ai-chat-minimized" onClick={() => setIsMinimized(false)} style={{ background: themeColors.bgSecondary }}>
+        <span className="ai-avatar-minimized">{currentTheme.icon}</span>
         <span className="ai-dot"></span>
       </div>
     )
@@ -109,16 +114,18 @@ const AIChat = ({ embedded = false, onClose }) => {
   return (
     <div className={`ai-chat-container ${embedded ? 'embedded' : 'fullscreen'}`}>
       {/* Header */}
-      <div className="ai-chat-header" style={{ background: currentTheme.headerBackground }}>
+      <div className="ai-chat-header" style={{ 
+        background: `linear-gradient(135deg, ${themeColors.bgSecondary}, ${themeColors.bgTertiary})`
+      }}>
         <div className="ai-header-left">
           <div className="ai-avatar-wrapper">
-            <div className="ai-avatar-monochrome" style={{ background: currentTheme.primaryColor, borderColor: currentTheme.primaryColor }}>
-              <span style={{ filter: 'grayscale(100%)' }}>{currentTheme.icon}</span>
+            <div className="ai-avatar-monochrome">
+              <span>{currentTheme.icon}</span>
             </div>
           </div>
           <div className="ai-info">
-            <h3 className="ai-name" style={{ color: currentTheme.textColor }}>{currentTheme.name}</h3>
-            <p className="ai-status" style={{ color: currentTheme.textMuted }}>{currentTheme.description}</p>
+            <h3 className="ai-name" style={{ color: themeColors.textPrimary }}>{currentTheme.name}</h3>
+            <p className="ai-status" style={{ color: themeColors.textSecondary }}>{currentTheme.description}</p>
           </div>
         </div>
         
@@ -162,12 +169,12 @@ const AIChat = ({ embedded = false, onClose }) => {
                 className={`personality-option ${personality === p.id ? 'active' : ''}`}
                 onClick={() => handlePersonalityChange(p.id)}
                 style={{ 
-                  borderColor: personality === p.id ? p.primaryColor : 'rgba(0,0,0,0.1)',
-                  background: personality === p.id ? `${p.primaryColor}15` : 'var(--bg-secondary, #f5f5f5)'
+                  borderColor: personality === p.id ? themeColors.accent1 : 'rgba(0,0,0,0.1)',
+                  background: personality === p.id ? `${themeColors.accent1}15` : 'var(--bg-secondary, #f5f5f5)'
                 }}
               >
-                <span className="personality-avatar" style={{ filter: personality === p.id ? 'none' : 'grayscale(100%)' }}>{p.icon}</span>
-                <span className="personality-name" style={{ color: currentTheme.textColor }}>{p.name}</span>
+                <span className="personality-avatar">{p.icon}</span>
+                <span className="personality-name" style={{ color: themeColors.textPrimary }}>{p.name}</span>
               </button>
             ))}
           </div>
@@ -178,12 +185,14 @@ const AIChat = ({ embedded = false, onClose }) => {
       )}
 
       {/* Messages */}
-      <div className="ai-messages-container" style={{ background: currentTheme.background }}>
+      <div className="ai-messages-container" style={{ 
+        background: `linear-gradient(135deg, ${themeColors.bgPrimary}, ${themeColors.bgSecondary})`
+      }}>
         {messages.length === 0 ? (
           <div className="ai-empty-state">
-            <div className="ai-empty-avatar" style={{ filter: 'grayscale(100%)' }}>{currentTheme.icon}</div>
-            <h4 style={{ color: currentTheme.textColor }}>Hi, I'm {currentTheme.name}</h4>
-            <p style={{ color: currentTheme.textMuted }}>{currentTheme.description}</p>
+            <div className="ai-empty-avatar">{currentTheme.icon}</div>
+            <h4 style={{ color: themeColors.textPrimary }}>Hi, I'm {currentTheme.name}</h4>
+            <p style={{ color: themeColors.textSecondary }}>{currentTheme.description}</p>
             <div className="ai-suggestions">
               <button onClick={() => setInput('How are you today?')}>How are you today?</button>
               <button onClick={() => setInput('I need some motivation')}>I need motivation</button>
@@ -197,7 +206,7 @@ const AIChat = ({ embedded = false, onClose }) => {
                 {msg.sender === 'ai' && (
                   <div className="ai-message-avatar">
                     <span className="avatar-monochrome">
-                      {AI_PERSONALITIES[msg.personality]?.avatar || currentPersonality.avatar}
+                      {currentTheme.icon}
                     </span>
                   </div>
                 )}
@@ -212,7 +221,9 @@ const AIChat = ({ embedded = false, onClose }) => {
             {isTyping && (
               <div className="ai-message ai typing">
                 <div className="ai-message-avatar">
-                  <span className="avatar-monochrome">{currentPersonality.avatar}</span>
+                  <span className="avatar-monochrome">
+                    {currentTheme.icon}
+                  </span>
                 </div>
                 <div className="ai-message-content typing-indicator">
                   <span></span>

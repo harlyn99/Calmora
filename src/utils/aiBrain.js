@@ -1,5 +1,5 @@
-// AI Brain - Smart Response System
-// This contains the AI's knowledge base and response logic
+// Advanced AI Brain with Context Awareness
+// Smart response system with memory and personality
 
 export const AI_KNOWLEDGE = {
   // Greeting responses based on time
@@ -7,22 +7,48 @@ export const AI_KNOWLEDGE = {
     morning: [
       "Good morning! ☀️ Ready to start a productive day?",
       "Morning! I hope you slept well. What's your plan today?",
-      "Rise and shine! Let's make today amazing together!"
+      "Rise and shine! Let's make today amazing together!",
+      "Good morning! How did you sleep? Ready to tackle your goals?"
     ],
     afternoon: [
       "Good afternoon! How's your day going so far?",
       "Hey! Hope you're having a productive day. Need any help?",
-      "Afternoon! Take a break if you need to. How are you?"
+      "Afternoon! Take a break if you need to. How are you?",
+      "Good afternoon! You're doing great. What's on your mind?"
     ],
     evening: [
       "Good evening! Time to wind down. How was your day?",
       "Evening! You did great today. Want to talk about it?",
-      "Hey there! Ready to relax? How did today go?"
+      "Hey there! Ready to relax? How did today go?",
+      "Good evening! Proud of you for today. What happened?"
     ],
     night: [
       "Good night! 🌙 It's late, but I'm here if you need me.",
       "Still up? Make sure to rest soon. What's on your mind?",
-      "Night owl, huh? I'm here for you. What's wrong?"
+      "Night owl, huh? I'm here for you. What's wrong?",
+      "Hey! Can't sleep? Want to talk about it?"
+    ]
+  },
+
+  // Follow-up questions to keep conversation going
+  followUps: {
+    howAreYou: [
+      "What made you feel that way?",
+      "Tell me more about that.",
+      "How long have you been feeling like this?",
+      "Is there anything specific that triggered this?"
+    ],
+    work: [
+      "What specifically are you working on?",
+      "What's the biggest challenge you're facing?",
+      "How can I help you with that?",
+      "What's your next step?"
+    ],
+    feelings: [
+      "What do you think would help right now?",
+      "Have you felt this way before?",
+      "What would you tell a friend who felt this way?",
+      "What do you need most right now?"
     ]
   },
 
@@ -35,7 +61,8 @@ export const AI_KNOWLEDGE = {
     "Don't give up! Your future self will thank you for not quitting.",
     "Every expert was once a beginner. Keep going!",
     "You're capable of amazing things. Trust the process!",
-    "Challenges are opportunities in disguise. You got this!"
+    "Challenges are opportunities in disguise. You got this!",
+    "One day at a time. One step at a time. You're doing great!"
   ],
 
   // Empathetic responses for sadness/stress
@@ -46,7 +73,8 @@ export const AI_KNOWLEDGE = {
     "Take a deep breath. I'm listening, and I care.",
     "It's okay to not be okay. I'm here whenever you need.",
     "You don't have to face this alone. I'm always here.",
-    "Sometimes just acknowledging the pain helps. I'm proud of you for reaching out."
+    "Sometimes just acknowledging the pain helps. I'm proud of you for reaching out.",
+    "I hear you. Your feelings matter. Tell me more."
   ],
 
   // Productivity tips
@@ -57,7 +85,8 @@ export const AI_KNOWLEDGE = {
     "Remove distractions: put your phone away and focus on one thing.",
     "Remember why you started. Your goals are worth it!",
     "Progress over perfection. Just start, even if it's small.",
-    "You don't have to be perfect. Done is better than perfect!"
+    "You don't have to be perfect. Done is better than perfect!",
+    "What's the ONE thing you can do right now? Start there."
   ],
 
   // Study/work advice
@@ -66,7 +95,8 @@ export const AI_KNOWLEDGE = {
     "Take regular breaks! Your brain needs rest to absorb information.",
     "Try the Feynman Technique: teach it to understand it.",
     "Make a to-do list and prioritize by importance and deadline.",
-    "Celebrate small wins! They add up to big progress."
+    "Celebrate small wins! They add up to big progress.",
+    "Work with your energy, not against it. Take breaks when needed."
   ],
 
   // Relationship advice
@@ -85,7 +115,8 @@ export const AI_KNOWLEDGE = {
     "A 10-minute walk can do wonders for your mood. 🚶",
     "It's okay to say no. Protect your energy.",
     "Rest is productive too. Don't feel guilty about taking breaks.",
-    "You deserve love and care, especially from yourself. 💖"
+    "You deserve love and care, especially from yourself. 💖",
+    "Take a deep breath. In for 4, hold for 4, out for 4."
   ],
 
   // Fun/Playful responses
@@ -94,7 +125,8 @@ export const AI_KNOWLEDGE = {
     "High five! 🙌 You're crushing it!",
     "If you were a vegetable, you'd be a cute-cumber! 🥒",
     "I'm proud of you! *confetti noises* 🎉",
-    "You're like a human, but with more levels! 🎮"
+    "You're like a human, but with more levels! 🎮",
+    "You're doing amazing! *virtual high five*"
   ],
 
   // Philosophical wisdom
@@ -105,7 +137,8 @@ export const AI_KNOWLEDGE = {
     "This too shall pass. Everything is temporary.",
     "Happiness is not a destination, it's a way of life.",
     "Be the change you wish to see in the world. - Gandhi",
-    "The present moment is all we truly have. - Thich Nhat Hanh"
+    "The present moment is all we truly have. - Thich Nhat Hanh",
+    "Understanding comes from questioning. Keep asking why."
   ],
 
   // Handling negative thoughts
@@ -128,196 +161,186 @@ export const AI_KNOWLEDGE = {
     confused: "It's okay to be confused. Let's break it down together.",
     excited: "That's amazing! 🎉 I'm so happy for you! Tell me more!",
     proud: "You should be proud! I definitely am! Celebrate this win! 🏆"
-  }
+  },
+
+  // Conversation starters
+  starters: [
+    "How are you feeling right now?",
+    "What's been the best part of your day?",
+    "Anything on your mind you'd like to share?",
+    "How can I support you today?",
+    "What's something you're looking forward to?"
+  ]
 }
 
-// Theme configurations with proper contrast
+// Theme configurations
 export const AI_THEMES = {
   calm: {
     id: 'calm',
     name: 'Calm',
     description: 'Peaceful and soothing companion',
-    avatar: '✨',
     icon: '🌊',
-    primaryColor: '#4a90a4',
-    secondaryColor: '#2d4a5c',
-    accentColor: '#6b9ac4',
-    background: 'linear-gradient(135deg, #e8f4f8 0%, #f0f7ff 100%)',
-    headerBackground: 'linear-gradient(135deg, rgba(74, 144, 164, 0.1), rgba(107, 154, 196, 0.1))',
-    textColor: '#1a3a4a',
-    textMuted: '#5a7a8a',
-    bubbleColor: '#ffffff',
-    bubbleShadow: 'rgba(74, 144, 164, 0.15)',
-    responseStyle: 'gentle',
-    keywords: ['relax', 'breathe', 'calm', 'peace', 'quiet', 'stress', 'anxious']
+    responseStyle: 'gentle'
   },
   motivator: {
     id: 'motivator',
     name: 'Motivator',
     description: 'Energetic and inspiring coach',
-    avatar: '✨',
     icon: '⚡',
-    primaryColor: '#e67e50',
-    secondaryColor: '#c95a30',
-    accentColor: '#f39c70',
-    background: 'linear-gradient(135deg, #fff5e6 0%, #ffe8f0 100%)',
-    headerBackground: 'linear-gradient(135deg, rgba(230, 126, 80, 0.1), rgba(243, 156, 112, 0.1))',
-    textColor: '#3a2a20',
-    textMuted: '#7a5a4a',
-    bubbleColor: '#ffffff',
-    bubbleShadow: 'rgba(230, 126, 80, 0.15)',
-    responseStyle: 'energetic',
-    keywords: ['goal', 'achieve', 'motivate', 'success', 'win', 'tired', 'give up']
+    responseStyle: 'energetic'
   },
   wise: {
     id: 'wise',
     name: 'Wise',
     description: 'Thoughtful and philosophical guide',
-    avatar: '✨',
     icon: '🦉',
-    primaryColor: '#8b7355',
-    secondaryColor: '#5a4a3a',
-    accentColor: '#a99375',
-    background: 'linear-gradient(135deg, #f5f0e8 0%, #e8e4dc 100%)',
-    headerBackground: 'linear-gradient(135deg, rgba(139, 115, 85, 0.1), rgba(169, 147, 117, 0.1))',
-    textColor: '#2a2018',
-    textMuted: '#6a5a4a',
-    bubbleColor: '#ffffff',
-    bubbleShadow: 'rgba(139, 115, 85, 0.15)',
-    responseStyle: 'philosophical',
-    keywords: ['why', 'meaning', 'purpose', 'learn', 'understand', 'confused', 'wisdom']
+    responseStyle: 'philosophical'
   },
   playful: {
     id: 'playful',
     name: 'Playful',
     description: 'Fun and cheerful friend',
-    avatar: '✨',
     icon: '🎈',
-    primaryColor: '#c47eb5',
-    secondaryColor: '#9a4a8a',
-    accentColor: '#d49ec5',
-    background: 'linear-gradient(135deg, #fef5f9 0%, #f5f0ff 100%)',
-    headerBackground: 'linear-gradient(135deg, rgba(196, 126, 181, 0.1), rgba(212, 158, 197, 0.1))',
-    textColor: '#3a1a3a',
-    textMuted: '#7a4a7a',
-    bubbleColor: '#ffffff',
-    bubbleShadow: 'rgba(196, 126, 181, 0.15)',
-    responseStyle: 'playful',
-    keywords: ['fun', 'joke', 'play', 'happy', 'laugh', 'bored', 'excited']
+    responseStyle: 'playful'
   },
   supportive: {
     id: 'supportive',
     name: 'Supportive',
     description: 'Caring and empathetic listener',
-    avatar: '✨',
     icon: '🤗',
-    primaryColor: '#7eb57e',
-    secondaryColor: '#4a8a4a',
-    accentColor: '#9ec59e',
-    background: 'linear-gradient(135deg, #f0f7f0 0%, #e8f0e8 100%)',
-    headerBackground: 'linear-gradient(135deg, rgba(126, 181, 126, 0.1), rgba(158, 197, 158, 0.1))',
-    textColor: '#1a3a1a',
-    textMuted: '#4a7a4a',
-    bubbleColor: '#ffffff',
-    bubbleShadow: 'rgba(126, 181, 126, 0.15)',
-    responseStyle: 'empathetic',
-    keywords: ['sad', 'worried', 'stress', 'help', 'support', 'lonely', 'hurt']
+    responseStyle: 'empathetic'
   }
 }
 
-// Smart response generator
-export const generateSmartResponse = (message, personality = 'calm') => {
-  const lowerMessage = message.toLowerCase()
+// Conversation context tracking
+let conversationHistory = []
+let userMoodHistory = []
+
+// Detect emotion/intent from message
+const detectEmotion = (message) => {
+  const lower = message.toLowerCase()
+  
+  const emotions = {
+    sad: lower.match(/\b(sad|depressed|unhappy|down|cry|crying|hurt|pain|heartbreak|lonely|alone|miss)\b/),
+    anxious: lower.match(/\b(anxious|worried|scared|afraid|nervous|panic|stress|overwhelmed|panic)\b/),
+    tired: lower.match(/\b(tired|exhausted|drained|burnout|sleepy|fatigue|weary)\b/),
+    motivated: lower.match(/\b(motivate|inspire|goal|achieve|success|win|accomplish|determined)\b/),
+    productive: lower.match(/\b(work|study|task|todo|productivity|focus|concentrate|deadline)\b/),
+    happy: lower.match(/\b(happy|excited|great|awesome|amazing|wonderful|fantastic|joy|glad)\b/),
+    confused: lower.match(/\b(confused|unclear|don't understand|dont understand|lost|puzzled)\b/),
+    failed: lower.match(/\b(fail|failed|failure|mistake|wrong|screwed|ruined)\b/),
+    proud: lower.match(/\b(proud|accomplished|did it|success|achieved|won)\b/),
+    angry: lower.match(/\b(angry|mad|furious|annoyed|frustrated|irate)\b/),
+    grateful: lower.match(/\b(thank|thanks|appreciate|grateful|thankful)\b/)
+  }
+
+  // Find dominant emotion
+  let dominantEmotion = 'neutral'
+  let maxScore = 0
+  
+  Object.entries(emotions).forEach(([emotion, match]) => {
+    if (match && match.length > maxScore) {
+      maxScore = match.length
+      dominantEmotion = emotion
+    }
+  })
+
+  return dominantEmotion
+}
+
+// Get time-based greeting
+const getTimeGreeting = () => {
+  const hour = new Date().getHours()
+  if (hour >= 5 && hour < 12) return 'morning'
+  if (hour >= 12 && hour < 18) return 'afternoon'
+  if (hour >= 18 && hour < 22) return 'evening'
+  return 'night'
+}
+
+// Generate contextual response
+export const generateSmartResponse = (message, personality = 'calm', conversationContext = []) => {
+  const emotion = detectEmotion(message)
   const theme = AI_THEMES[personality] || AI_THEMES.calm
   
-  // Detect emotion/intent
-  const detections = {
-    isSad: lowerMessage.match(/(sad|depressed|unhappy|down|cry|crying|hurt|pain|heartbreak)/),
-    isAnxious: lowerMessage.match(/(anxious|worried|scared|afraid|nervous|panic|stress)/),
-    isTired: lowerMessage.match(/(tired|exhausted|drained|burnout|sleepy|fatigue)/),
-    isMotivated: lowerMessage.match(/(motivate|inspire|goal|achieve|success|win|accomplish)/),
-    isProductive: lowerMessage.match(/(work|study|task|todo|productivity|focus|concentrate)/),
-    isLonely: lowerMessage.match(/(lonely|alone|isolated|nobody|no one|friendless)/),
-    isExcited: lowerMessage.match(/(excited|happy|great|awesome|amazing|wonderful|fantastic)/),
-    isConfused: lowerMessage.match(/(confused|unclear|don't understand|dont understand|lost)/),
-    isFailed: lowerMessage.match(/(fail|failed|failure|mistake|wrong|screwed up)/),
-    isProud: lowerMessage.match(/(proud|accomplished|did it|success|achieved)/),
-    isOverwhelmed: lowerMessage.match(/(overwhelmed|too much|can't handle|cant handle|stressed)/),
-    needsAdvice: lowerMessage.match(/(should i|what should|how do|advice|help me|what do you think)/),
-    isGreeting: lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening|sup|yo)/),
-    isThankful: lowerMessage.match(/(thank|thanks|appreciate|grateful)/)
+  // Store in history
+  conversationHistory.push({ message, emotion, timestamp: Date.now() })
+  if (conversationHistory.length > 20) conversationHistory.shift()
+  
+  // Track mood
+  if (emotion !== 'neutral' && emotion !== 'grateful') {
+    userMoodHistory.push({ emotion, timestamp: Date.now() })
+    if (userMoodHistory.length > 50) userMoodHistory.shift()
   }
 
-  // Get time-based greeting if it's a greeting
-  if (detections.isGreeting) {
-    const hour = new Date().getHours()
-    let timeOfDay = 'afternoon'
-    if (hour >= 5 && hour < 12) timeOfDay = 'morning'
-    else if (hour >= 12 && hour < 18) timeOfDay = 'afternoon'
-    else if (hour >= 18 && hour < 22) timeOfDay = 'evening'
-    else timeOfDay = 'night'
-    
-    const greetings = AI_KNOWLEDGE.greetings[timeOfDay]
-    return greetings[Math.floor(Math.random() * greetings.length)]
-  }
-
-  // Thankful response
-  if (detections.isThankful) {
+  // 1. Handle greetings
+  if (emotion === 'grateful') {
     const responses = [
       "Always here for you! 💕",
       "That's what I'm here for! Anytime!",
       "You're welcome! Don't hesitate to reach out.",
-      "Happy to help! That's my purpose! ✨"
+      "Happy to help! That's my purpose! ✨",
+      "Anytime! That's what friends are for!"
     ]
     return responses[Math.floor(Math.random() * responses.length)]
   }
 
-  // Priority-based response selection
-  if (detections.isSad || detections.isLonely) {
+  // 2. Handle specific emotions with priority
+  if (emotion === 'sad' || emotion === 'lonely') {
     const responses = AI_KNOWLEDGE.empathy
-    return responses[Math.floor(Math.random() * responses.length)] + " Want to talk more about it?"
+    const followUp = AI_KNOWLEDGE.followUps.feelings[Math.floor(Math.random() * AI_KNOWLEDGE.followUps.feelings.length)]
+    return `${responses[Math.floor(Math.random() * responses.length)]} ${followUp}`
   }
   
-  if (detections.isAnxious || detections.isOverwhelmed) {
-    const key = detections.isAnxious ? 'anxious' : 'overwhelmed'
-    return AI_KNOWLEDGE.encouragement[key]
+  if (emotion === 'anxious' || emotion === 'overwhelmed') {
+    return AI_KNOWLEDGE.encouragement[emotion] || AI_KNOWLEDGE.encouragement.anxious
   }
   
-  if (detections.isTired) {
+  if (emotion === 'tired') {
     return AI_KNOWLEDGE.encouragement.tired + " Remember to take care of yourself!"
   }
   
-  if (detections.isMotivated) {
+  if (emotion === 'happy' || emotion === 'excited') {
+    return AI_KNOWLEDGE.encouragement.excited + " What happened? Tell me more!"
+  }
+  
+  if (emotion === 'failed') {
+    return AI_KNOWLEDGE.encouragement.failed + " What did you learn from this?"
+  }
+  
+  if (emotion === 'proud') {
+    return AI_KNOWLEDGE.encouragement.proud
+  }
+  
+  if (emotion === 'confused') {
+    return AI_KNOWLEDGE.encouragement.confused + " What's confusing you? Let's figure it out together."
+  }
+
+  if (emotion === 'motivated') {
     const responses = AI_KNOWLEDGE.motivation
     return responses[Math.floor(Math.random() * responses.length)]
   }
   
-  if (detections.isProductive) {
+  if (emotion === 'productive') {
     const responses = AI_KNOWLEDGE.productivity
     return responses[Math.floor(Math.random() * responses.length)]
   }
-  
-  if (detections.isFailed) {
-    return AI_KNOWLEDGE.encouragement.failed
-  }
-  
-  if (detections.isProud) {
-    return AI_KNOWLEDGE.encouragement.proud
-  }
-  
-  if (detections.isExcited) {
-    return AI_KNOWLEDGE.encouragement.excited
-  }
-  
-  if (detections.isConfused) {
-    return AI_KNOWLEDGE.encouragement.confused + " What's confusing you?"
-  }
-  
-  if (detections.needsAdvice) {
-    return "That's a great question! Let me think... " + AI_KNOWLEDGE.productivity[Math.floor(Math.random() * AI_KNOWLEDGE.productivity.length)] + " What specifically are you wondering about?"
+
+  // 3. Check for questions
+  if (message.includes('?')) {
+    if (message.toLowerCase().includes('how are you')) {
+      const timeOfDay = getTimeGreeting()
+      const greetings = AI_KNOWLEDGE.greetings[timeOfDay]
+      return greetings[Math.floor(Math.random() * greetings.length)] + " How about you?"
+    }
+    
+    if (message.toLowerCase().includes('what should') || message.toLowerCase().includes('advice')) {
+      return "That's a great question! Let me think... " + 
+        AI_KNOWLEDGE.productivity[Math.floor(Math.random() * AI_KNOWLEDGE.productivity.length)] + 
+        " What specifically are you wondering about?"
+    }
   }
 
-  // Default: use personality-based response
+  // 4. Default: personality-based response with context
   const styleResponses = {
     gentle: AI_KNOWLEDGE.empathy,
     energetic: AI_KNOWLEDGE.motivation,
@@ -327,25 +350,60 @@ export const generateSmartResponse = (message, personality = 'calm') => {
   }
   
   const responses = styleResponses[theme.responseStyle] || AI_KNOWLEDGE.empathy
-  return responses[Math.floor(Math.random() * responses.length)]
+  const baseResponse = responses[Math.floor(Math.random() * responses.length)]
+  
+  // Add follow-up question to keep conversation going
+  const followUps = AI_KNOWLEDGE.followUps.howAreYou
+  const followUp = followUps[Math.floor(Math.random() * followUps.length)]
+  
+  return `${baseResponse} ${followUp}`
 }
 
-// Get personality based on detected emotion
-export const detectBestPersonality = (message) => {
-  const lower = message.toLowerCase()
+// Get conversation summary
+export const getConversationSummary = () => {
+  if (conversationHistory.length === 0) return "No conversation yet."
   
-  if (lower.match(/(sad|depressed|lonely|hurt|cry)/)) return 'supportive'
-  if (lower.match(/(anxious|scared|worried|panic)/)) return 'calm'
-  if (lower.match(/(motivate|goal|success|achieve|work)/)) return 'motivator'
-  if (lower.match(/(why|meaning|purpose|philosophy|wisdom)/)) return 'wise'
-  if (lower.match(/(fun|joke|happy|excited|play)/)) return 'playful'
+  const recentEmotions = conversationHistory.slice(-10).map(c => c.emotion)
+  const emotionCounts = {}
+  recentEmotions.forEach(e => { emotionCounts[e] = (emotionCounts[e] || 0) + 1 })
   
-  return 'calm' // default
+  const dominantEmotion = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'neutral'
+  
+  return {
+    totalMessages: conversationHistory.length,
+    dominantEmotion,
+    recentEmotions: emotionCounts
+  }
+}
+
+// Reset conversation
+export const resetConversation = () => {
+  conversationHistory = []
+  userMoodHistory = []
+}
+
+// Get mood trend
+export const getMoodTrend = () => {
+  if (userMoodHistory.length < 3) return 'insufficient data'
+  
+  const recentMoods = userMoodHistory.slice(-10)
+  const positiveEmotions = ['happy', 'motivated', 'proud', 'grateful']
+  const negativeEmotions = ['sad', 'anxious', 'tired', 'failed', 'angry']
+  
+  const positiveCount = recentMoods.filter(m => positiveEmotions.includes(m.emotion)).length
+  const negativeCount = recentMoods.filter(m => negativeEmotions.includes(m.emotion)).length
+  
+  if (positiveCount > negativeCount) return 'improving'
+  if (negativeCount > positiveCount) return 'declining'
+  return 'stable'
 }
 
 export default {
   AI_KNOWLEDGE,
   AI_THEMES,
   generateSmartResponse,
-  detectBestPersonality
+  detectEmotion,
+  getConversationSummary,
+  resetConversation,
+  getMoodTrend
 }
