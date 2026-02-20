@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import './VirtualPetPage.css'
 
 const PET_TYPES = [
-  { id: 'bear', name: 'Beruang', emoji: '🐻', color: '#8B7355', secondary: '#6B5345' },
-  { id: 'dog', name: 'Guguk', emoji: '🐶', color: '#D4A574', secondary: '#C49564' },
-  { id: 'cat', name: 'Kucing', emoji: '🐱', color: '#C4A584', secondary: '#B49574' },
-  { id: 'bunny', name: 'Kelinci', emoji: '🐰', color: '#E8D5C4', secondary: '#D8C5B4' }
+  { id: 'bear', name: 'Beruang', emoji: '🐻', color: '#8B7355', secondary: '#6B5345', accent: '#A08060' },
+  { id: 'dog', name: 'Guguk', emoji: '🐶', color: '#D4A574', secondary: '#C49564', accent: '#E0B584' },
+  { id: 'cat', name: 'Kucing', emoji: '🐱', color: '#C4A584', secondary: '#B49574', accent: '#D4B594' },
+  { id: 'bunny', name: 'Kelinci', emoji: '🐰', color: '#E8D5C4', secondary: '#D8C5B4', accent: '#F0E0D4' },
+  { id: 'elephant', name: 'Gajah', emoji: '🐘', color: '#9CA3AF', secondary: '#6B7280', accent: '#B0B8C0' }
 ]
 
 const FOODS = [
@@ -16,23 +17,70 @@ const FOODS = [
   { id: 3, name: 'Ikan', cost: 100, icon: '🐟', happy: 25, heal: 10, fill: 25 },
   { id: 4, name: 'Obat', cost: 150, icon: '💊', happy: 5, heal: 30, fill: 0 },
   { id: 5, name: 'Crown', cost: 200, icon: '👑', happy: 50, heal: 0, fill: 0 },
-  { id: 6, name: 'Diamond', cost: 500, icon: '💎', happy: 100, heal: 50, fill: 0 }
+  { id: 6, name: 'Diamond', cost: 500, icon: '💎', happy: 100, heal: 50, fill: 0 },
+  { id: 7, name: 'Wortel', cost: 60, icon: '🥕', happy: 15, heal: 5, fill: 20 },
+  { id: 8, name: 'Pisang', cost: 55, icon: '🍌', happy: 12, heal: 5, fill: 18 },
+  { id: 9, name: 'Anggur', cost: 70, icon: '🍇', happy: 18, heal: 8, fill: 15 },
+  { id: 10, name: 'Semangka', cost: 80, icon: '🍉', happy: 20, heal: 10, fill: 22 },
+  { id: 11, name: 'Roti', cost: 65, icon: '🍞', happy: 15, heal: 5, fill: 20 },
+  { id: 12, name: 'Keju', cost: 90, icon: '🧀', happy: 22, heal: 8, fill: 18 },
+  { id: 13, name: 'Telur', cost: 85, icon: '🥚', happy: 18, heal: 10, fill: 20 },
+  { id: 14, name: 'Daging', cost: 120, icon: '🍖', happy: 28, heal: 12, fill: 30 },
+  { id: 15, name: 'Es Krim', cost: 95, icon: '🍦', happy: 30, heal: -5, fill: 15 },
+  { id: 16, name: 'Donat', cost: 85, icon: '🍩', happy: 25, heal: 5, fill: 18 },
+  { id: 17, name: 'Permen', cost: 40, icon: '🍬', happy: 15, heal: -3, fill: 8 },
+  { id: 18, name: 'Coklat', cost: 75, icon: '🍫', happy: 22, heal: 5, fill: 12 },
+  { id: 19, name: 'Popcorn', cost: 50, icon: '🍿', happy: 18, heal: 3, fill: 10 },
+  { id: 20, name: 'Susu', cost: 70, icon: '🥛', happy: 15, heal: 10, fill: 15 }
 ]
 
 const CLOTHES = [
+  // Shirts
   { id: 'shirt_red', name: 'Kaos Merah', cost: 150, icon: '👕', color: '#ef4444', type: 'shirt' },
   { id: 'shirt_blue', name: 'Kaos Biru', cost: 150, icon: '👕', color: '#3b82f6', type: 'shirt' },
-  { id: 'bow_pink', name: 'Pita Pink', cost: 200, icon: '🎀', color: '#ec4899', type: 'bow' },
-  { id: 'hat', name: 'Topi', cost: 250, icon: '🎩', color: '#8B4513', type: 'hat' }
+  { id: 'shirt_green', name: 'Kaos Hijau', cost: 150, icon: '👕', color: '#22c55e', type: 'shirt' },
+  { id: 'shirt_yellow', name: 'Kaos Kuning', cost: 150, icon: '👕', color: '#eab308', type: 'shirt' },
+  { id: 'shirt_purple', name: 'Kaos Ungu', cost: 150, icon: '👕', color: '#a855f7', type: 'shirt' },
+  { id: 'shirt_pink', name: 'Kaos Pink', cost: 150, icon: '👕', color: '#ec4899', type: 'shirt' },
+  { id: 'shirt_black', name: 'Kaos Hitam', cost: 180, icon: '👕', color: '#1f2937', type: 'shirt' },
+  { id: 'shirt_white', name: 'Kaos Putih', cost: 180, icon: '👕', color: '#f3f4f6', type: 'shirt' },
+  { id: 'shirt_orange', name: 'Kaos Orange', cost: 150, icon: '👕', color: '#f97316', type: 'shirt' },
+  { id: 'shirt_cyan', name: 'Kaos Cyan', cost: 150, icon: '👕', color: '#06b6d4', type: 'shirt' },
+  
+  // Bows & Accessories
+  { id: 'bow_pink', name: 'Pita Pink', cost: 200, icon: '🎀', color: '#ec4899', type: 'accessory' },
+  { id: 'bow_blue', name: 'Pita Biru', cost: 200, icon: '🎀', color: '#3b82f6', type: 'accessory' },
+  { id: 'bow_purple', name: 'Pita Ungu', cost: 200, icon: '🎀', color: '#a855f7', type: 'accessory' },
+  { id: 'bow_red', name: 'Pita Merah', cost: 200, icon: '🎀', color: '#dc2626', type: 'accessory' },
+  { id: 'hat', name: 'Topi Hitam', cost: 250, icon: '🎩', color: '#1f2937', type: 'accessory' },
+  { id: 'hat_red', name: 'Topi Merah', cost: 250, icon: '🎩', color: '#dc2626', type: 'accessory' },
+  { id: 'hat_blue', name: 'Topi Biru', cost: 250, icon: '🎩', color: '#2563eb', type: 'accessory' },
+  { id: 'glasses', name: 'Kacamata', cost: 180, icon: '👓', color: '#1e293b', type: 'accessory' },
+  { id: 'sunglasses', name: 'Kacamata Hitam', cost: 220, icon: '🕶️', color: '#0f172a', type: 'accessory' },
+  { id: 'crown', name: 'Mahkota', cost: 500, icon: '👑', color: '#fbbf24', type: 'accessory' },
+  { id: 'flower', name: 'Bunga', cost: 180, icon: '🌸', color: '#f472b6', type: 'accessory' },
+  { id: 'star', name: 'Bintang', cost: 200, icon: '⭐', color: '#fbbf24', type: 'accessory' },
+  { id: 'heart', name: 'Hati', cost: 180, icon: '❤️', color: '#ef4444', type: 'accessory' },
+  { id: 'moon', name: 'Bulan', cost: 200, icon: '🌙', color: '#fcd34d', type: 'accessory' },
+  
+  // Special
+  { id: 'scarf', name: 'Syal', cost: 280, icon: '🧣', color: '#dc2626', type: 'accessory' },
+  { id: 'tie', name: 'Dasi', cost: 250, icon: '👔', color: '#2563eb', type: 'accessory' },
+  { id: 'cape', name: 'Jubah', cost: 350, icon: '🦸', color: '#7c3aed', type: 'accessory' },
+  { id: 'wings', name: 'Sayap', cost: 400, icon: '🪽', color: '#ffffff', type: 'accessory' }
 ]
 
 const ROOM_THEMES = [
   { id: 'default', name: 'Kamar', cost: 0, bg: 'linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%)', icon: '🏠' },
+  { id: 'bedroom', name: 'Kamar Tidur', cost: 300, bg: 'linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)', icon: '🛏️' },
   { id: 'garden', name: 'Taman', cost: 500, bg: 'linear-gradient(180deg, #a8edea 0%, #fed6e3 100%)', icon: '🌳' },
   { id: 'beach', name: 'Pantai', cost: 500, bg: 'linear-gradient(180deg, #4facfe 0%, #00f2fe 100%)', icon: '🏖️' },
   { id: 'sunset', name: 'Senja', cost: 500, bg: 'linear-gradient(180deg, #ff9a8b 0%, #ff6a88 100%)', icon: '🌅' },
   { id: 'forest', name: 'Hutan', cost: 750, bg: 'linear-gradient(180deg, #56ab2f 0%, #a8e063 100%)', icon: '🌲' },
-  { id: 'space', name: 'Angkasa', cost: 1000, bg: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)', icon: '🌌' }
+  { id: 'space', name: 'Angkasa', cost: 1000, bg: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)', icon: '🌌' },
+  { id: 'castle', name: 'Istana', cost: 1500, bg: 'linear-gradient(180deg, #f8e8ff 0%, #e8d5ff 100%)', icon: '🏰' },
+  { id: 'cafe', name: 'Kafe', cost: 800, bg: 'linear-gradient(180deg, #fff5e6 0%, #ffe0b2 100%)', icon: '☕' },
+  { id: 'school', name: 'Sekolah', cost: 600, bg: 'linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%)', icon: '🏫' }
 ]
 
 const MINIGAMES = [
@@ -132,30 +180,30 @@ export default function VirtualPetPage() {
     return () => clearInterval(timer)
   }, [])
 
-  // Decay stats
+  // Decay stats - SLOWER rates
   useEffect(() => {
     const timer = setInterval(() => {
       setPet(p => {
-        const newHunger = Math.min(100, p.hunger + 1)
-        const newEnergy = p.isSleeping ? Math.min(100, p.energy + 1) : Math.max(0, p.energy - 0.3)
-        const newFun = Math.max(0, p.fun - 2)
-        const newHygiene = Math.max(0, p.hygiene - 0.5)
-        let newHappiness = p.happiness - 0.5
+        const newHunger = Math.min(100, p.hunger + 0.3)  // Slower: 0.3 per 3s (was 1)
+        const newEnergy = p.isSleeping ? Math.min(100, p.energy + 0.5) : Math.max(0, p.energy - 0.15)  // Slower
+        const newFun = Math.max(0, p.fun - 0.5)  // Slower: 0.5 per 3s (was 2)
+        const newHygiene = Math.max(0, p.hygiene - 0.1)  // Slower: 0.1 per 3s (was 0.5)
+        let newHappiness = p.happiness - 0.15  // Slower
         let newHealth = p.health
         let isSick = p.isSick
 
-        if (newHygiene < 30 && Math.random() < 0.05) {
+        if (newHygiene < 20 && Math.random() < 0.02) {  // Harder to get sick
           isSick = true
-          newHealth = Math.max(0, p.health - 8)
+          newHealth = Math.max(0, p.health - 5)
           showMessage('😷 ' + p.name + ' got sick! Needs bath!')
         }
 
         if (isSick) {
-          newHealth = Math.max(0, p.health - 1)
-          newHappiness = Math.max(0, p.happiness - 1)
+          newHealth = Math.max(0, p.health - 0.5)
+          newHappiness = Math.max(0, p.happiness - 0.3)
         }
 
-        if (newHunger > 90 || isSick) setPetExpression('angry')
+        if (newHunger > 95 || isSick) setPetExpression('angry')
         else if (newHappiness < 30) setPetExpression('sad')
         else if (newHappiness > 80) setPetExpression('happy')
         else setPetExpression('normal')
@@ -420,13 +468,13 @@ export default function VirtualPetPage() {
     }
   }
 
-  // Whack Game
+  // Whack Game - FASTER, MORE MOLES, NO SCROLL
   const startWhackGame = (duration) => {
     const moleInterval = setInterval(() => {
       setWhackGame(prev => {
         if (prev.timeLeft <= 0) return prev
-        const newActiveMoles = prev.activeMoles.filter(m => Date.now() - m.time < 1000)
-        if (Math.random() < 0.7 && newActiveMoles.length < 4) {
+        const newActiveMoles = prev.activeMoles.filter(m => Date.now() - m.time < 800)  // Faster disappear
+        if (Math.random() < 0.85 && newActiveMoles.length < 6) {  // More moles (max 6 instead of 4)
           const pos = Math.floor(Math.random() * 9)
           if (!newActiveMoles.find(m => m.pos === pos)) {
             newActiveMoles.push({ pos, time: Date.now(), id: Date.now() })
@@ -434,14 +482,14 @@ export default function VirtualPetPage() {
         }
         return { ...prev, activeMoles: newActiveMoles }
       })
-    }, 600)
+    }, 400)  // Faster spawn rate (400ms instead of 600ms)
 
     const timerInterval = setInterval(() => {
       setWhackGame(prev => {
         if (prev.timeLeft <= 0) {
           clearInterval(timerInterval)
           clearInterval(moleInterval)
-          if (prev.score >= 10) {
+          if (prev.score >= 15) {  // Higher target
             if (prev.round < prev.totalRounds) {
               setWhackGame({ score: 0, timeLeft: duration, clicked: [], activeMoles: [], round: prev.round + 1, totalRounds: prev.totalRounds })
               startWhackGame(duration)
@@ -517,25 +565,25 @@ export default function VirtualPetPage() {
     })
   }
 
-  // Bubble Game - NEW!
+  // Bubble Game - SUPER FAST & LOTS OF BUBBLES
   const startBubbleGame = (duration) => {
     const bubbleInterval = setInterval(() => {
       setBubbleGame(prev => {
         if (prev.timeLeft <= 0) return prev
-        const newBubbles = prev.bubbles.filter(b => b.y > -10).map(b => ({ ...b, y: b.y - 3 }))
-        if (Math.random() < 0.4 && newBubbles.length < 6) {
+        const newBubbles = prev.bubbles.filter(b => b.y > -10).map(b => ({ ...b, y: b.y - 8 }))  // SUPER FAST: -8 (was -5)
+        if (Math.random() < 0.9 && newBubbles.length < 15) {  // LOTS: max 15 (was 10), spawn rate 0.9 (was 0.7)
           newBubbles.push({ x: Math.random() * 80 + 10, y: 100, id: Date.now(), size: Math.random() * 20 + 30 })
         }
         return { ...prev, bubbles: newBubbles }
       })
-    }, 800)
+    }, 300)  // SUPER FAST spawn: 300ms (was 500ms)
 
     const timerInterval = setInterval(() => {
       setBubbleGame(prev => {
         if (prev.timeLeft <= 0) {
           clearInterval(timerInterval)
           clearInterval(bubbleInterval)
-          if (prev.score >= 12) {
+          if (prev.score >= 30) {  // Higher target for more bubbles
             if (prev.round < prev.totalRounds) {
               setBubbleGame({ bubbles: [], score: 0, timeLeft: duration, round: prev.round + 1, totalRounds: prev.totalRounds })
               startBubbleGame(duration)

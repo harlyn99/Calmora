@@ -2,6 +2,13 @@
   "name": "Calmora - React + Vite",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
   "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Calmora App",
+      "onAutoForward": "openPreview",
+      "requireLocalPort": 5173
+    }
+  },
   "postCreateCommand": "npm install",
   "customizations": {
     "vscode": {

@@ -176,50 +176,75 @@
   z-index: 1;
 }
 
+/* BEAR TAIL - Small round fluffy tail */
 .pet-tail-bear {
-  width: 28px;
-  height: 28px;
+  width: 35px;
+  height: 35px;
   background: linear-gradient(145deg, #6B5345, #8B7355);
   border-radius: 50%;
   box-shadow: inset -3px -3px 6px rgba(0,0,0,0.2);
 }
 
+/* DOG TAIL - Long wagging tail */
 .pet-tail-dog {
-  width: 45px;
-  height: 18px;
+  width: 50px;
+  height: 22px;
   background: linear-gradient(145deg, #D4A574, #C49564);
-  border-radius: 10px;
+  border-radius: 12px;
   transform-origin: left center;
 }
 
 .pet-tail-dog.wagging { animation: tailWag 0.1s ease-in-out infinite; }
 
 @keyframes tailWag {
-  0%, 100% { transform: rotate(-45deg); }
-  50% { transform: rotate(45deg); }
+  0%, 100% { transform: rotate(-50deg); }
+  50% { transform: rotate(50deg); }
 }
 
+/* CAT TAIL - Long curved tail */
 .pet-tail-cat {
-  width: 18px;
-  height: 60px;
+  width: 20px;
+  height: 70px;
   background: linear-gradient(145deg, #C4A584, #B49574);
-  border-radius: 10px;
+  border-radius: 12px;
   transform-origin: bottom center;
 }
 
-.pet-tail-cat.wagging { animation: catTailWag 0.2s ease-in-out infinite; }
+.pet-tail-cat.wagging { animation: catTailWag 0.3s ease-in-out infinite; }
 
 @keyframes catTailWag {
-  0%, 100% { transform: rotate(-30deg); }
-  50% { transform: rotate(30deg); }
+  0%, 100% { transform: rotate(-35deg); }
+  50% { transform: rotate(35deg); }
 }
 
+/* BUNNY TAIL - Fluffy cotton ball */
 .pet-tail-bunny {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(145deg, #F8E8D4, #E8D5C4);
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(145deg, #FFF, #F8E8D4);
   border-radius: 50%;
   box-shadow: inset -3px -3px 6px rgba(0,0,0,0.1);
+}
+
+/* ELEPHANT TAIL - Thin with tuft */
+.pet-tail-elephant {
+  width: 12px;
+  height: 60px;
+  background: linear-gradient(145deg, #9CA3AF, #6B7280);
+  border-radius: 6px;
+  transform-origin: top center;
+}
+
+.pet-tail-elephant::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(145deg, #9CA3AF, #6B7280);
+  border-radius: 50%;
 }
 
 /* BODY MAIN - Central connected piece */
@@ -233,41 +258,63 @@
   z-index: 5;
 }
 
+/* BEAR BODY - Round and chubby */
 .pet-bear .cute-body-main {
   background: linear-gradient(145deg, #6B5345, #8B7355);
-  border-radius: 50% 50% 45% 45%;
+  border-radius: 55% 55% 45% 45%;
+  width: 130px;
+  height: 110px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2), inset 8px 8px 20px rgba(255,255,255,0.15);
 }
 
+/* DOG BODY - Elongated and playful */
 .pet-dog .cute-body-main {
   background: linear-gradient(145deg, #D4A574, #C49564);
-  border-radius: 50% 50% 45% 45%;
+  border-radius: 50% 50% 50% 50%;
+  width: 140px;
+  height: 95px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.15), inset 8px 8px 20px rgba(255,255,255,0.25);
 }
 
+/* CAT BODY - Sleek and elegant */
 .pet-cat .cute-body-main {
   background: linear-gradient(145deg, #C4A584, #B49574);
-  border-radius: 50% 50% 45% 45%;
+  border-radius: 50% 50% 55% 55%;
+  width: 115px;
+  height: 95px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.15), inset 8px 8px 20px rgba(255,255,255,0.25);
 }
 
+/* BUNNY BODY - Small and fluffy */
 .pet-bunny .cute-body-main {
   background: linear-gradient(145deg, #E8D5C4, #D8C5B4);
-  border-radius: 50% 50% 45% 45%;
+  border-radius: 55% 55% 50% 50%;
+  width: 110px;
+  height: 95px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.1), inset 8px 8px 20px rgba(255,255,255,0.35);
 }
 
-/* Shirt */
+/* ELEPHANT BODY - Large and bulky */
+.pet-elephant .cute-body-main {
+  background: linear-gradient(145deg, #9CA3AF, #6B7280);
+  border-radius: 50% 50% 45% 45%;
+  width: 150px;
+  height: 120px;
+  box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2), inset 8px 8px 20px rgba(255,255,255,0.2);
+}
+
+/* Shirt - VISIBLE on body */
 .pet-shirt {
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90px;
-  height: 65px;
-  border-radius: 20px 20px 30px 30px;
-  z-index: 6;
-  box-shadow: inset -3px -3px 8px rgba(0,0,0,0.15);
+  width: 100px;
+  height: 75px;
+  border-radius: 25px 25px 35px 35px;
+  z-index: 10;
+  box-shadow: inset -4px -4px 10px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15);
+  border: 3px solid rgba(255,255,255,0.2);
 }
 
 /* LEGS - Connected to body bottom */
@@ -301,6 +348,7 @@
 .pet-dog .cute-leg { background: linear-gradient(145deg, #D4A574, #C49564); }
 .pet-cat .cute-leg { background: linear-gradient(145deg, #C4A584, #B49574); }
 .pet-bunny .cute-leg { background: linear-gradient(145deg, #E8D5C4, #D8C5B4); }
+.pet-elephant .cute-leg { background: linear-gradient(145deg, #9CA3AF, #6B7280); }
 
 /* HEAD - Connected to body top (BIG!) */
 .cute-head {
@@ -310,69 +358,91 @@
   transform: translateX(-50%);
   width: 140px;
   height: 120px;
-  z-index: 10;
+  z-index: 5;
 }
 
+/* BEAR HEAD - Round with small ears */
 .pet-bear .cute-head {
   background: linear-gradient(145deg, #6B5345, #8B7355);
-  border-radius: 50% 50% 48% 48%;
+  border-radius: 55% 55% 45% 45%;
+  width: 145px;
+  height: 125px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2), inset 8px 8px 20px rgba(255,255,255,0.15);
 }
 
+/* DOG HEAD - With snout */
 .pet-dog .cute-head {
   background: linear-gradient(145deg, #D4A574, #C49564);
-  border-radius: 50% 50% 48% 48%;
+  border-radius: 50% 50% 55% 55%;
+  width: 150px;
+  height: 130px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.15), inset 8px 8px 20px rgba(255,255,255,0.25);
 }
 
+/* CAT HEAD - Pointy and sleek */
 .pet-cat .cute-head {
   background: linear-gradient(145deg, #C4A584, #B49574);
-  border-radius: 50% 50% 48% 48%;
+  border-radius: 50% 50% 50% 50%;
+  width: 135px;
+  height: 115px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.15), inset 8px 8px 20px rgba(255,255,255,0.25);
 }
 
+/* BUNNY HEAD - Elongated with long ears base */
 .pet-bunny .cute-head {
   background: linear-gradient(145deg, #E8D5C4, #D8C5B4);
-  border-radius: 50% 50% 48% 48%;
+  border-radius: 50% 50% 55% 55%;
+  width: 130px;
+  height: 115px;
   box-shadow: inset -8px -8px 20px rgba(0,0,0,0.1), inset 8px 8px 20px rgba(255,255,255,0.35);
 }
 
-/* Hat */
+/* ELEPHANT HEAD - Large with trunk area */
+.pet-elephant .cute-head {
+  background: linear-gradient(145deg, #9CA3AF, #6B7280);
+  border-radius: 50% 50% 50% 50%;
+  width: 160px;
+  height: 140px;
+  box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2), inset 8px 8px 20px rgba(255,255,255,0.2);
+}
+
+/* Hat - VISIBLE on head */
 .pet-hat {
   position: absolute;
-  top: -10px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 30px;
+  width: 70px;
+  height: 35px;
   border-radius: 50% 50% 0 0;
   z-index: 15;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 3px solid rgba(255,255,255,0.2);
 }
 
 .pet-hat::before {
   content: '';
   position: absolute;
-  bottom: -6px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70px;
-  height: 10px;
+  width: 85px;
+  height: 12px;
   background: inherit;
-  border-radius: 4px;
+  border-radius: 6px;
   filter: brightness(0.85);
 }
 
-/* EARS - Connected to head top */
+/* EARS - Connected to head top - BEHIND the head */
 .cute-ears {
   position: absolute;
-  top: -15px;
+  top: -25px;
   left: 50%;
   transform: translateX(-50%);
   width: 150px;
   display: flex;
   justify-content: space-between;
-  z-index: 11;
+  z-index: 1;
 }
 
 .cute-ear {
@@ -381,35 +451,58 @@
   border-radius: 50% 50% 45% 45%;
 }
 
+/* BEAR EARS - Small round fluffy on top of head */
 .pet-ear-bear {
   background: linear-gradient(145deg, #6B5345, #8B7355);
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
+  box-shadow: inset -3px -3px 8px rgba(0,0,0,0.2);
 }
 
+/* DOG EARS - Floppy hanging on top of head */
 .pet-ear-dog {
   background: linear-gradient(145deg, #D4A574, #C49564);
-  height: 60px;
-  border-radius: 50% 50% 35% 35%;
+  width: 50px;
+  height: 75px;
+  border-radius: 50% 50% 40% 40%;
 }
 
-.cute-ear.left.pet-ear-dog { transform: rotate(-20deg); }
-.cute-ear.right.pet-ear-dog { transform: rotate(20deg); }
+.cute-ear.left.pet-ear-dog { transform: rotate(-25deg); }
+.cute-ear.right.pet-ear-dog { transform: rotate(25deg); }
 
+/* CAT EARS - Pointy triangle on top of head */
 .pet-ear-cat {
   background: linear-gradient(145deg, #C4A584, #B49574);
-  width: 40px;
-  height: 55px;
-  border-radius: 50% 50% 0 0;
+  width: 45px;
+  height: 65px;
+  border-radius: 50% 50% 10% 10%;
 }
 
+.cute-ear.left.pet-ear-cat { transform: rotate(-15deg); }
+.cute-ear.right.pet-ear-cat { transform: rotate(15deg); }
+
+/* BUNNY EARS - Long upright on top of head */
 .pet-ear-bunny {
   background: linear-gradient(145deg, #E8D5C4, #D8C5B4);
-  width: 30px;
-  height: 75px;
-  border-radius: 50% 50% 0 0;
+  width: 35px;
+  height: 95px;
+  border-radius: 50% 50% 30% 30%;
 }
+
+.cute-ear.left.pet-ear-bunny { transform: rotate(-8deg); }
+.cute-ear.right.pet-ear-bunny { transform: rotate(8deg); }
+
+/* ELEPHANT EARS - Big floppy on sides of head */
+.pet-ear-elephant {
+  background: linear-gradient(145deg, #9CA3AF, #6B7280);
+  width: 75px;
+  height: 90px;
+  border-radius: 50% 50% 45% 45%;
+}
+
+.cute-ear.left.pet-ear-elephant { transform: rotate(-30deg) translateX(-10px); }
+.cute-ear.right.pet-ear-elephant { transform: rotate(30deg) translateX(10px); }
 
 /* FACE */
 .cute-face {
@@ -502,6 +595,13 @@
   height: 14px;
 }
 
+.pet-elephant .cute-nose {
+  background: #5A6070;
+  width: 24px;
+  height: 20px;
+  border-radius: 50% 50% 60% 60%;
+}
+
 /* MOUTH */
 .cute-mouth {
   position: absolute;
@@ -566,6 +666,7 @@
 .pet-dog .cute-arm { background: linear-gradient(145deg, #D4A574, #C49564); }
 .pet-cat .cute-arm { background: linear-gradient(145deg, #C4A584, #B49574); }
 .pet-bunny .cute-arm { background: linear-gradient(145deg, #E8D5C4, #D8C5B4); }
+.pet-elephant .cute-arm { background: linear-gradient(145deg, #9CA3AF, #6B7280); }
 
 .cute-arm.left.waving { animation: armWave 0.5s ease-in-out infinite; }
 
@@ -581,21 +682,23 @@
   50% { transform: rotate(50deg) translateY(-5px); }
 }
 
-/* BOW */
+/* BOW - VISIBLE on body */
 .pet-bow {
   position: absolute;
-  top: 30px;
+  top: 40px;
   right: 20px;
-  width: 30px;
-  height: 30px;
-  z-index: 20;
+  width: 40px;
+  height: 40px;
+  z-index: 15;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .pet-bow .bow-loop {
   position: absolute;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
 }
 
 .pet-bow .bow-loop.left { left: 0; }
@@ -1186,12 +1289,16 @@
   display: inline-block;
 }
 
-/* WHACK GAME */
+/* WHACK GAME - NO SCROLL */
 .whack-game {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-bottom: 16px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
 }
 
 .whack-hole {
@@ -1214,6 +1321,8 @@
   transform: translateX(-50%);
   font-size: 44px;
   animation: molePop 0.15s ease-out;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 @keyframes molePop {
@@ -1246,7 +1355,7 @@
 .memory-card.flipped { background: var(--card-bg, #ffffff); border: 3px solid var(--accent-primary, #667eea); }
 .memory-card span { transition: transform 0.3s; }
 
-/* BUBBLE GAME */
+/* BUBBLE GAME - FIX */
 .bubble-game {
   position: relative;
   width: 100%;
@@ -1256,6 +1365,7 @@
   overflow: hidden;
   margin-bottom: 16px;
   border: 3px solid #667eea;
+  touch-action: none;
 }
 
 .bubble {
@@ -1266,6 +1376,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bubble:hover { transform: scale(1.2); }

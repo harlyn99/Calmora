@@ -9,16 +9,17 @@
     "lint": "eslint src --ext .jsx,.js"
   },
   "dependencies": {
+    "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.0",
-    "lucide-react": "^0.294.0"
+    "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.8",
     "eslint": "^8.54.0",
     "eslint-plugin-react": "^7.33.2",
-    "sass": "^1.69.5"
+    "localtunnel": "^2.0.2",
+    "sass": "^1.69.5",
+    "vite": "^5.0.8"
   }
 }

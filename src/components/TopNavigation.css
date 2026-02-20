@@ -207,7 +207,7 @@
   background: rgba(201, 77, 92, 0.1);
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - Horizontal Scroll */
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 12px;
@@ -220,26 +220,45 @@
   }
 
   .nav-menu {
-    gap: 12px;
+    gap: 8px;
     font-size: 13px;
+    padding: 8px 4px;
   }
 
   .nav-menu a {
-    padding: 6px 10px;
+    padding: 8px 12px;
+    font-size: 12px;
   }
 
   .dropdown-menu {
     min-width: 180px;
     right: -10px;
   }
-}
 
-@media (max-width: 600px) {
-  .nav-menu {
-    display: none;
+  .desktop-only {
+    display: none !important;
   }
 
-  .nav-container {
-    justify-content: space-between;
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-menu a {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+/* Mobile - Hide scrollbar for cleaner look */
+@media (max-width: 768px) {
+  .nav-menu {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .nav-menu::-webkit-scrollbar {
+    display: none;
   }
 }

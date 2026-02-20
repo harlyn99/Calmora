@@ -5,7 +5,7 @@
 }
 
 .dashboard-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 40px 20px;
   display: flex;
@@ -18,12 +18,44 @@
   width: 100%;
 }
 
-/* AI Chat Section */
+/* Main Grid Layout */
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* AI Chat Column */
+.ai-chat-column {
+  min-width: 0;
+}
+
 .ai-chat-section {
   width: 100%;
+}
+
+/* Side Widgets Column */
+.side-widgets-column {
   display: flex;
-  justify-content: center;
-  margin: 16px 0;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-main-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .side-widgets-column {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .side-widgets-column > * {
+    flex: 1;
+    min-width: 300px;
+  }
 }
 
 /* Greeting Card */

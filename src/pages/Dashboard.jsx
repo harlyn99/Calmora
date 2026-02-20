@@ -9,6 +9,8 @@ import InspirationalQuotes from '../components/InspirationalQuotes'
 import QuickActions from '../components/QuickActions'
 import PolaroidWall from '../components/PolaroidWall'
 import AIChat from '../components/AIChat'
+import MiniMusicPlayer from '../components/MiniMusicPlayer'
+import MiniPetWidget from '../components/MiniPetWidget'
 import adapter from '../utils/dataAdapter'
 import './Dashboard.css'
 
@@ -50,9 +52,20 @@ export const Dashboard = () => {
         {/* Smart Greeting */}
         <SmartGreeting stats={{ todos, focusSessions: focusSessions.length || 0, journalEntries }} />
 
-        {/* AI Chat Section - Center */}
-        <div className="ai-chat-section">
-          <AIChat embedded={true} />
+        {/* Main Content - Two Columns */}
+        <div className="dashboard-main-grid">
+          {/* Left: AI Chat */}
+          <div className="ai-chat-column">
+            <div className="ai-chat-section">
+              <AIChat embedded={true} />
+            </div>
+          </div>
+
+          {/* Right: Side Widgets */}
+          <div className="side-widgets-column">
+            <MiniMusicPlayer />
+            <MiniPetWidget />
+          </div>
         </div>
 
         {/* Polaroid Memory Wall */}
