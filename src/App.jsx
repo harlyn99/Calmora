@@ -28,6 +28,7 @@ import PomodoroStatsPage from './pages/PomodoroStatsPage'
 import WellnessPage from './pages/WellnessPage'
 import VirtualPetPage from './pages/VirtualPetPage'
 import MusicPlayerPage from './pages/MusicPlayerPage'
+import AIChatPage from './pages/AIChatPage'
 import useKeyboardShortcuts from './utils/useKeyboardShortcuts'
 import './styles/global.css'
 
@@ -68,6 +69,7 @@ function AppRoutes() {
       <Route path="/wellness" element={<ProtectedRoute><WellnessPage /></ProtectedRoute>} />
       <Route path="/pet" element={<ProtectedRoute><VirtualPetPage /></ProtectedRoute>} />
       <Route path="/music" element={<ProtectedRoute><MusicPlayerPage /></ProtectedRoute>} />
+      <Route path="/ai" element={<ProtectedRoute><AIChatPage /></ProtectedRoute>} />
 
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />

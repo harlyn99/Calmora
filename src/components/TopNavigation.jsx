@@ -38,8 +38,9 @@ export const TopNavigation = () => {
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/mood') }}>Mood</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/goals') }}>Goals</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/wellness') }}>Wellness</a></li>
-          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/pet') }}>Pet 🐾</a></li>
-          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/music') }}>Music 🎵</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/ai') }}>AI</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/pet') }}>Pet</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/music') }}>Music</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/review') }}>Review</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navigate('/stats') }}>Stats</a></li>
         </ul>
@@ -81,20 +82,6 @@ export const TopNavigation = () => {
                 setShowMenu(false)
               }}>
                 <Settings size={18} /> Settings
-              </button>
-
-              <button className="menu-item" onClick={() => {
-                navigate('/pet')
-                setShowMenu(false)
-              }}>
-                <span>🐾</span> Virtual Pet
-              </button>
-
-              <button className="menu-item" onClick={() => {
-                navigate('/music')
-                setShowMenu(false)
-              }}>
-                <span>🎵</span> Music Player
               </button>
 
               <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
