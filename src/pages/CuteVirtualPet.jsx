@@ -50,60 +50,115 @@ const FOODS = [
 ]
 
 // ============================================
-// CLOTHES SYSTEM - Overlay with stat bonuses
+// CLOTHES SYSTEM - Custom SVG (NO EMOJI)
 // ============================================
 const CLOTHING_CATALOG = [
   // Pajamas - Energy recovery bonus
-  { id: 'pajamas_blue', name: 'Blue Pajamas', cost: 100, icon: '👔', color: '#60A5FA', type: 'body', bonus: { energyRecovery: 50 } },
-  { id: 'pajamas_pink', name: 'Pink Pajamas', cost: 100, icon: '👔', color: '#F472B6', type: 'body', bonus: { energyRecovery: 50 } },
-  { id: 'pajamas_white', name: 'White Pajamas', cost: 130, icon: '👔', color: '#E5E7EB', type: 'body', bonus: { energyRecovery: 70 } },
-  { id: 'pajamas_green', name: 'Green Pajamas', cost: 120, icon: '👔', color: '#86EFAC', type: 'body', bonus: { energyRecovery: 60 } },
+  { 
+    id: 'pajamas_blue', 
+    name: 'Blue Pajamas', 
+    cost: 100, 
+    type: 'body', 
+    bonus: { energyRecovery: 50 },
+    component: 'PajamasBlue'
+  },
+  { 
+    id: 'pajamas_pink', 
+    name: 'Pink Pajamas', 
+    cost: 100, 
+    type: 'body', 
+    bonus: { energyRecovery: 50 },
+    component: 'PajamasPink'
+  },
+  { 
+    id: 'pajamas_white', 
+    name: 'White Pajamas', 
+    cost: 130, 
+    type: 'body', 
+    bonus: { energyRecovery: 70 },
+    component: 'PajamasWhite'
+  },
   
   // Sweaters - Happiness gain bonus
-  { id: 'sweater_red', name: 'Red Sweater', cost: 120, icon: '🧥', color: '#DC2626', type: 'body', bonus: { happinessGain: 20 } },
-  { id: 'sweater_beige', name: 'Beige Sweater', cost: 120, icon: '🧥', color: '#D4C4B0', type: 'body', bonus: { happinessGain: 20 } },
-  { id: 'sweater_blue', name: 'Blue Sweater', cost: 120, icon: '🧥', color: '#3B82F6', type: 'body', bonus: { happinessGain: 20 } },
-  { id: 'sweater_pink', name: 'Pink Sweater', cost: 130, icon: '🧥', color: '#EC4899', type: 'body', bonus: { happinessGain: 25 } },
+  { 
+    id: 'sweater_red', 
+    name: 'Red Sweater', 
+    cost: 120, 
+    type: 'body', 
+    bonus: { happinessGain: 20 },
+    component: 'SweaterRed'
+  },
+  { 
+    id: 'sweater_beige', 
+    name: 'Beige Sweater', 
+    cost: 120, 
+    type: 'body', 
+    bonus: { happinessGain: 20 },
+    component: 'SweaterBeige'
+  },
+  
+  // Wizard Set - Special bonus
+  { 
+    id: 'wizard_hat', 
+    name: 'Wizard Hat', 
+    cost: 200, 
+    type: 'head', 
+    bonus: { xp: 25, happiness: 10 },
+    component: 'WizardHat'
+  },
+  { 
+    id: 'wizard_robe', 
+    name: 'Wizard Robe', 
+    cost: 350, 
+    type: 'body', 
+    bonus: { xp: 30, happiness: 15 },
+    component: 'WizardRobe'
+  },
   
   // Wings - Happiness boost
-  { id: 'wings_white', name: 'Angel Wings', cost: 200, icon: '🪽', color: '#FFFFFF', type: 'back', bonus: { happiness: 25, xp: 15 } },
-  { id: 'wings_black', name: 'Dark Wings', cost: 200, icon: '🦇', color: '#1F2937', type: 'back', bonus: { happiness: 25, xp: 15 } },
-  { id: 'wings_rainbow', name: 'Rainbow Wings', cost: 250, icon: '🦋', color: '#F472B6', type: 'back', bonus: { happiness: 35, xp: 20 } },
-  
-  // Scarves - Mood stability
-  { id: 'scarf_red', name: 'Red Scarf', cost: 100, icon: '🧣', color: '#DC2626', type: 'neck', bonus: { moodStability: 15 } },
-  { id: 'scarf_blue', name: 'Blue Scarf', cost: 100, icon: '🧣', color: '#3B82F6', type: 'neck', bonus: { moodStability: 15 } },
-  { id: 'scarf_pink', name: 'Pink Scarf', cost: 110, icon: '🧣', color: '#EC4899', type: 'neck', bonus: { moodStability: 18 } },
-  
-  // Costumes - Special bonuses
-  { id: 'costume_chef', name: 'Chef Costume', cost: 300, icon: '👨‍🍳', color: '#FFFFFF', type: 'body', bonus: { cookingBonus: 30, happiness: 10 } },
-  { id: 'costume_nurse', name: 'Nurse Outfit', cost: 280, icon: '👩‍⚕️', color: '#F0F0F0', type: 'body', bonus: { health: 15, energyRecovery: 30 } },
-  { id: 'costume_wizard', name: 'Wizard Robe', cost: 350, icon: '🧙', color: '#7C3AED', type: 'body', bonus: { xp: 25, happiness: 15 } }
+  { 
+    id: 'angel_wings', 
+    name: 'Angel Wings', 
+    cost: 250, 
+    type: 'back', 
+    bonus: { happiness: 30, xp: 20 },
+    component: 'AngelWings'
+  }
 ]
 
 // ============================================
-// ACCESSORIES - Top layer with gameplay effects
+// ACCESSORIES - Custom SVG (NO EMOJI)
 // ============================================
 const ACCESSORIES_CATALOG = [
-  // Hats - Various bonuses
-  { id: 'hat_chef', name: 'Chef Hat', cost: 150, icon: '👨‍🍳', color: '#FFFFFF', type: 'head', bonus: { cookingBonus: 25 } },
-  { id: 'hat_garden', name: 'Garden Hat', cost: 150, icon: '👒', color: '#22C55E', type: 'head', bonus: { gardenBonus: 25 } },
-  { id: 'hat_hammer', name: 'Hammer Hat', cost: 150, icon: '🔨', color: '#6B7280', type: 'head', bonus: { whackBonus: 25 } },
-  { id: 'hat_crown', name: 'Crown', cost: 300, icon: '👑', color: '#FBBF24', type: 'head', bonus: { all: 10, coinBonus: 15 } },
-  { id: 'hat_flower', name: 'Flower', cost: 70, icon: '🌸', color: '#F472B6', type: 'head', bonus: { happiness: 15 } },
-  { id: 'hat_santa', name: 'Santa Hat', cost: 180, icon: '🎅', color: '#DC2626', type: 'head', bonus: { happiness: 20, coinBonus: 10 } },
-  { id: 'hat_witch', name: 'Witch Hat', cost: 160, icon: '🧙‍♀️', color: '#7C3AED', type: 'head', bonus: { xp: 15, happiness: 10 } },
-  { id: 'hat_cap', name: 'Baseball Cap', cost: 100, icon: '🧢', color: '#3B82F6', type: 'head', bonus: { energy: 10 } },
+  // Bows
+  { 
+    id: 'bow_pink', 
+    name: 'Pink Bow', 
+    cost: 80, 
+    type: 'head', 
+    bonus: { happiness: 10, coinBonus: 5 },
+    component: 'BowPink'
+  },
   
-  // Bows - Coin bonus
-  { id: 'bow_pink', name: 'Pink Bow', cost: 80, icon: '🎀', color: '#EC4899', type: 'head', bonus: { happiness: 10, coinBonus: 5 } },
-  { id: 'bow_blue', name: 'Blue Bow', cost: 80, icon: '🎀', color: '#3B82F6', type: 'head', bonus: { energy: 8, coinBonus: 5 } },
-  { id: 'bow_red', name: 'Red Bow', cost: 90, icon: '🎀', color: '#DC2626', type: 'head', bonus: { happiness: 12, coinBonus: 8 } },
+  // Glasses
+  { 
+    id: 'round_glasses', 
+    name: 'Round Glasses', 
+    cost: 90, 
+    type: 'face', 
+    bonus: { xp: 15 },
+    component: 'RoundGlasses'
+  },
   
-  // Glasses - XP and mood
-  { id: 'glasses_round', name: 'Round Glasses', cost: 80, icon: '👓', color: '#1E293B', type: 'face', bonus: { xp: 10 } },
-  { id: 'glasses_sun', name: 'Sunglasses', cost: 90, icon: '🕶️', color: '#0F172A', type: 'face', bonus: { moodStability: 15, happiness: 5 } },
-  { id: 'glasses_heart', name: 'Heart Glasses', cost: 100, icon: '😍', color: '#EC4899', type: 'face', bonus: { happiness: 20 } }
+  // Scarves
+  { 
+    id: 'scarf_red', 
+    name: 'Red Scarf', 
+    cost: 100, 
+    type: 'neck', 
+    bonus: { moodStability: 15, health: 5 },
+    component: 'ScarfRed'
+  }
 ]
 
 // ============================================
@@ -193,13 +248,44 @@ const FURNITURE = [
 ]
 
 // ============================================
-// MINI GAMES - Config
+// ROOM DECOR - Wallpaper, Floor, Window, Wall decor
+// ============================================
+const ROOM_DECOR = [
+  // Wallpaper
+  { id: 'wall_plain', name: 'Plain Wall', icon: '🎨', cost: 20, type: 'wallpaper', color: '#F5F5F5' },
+  { id: 'wall_stripe', name: 'Striped Wall', icon: '🎨', cost: 50, type: 'wallpaper', color: '#E8E8E8' },
+  { id: 'wall_floral', name: 'Floral Wall', icon: '🌸', cost: 80, type: 'wallpaper', color: '#FFE5E5' },
+  { id: 'wall_star', name: 'Star Wall', icon: '⭐', cost: 70, type: 'wallpaper', color: '#E8F0FF' },
+  
+  // Floor
+  { id: 'floor_wood', name: 'Wood Floor', icon: '🪵', cost: 60, type: 'floor', color: '#D4C4B0' },
+  { id: 'floor_tile', name: 'Tile Floor', icon: '⬜', cost: 70, type: 'floor', color: '#E0E0E0' },
+  { id: 'floor_carpet', name: 'Carpet Floor', icon: '🟫', cost: 80, type: 'floor', color: '#C4B4A0' },
+  
+  // Window
+  { id: 'window_small', name: 'Small Window', icon: '🪟', cost: 50, type: 'window' },
+  { id: 'window_large', name: 'Large Window', icon: '🪟', cost: 100, type: 'window' },
+  { id: 'window_bay', name: 'Bay Window', icon: '🪟', cost: 150, type: 'window' },
+  
+  // Rugs
+  { id: 'rug_small', name: 'Small Rug', icon: '🧶', cost: 40, type: 'rug' },
+  { id: 'rug_large', name: 'Large Rug', icon: '🧶', cost: 70, type: 'rug' },
+  { id: 'rug_round', name: 'Round Rug', icon: '🔴', cost: 60, type: 'rug' },
+  
+  // Wall Decor
+  { id: 'painting', name: 'Painting', icon: '🖼️', cost: 60, type: 'wall_decor' },
+  { id: 'clock', name: 'Clock', icon: '🕐', cost: 40, type: 'wall_decor' },
+  { id: 'shelf', name: 'Shelf', icon: '📐', cost: 50, type: 'wall_decor' }
+]
+
+// ============================================
+// MINI GAMES - Config (30-45 seconds MAX)
 // ============================================
 const MINI_GAMES = [
-  { id: 'whack', name: 'Whack-a-Mole', icon: '🔨', duration: 60, baseReward: 2 },
-  { id: 'garden', name: 'Garden Catch', icon: '🧺', duration: 90, baseReward: 3 },
-  { id: 'cooking', name: 'Cooking Match', icon: '🍳', duration: 120, baseReward: 4 },
-  { id: 'memory', name: 'Memory Flip', icon: '🃏', duration: 90, baseReward: 5 }
+  { id: 'whack', name: 'Whack-a-Mole', icon: '🔨', duration: 30, baseReward: 2 },  // 30s MAX
+  { id: 'garden', name: 'Garden Catch', icon: '🧺', duration: 45, baseReward: 3 },  // 45s MAX
+  { id: 'cooking', name: 'Cooking Match', icon: '🍳', duration: 45, baseReward: 4 }, // 45s MAX
+  { id: 'memory', name: 'Memory Flip', icon: '🃏', duration: 45, baseReward: 5 }     // 45s MAX
 ]
 
 export default function CuteVirtualPet() {
@@ -269,6 +355,7 @@ export default function CuteVirtualPet() {
   const [showCloset, setShowCloset] = useState(false)
   const [showBath, setShowBath] = useState(false)
   const [showPlanner, setShowPlanner] = useState(false)
+  const [showGameSelect, setShowGameSelect] = useState(false) // Game selection modal
   const [animation, setAnimation] = useState(null)
   const [message, setMessage] = useState('')
   
@@ -843,6 +930,7 @@ export default function CuteVirtualPet() {
   // MINI GAME SYSTEM
   // ============================================
   const startMiniGame = (gameId) => {
+    setShowGameSelect(false) // Close selection modal
     const game = MINI_GAMES.find(g => g.id === gameId)
     if (!game) return
     
@@ -851,7 +939,8 @@ export default function CuteVirtualPet() {
       score: 0,
       timeLeft: game.duration,
       items: [],
-      combo: 0
+      combo: 0,
+      multiplier: 1
     })
     
     // Start game timer
@@ -1247,7 +1336,7 @@ export default function CuteVirtualPet() {
           <Shirt size={20} />
           <span>Closet</span>
         </button>
-        <button className="cute-action-btn" onClick={() => startMiniGame('whack')}>
+        <button className="cute-action-btn" onClick={() => setShowGameSelect(true)}>
           <Sparkles size={20} />
           <span>Games</span>
         </button>
@@ -1388,6 +1477,68 @@ export default function CuteVirtualPet() {
                   </div>
                 </>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Food Selector Modal */}
+      {showFoodSelect && (
+        <div className="cute-modal-overlay" onClick={() => setShowFoodSelect(false)}>
+          <div className="cute-modal" onClick={e => e.stopPropagation()}>
+            <div className="cute-modal-header">
+              <h3>🍽️ Choose Food</h3>
+              <button className="cute-modal-close" onClick={() => setShowFoodSelect(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="cute-shop-content">
+              <div className="cute-shop-grid">
+                {availableFoods.map((food, index) => (
+                  <button 
+                    key={index} 
+                    className="cute-shop-item"
+                    onClick={() => selectFood(food, index)}
+                  >
+                    <span className="cute-shop-item-icon">{food.icon}</span>
+                    <span className="cute-shop-item-name">{food.name}</span>
+                    <span className="cute-shop-item-cost">
+                      +{food.happiness} 😊 +{food.energy} ⚡ -{food.fill} 🍽️
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Game Selection Modal */}
+      {showGameSelect && (
+        <div className="cute-modal-overlay" onClick={() => setShowGameSelect(false)}>
+          <div className="cute-modal" onClick={e => e.stopPropagation()}>
+            <div className="cute-modal-header">
+              <h3>🎮 Mini Games</h3>
+              <button className="cute-modal-close" onClick={() => setShowGameSelect(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="cute-shop-content">
+              <div className="cute-shop-grid">
+                {MINI_GAMES.map(game => (
+                  <button 
+                    key={game.id} 
+                    className="cute-shop-item game-select-item"
+                    onClick={() => startMiniGame(game.id)}
+                  >
+                    <span className="cute-shop-item-icon">{game.icon}</span>
+                    <span className="cute-shop-item-name">{game.name}</span>
+                    <span className="cute-shop-item-cost">
+                      ⏱️ {game.duration}s | 🪙 {game.baseReward}x
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1668,6 +1819,8 @@ function WhackAMoleGame({ gameState, setGameState }) {
 }
 
 function GardenCatchGame({ gameState, setGameState, onMiss }) {
+  const [basketX, setBasketX] = useState(50) // Basket position (percentage)
+  
   const fruits = [
     { icon: '🍎', value: 10 },
     { icon: '🍓', value: 15 },
@@ -1678,12 +1831,25 @@ function GardenCatchGame({ gameState, setGameState, onMiss }) {
 
   const handleCatch = (fruitId) => {
     const fruit = gameState.items.find(f => f.id === fruitId)
-    setGameState(prev => ({
-      ...prev,
-      score: prev.score + fruit.value * prev.multiplier,
-      multiplier: Math.min(5, prev.multiplier + 0.5),
-      items: prev.items.filter(f => f.id !== fruitId)
-    }))
+    // Check if fruit is close to basket
+    const fruitX = fruit.x
+    const distance = Math.abs(fruitX - basketX)
+    
+    if (distance < 15) { // Catchable range
+      setGameState(prev => ({
+        ...prev,
+        score: prev.score + fruit.value * prev.multiplier,
+        multiplier: Math.min(5, prev.multiplier + 0.5),
+        items: prev.items.filter(f => f.id !== fruitId)
+      }))
+    }
+  }
+
+  // Move basket with mouse/touch
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    setBasketX(Math.max(10, Math.min(90, x)))
   }
 
   // Spawn fruits
@@ -1729,7 +1895,16 @@ function GardenCatchGame({ gameState, setGameState, onMiss }) {
   }, [onMiss])
 
   return (
-    <div className="garden-catch-game">
+    <div 
+      className="garden-catch-game"
+      onMouseMove={handleMouseMove}
+      onTouchMove={(e) => {
+        const touch = e.touches[0]
+        const rect = e.currentTarget.getBoundingClientRect()
+        const x = ((touch.clientX - rect.left) / rect.width) * 100
+        setBasketX(Math.max(10, Math.min(90, x)))
+      }}
+    >
       <div className="fruit-container">
         {gameState.items.map(fruit => (
           <div
@@ -1744,6 +1919,14 @@ function GardenCatchGame({ gameState, setGameState, onMiss }) {
             {fruit.icon}
           </div>
         ))}
+      </div>
+      
+      {/* Basket */}
+      <div 
+        className="catch-basket"
+        style={{ left: `${basketX}%` }}
+      >
+        🧺
       </div>
     </div>
   )
@@ -1845,6 +2028,82 @@ function CookingMatchGame({ gameState, setGameState }) {
             onClick={() => handleSelect(i)}
           >
             {cell?.icon}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function MemoryFlipGame({ gameState, setGameState, onComplete }) {
+  const [cards, setCards] = useState([])
+  const [flipped, setFlipped] = useState([])
+  const [matched, setMatched] = useState([])
+  const [moves, setMoves] = useState(0)
+  
+  const icons = ['🍎', '🍓', '🍊', '🍇', '🍌', '🍑']
+  
+  // Initialize cards (pairs)
+  useEffect(() => {
+    const deck = [...icons, ...icons]
+      .sort(() => Math.random() - 0.5)
+      .map((icon, i) => ({ id: i, icon }))
+    setCards(deck)
+  }, [])
+  
+  const handleFlip = (index) => {
+    // Can't flip if already 2 cards flipped or card already matched/flipped
+    if (flipped.length >= 2 || flipped.includes(index) || matched.includes(index)) {
+      return
+    }
+    
+    const newFlipped = [...flipped, index]
+    setFlipped(newFlipped)
+    
+    // Check for match when 2 cards flipped
+    if (newFlipped.length === 2) {
+      setMoves(prev => prev + 1)
+      const [first, second] = newFlipped
+      
+      if (cards[first].icon === cards[second].icon) {
+        // Match!
+        setTimeout(() => {
+          setMatched(prev => [...prev, first, second])
+          setFlipped([])
+          
+          // Check if game complete
+          if (matched.length + 2 === cards.length) {
+            const coins = Math.max(10, 30 - moves) // Fewer moves = more coins
+            onComplete(coins)
+          }
+        }, 500)
+      } else {
+        // No match - flip back
+        setTimeout(() => {
+          setFlipped([])
+        }, 1000)
+      }
+    }
+  }
+  
+  return (
+    <div className="memory-flip-game">
+      <div className="memory-stats">
+        <span>Moves: {moves}</span>
+        <span>Matches: {Math.floor(matched.length / 2)}/{icons.length}</span>
+      </div>
+      
+      <div className="memory-grid">
+        {cards.map((card, i) => (
+          <div
+            key={card.id}
+            className={`memory-card ${flipped.includes(i) || matched.includes(i) ? 'flipped' : ''}`}
+            onClick={() => handleFlip(i)}
+          >
+            <div className="memory-card-inner">
+              <div className="memory-card-front">❓</div>
+              <div className="memory-card-back">{card.icon}</div>
+            </div>
           </div>
         ))}
       </div>

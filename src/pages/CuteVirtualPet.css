@@ -447,7 +447,7 @@
   z-index: 20;
 }
 
-/* DOT EYES - Big and Cute */
+/* DOT EYES - Restore to previous cute version (10px) */
 .cute-eyes {
   display: flex;
   justify-content: space-between;
@@ -460,42 +460,65 @@
 }
 
 .cute-eye {
-  width: 14px;
-  height: 14px;
-  background: #2D2D2D;
+  width: 10px;  /* Restored to 10px - NOT 6px, NOT 14px */
+  height: 10px;
+  background: #2D2D2D;  /* Soft black */
   border-radius: 50%;
   animation: blink 4s ease-in-out infinite;
   position: relative;
-}
-
-.cute-eye::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 6px;
-  height: 6px;
-  background: white;
-  border-radius: 50%;
+  /* NO highlight, NO sparkle - simple and cute */
 }
 
 /* Closed/Sleep Eyes - Curved Lines */
 .cute-eye.closed,
 .cute-eye.sleep {
-  width: 16px;
-  height: 3px;
+  width: 12px;
+  height: 2px;
   background: transparent;
-  border-bottom: 3px solid #2D2D2D;
+  border-bottom: 2px solid #2D2D2D;
   border-radius: 0;
   animation: none;
 }
 
-.cute-eye.sleep {
-  border-bottom-width: 4px;
+/* Happy Eyes - Small curved up */
+.cute-eye.happy {
+  width: 12px;
+  height: 2px;
+  background: transparent;
+  border-bottom: 2px solid #2D2D2D;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Sad Eyes - Slight downward curve */
+.cute-eye.sad {
+  width: 12px;
+  height: 2px;
+  background: transparent;
+  border-top: 2px solid #2D2D2D;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Tired Eyes - Thin horizontal line */
+.cute-eye.half,
+.cute-eye.tired {
+  width: 12px;
+  height: 2px;
+  background: #2D2D2D;
+  border-radius: 2px;
+}
+
+/* Sick Eyes - Smaller dot */
+.cute-eye.sick {
+  width: 6px;
+  height: 6px;
+  background: #2D2D2D;
+  border-radius: 50%;
 }
 
 @keyframes blink {
   0%, 96%, 100% { transform: scaleY(1); }
+  98% { transform: scaleY(0.1); }
+}
   98% { transform: scaleY(0.1); }
 }
 
@@ -542,6 +565,13 @@
   border-radius: 50%;
   border: none;
   animation: chew 0.3s ease-in-out infinite;
+}
+
+.cute-mouth.relaxed {
+  width: 8px;
+  height: 6px;
+  border-bottom: 2px solid #2D2D2D;
+  border-radius: 0 0 8px 8px;
 }
 
 @keyframes chew {
@@ -1578,4 +1608,133 @@
 .cute-bath-action-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ============================================
+   GARDEN CATCH - BASKET
+   ============================================ */
+.catch-basket {
+  position: absolute;
+  bottom: 20px;
+  font-size: 48px;
+  transform: translateX(-50%);
+  transition: left 0.1s ease-out;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* ============================================
+   MEMORY FLIP GAME
+   ============================================ */
+.memory-flip-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.memory-stats {
+  display: flex;
+  gap: 24px;
+  font-weight: 600;
+  color: var(--text-primary, #4A4A4A);
+  font-size: 16px;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 400px;
+}
+
+.memory-card {
+  width: 70px;
+  height: 70px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.memory-card-front {
+  background: linear-gradient(135deg, #FFE5E5, #FFE5F0);
+  border: 2px solid var(--accent-1, #FF6B8A);
+}
+
+.memory-card-back {
+  background: white;
+  transform: rotateY(180deg);
+  border: 2px solid var(--accent-2, #764ba2);
+}
+
+.memory-card.matched {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ============================================
+   GAME SELECT ITEM
+   ============================================ */
+.game-select-item {
+  cursor: pointer;
+}
+
+.game-select-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   FURNITURE SCALING (Proportional to Pet)
+   ============================================ */
+/* Pet base size: 160px width x 180px height */
+/* Bed: 1.5x pet width = 240px */
+.furniture-item.furniture-bed {
+  font-size: 96px; /* Scaled for pet */
+}
+
+/* Lamp: 1.8x pet height = 324px */
+.furniture-item.furniture-lighting {
+  font-size: 72px;
+}
+
+/* Bathtub: 1.7x pet width = 272px */
+.furniture-item.furniture-bathtub {
+  font-size: 88px;
+}
+
+/* Chair: 0.8x pet height = 144px */
+/* Table: 0.9x pet height = 162px */
+.furniture-item.furniture-decoration {
+  font-size: 56px;
+}
+
+.furniture-item.furniture-nature {
+  font-size: 64px;
 }
