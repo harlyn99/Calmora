@@ -7,6 +7,7 @@ export default defineConfig({
     port: 5173,
     host: '0.0.0.0',
     strictPort: true,
-    cors: true
+    cors: true,
+    allowedHosts: true  // Allow all hosts (for Cloudflare tunnel)
   }
 })

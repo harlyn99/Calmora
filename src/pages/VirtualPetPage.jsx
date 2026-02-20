@@ -1222,8 +1222,8 @@ export default function VirtualPetPage() {
                         <div className="cute-face">
                           {/* Big dot eyes */}
                           <div className="cute-eyes">
-                            <div className={`cute-eye left ${pet.isSleeping || animation === 'sleep' ? 'closed' : ''}`}></div>
-                            <div className={`cute-eye right ${pet.isSleeping || animation === 'sleep' ? 'closed' : ''}`}></div>
+                            <div className={`cute-eye left ${pet.isSleeping || animation === 'sleep' || pet.isBlinking ? 'closed' : ''}`}></div>
+                            <div className={`cute-eye right ${pet.isSleeping || animation === 'sleep' || pet.isBlinking ? 'closed' : ''}`}></div>
                           </div>
                           
                           {/* Cheeks - visible when happiness > 70 */}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calmora - Virtual Pet</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .status {
+            background: #f0fdf4;
+            color: #166534;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #22c55e;
+        }
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .features {
+            text-align: left;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .features h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .features li:before {
+            content: "✅ ";
+        }
+        code {
+            background: #1e293b;
+            color: #22d3ee;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: block;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Calmora</h1>
+        <p style="color: #64748b; margin-bottom: 20px;">Virtual Pet Planner System</p>
+        
+        <div class="status">
+            <strong>✅ Server Running!</strong><br>
+            Port: 5173 | Status: Online
+        </div>
+        
+        <h3 style="color: #667eea;">🎮 Akses Aplikasi:</h3>
+        
+        <a href="http://localhost:5173" class="button">🚀 Open Localhost</a>
+        
+        <div class="features">
+            <h3>🎉 Fitur Baru Ditambahkan:</h3>
+            <ul>
+                <li>Sickness System (Pet bisa sakit)</li>
+                <li>Bath System dengan Bathtub</li>
+                <li>30+ Makanan Baru</li>
+                <li>Medicine Shop</li>
+                <li>Planner System (Tasks, Mood, Journal)</li>
+                <li>Music System</li>
+                <li>Environment Layers</li>
+                <li>Blink Animation</li>
+                <li>Expression Binding</li>
+            </ul>
+        </div>
+        
+        <code>http://localhost:5173</code>
+        
+        <p style="color: #64748b; font-size: 14px; margin-top: 20px;">
+            <strong>Cara Akses dari GitHub Codespaces:</strong><br>
+            1. Buka tab "PORTS" di VS Code<br>
+            2. Forward port 5173<br>
+            3. Set visibility ke "Public"<br>
+            4. Klik ikon 🌐
+        </p>
+    </div>
+    
+    <script>
+        // Auto redirect after 3 seconds
+        setTimeout(() => {
+            console.log('Server is ready! Visit http://localhost:5173');
+        }, 3000);
+    </script>
+</body>
+</html>
