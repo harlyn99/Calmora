@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
-import { Play, Pause, RotateCcw } from 'lucide-react'
+import { Play, Pause, RotateCcw, Coins } from 'lucide-react'
 import storage from '../utils/storage'
 import './TimerPage.css'
 
@@ -9,8 +9,11 @@ export const TimerPage = () => {
   const [isActive, setIsActive] = useState(false)
   const [sessions, setSessions] = useState(() => parseInt(localStorage.getItem('timerSessions') || '0'))
   const [totalMinutes, setTotalMinutes] = useState(() => parseInt(localStorage.getItem('totalFocusMinutes') || '0'))
+  const [totalCoins, setTotalCoins] = useState(() => parseInt(localStorage.getItem('petCoins') || '150'))
   const [initialDuration, setInitialDuration] = useState(25 * 60)
   const [activePreset, setActivePreset] = useState(25)
+  const [showReward, setShowReward] = useState(false)
+  const [lastReward, setLastReward] = useState(0)
 
   useEffect(() => {
     let interval = null
@@ -36,6 +39,21 @@ export const TimerPage = () => {
         storage.push('focusSessions', { date: new Date().toISOString(), minutes })
         return newTotal
       })
+      
+      // Calculate and award coins based on session length
+      const baseCoins = Math.floor(initialDuration / 60) // 1 coin per minute
+      const bonusCoins = activePreset >= 25 ? 10 : 0 // Bonus for 25+ min sessions
+      const totalReward = baseCoins + bonusCoins
+      
+      setTotalCoins(c => {
+        const newCoins = c + totalReward
+        localStorage.setItem('petCoins', newCoins)
+        return newCoins
+      })
+      setLastReward(totalReward)
+      setShowReward(true)
+      setTimeout(() => setShowReward(false), 3000)
+      
       playSound()
     }
 
@@ -85,11 +103,23 @@ export const TimerPage = () => {
   return (
     <div className="timer-wrapper">
       <TopNavigation />
-      
+
       <div className="timer-container fade-in">
         <div className="timer-header">
           <h1>Focus Timer</h1>
           <p>Stay focused with the Pomodoro technique</p>
+        </div>
+
+        {/* Coin Display */}
+        <div className="coin-display neomorph-md">
+          <div className="coin-icon">
+            <Coins size={24} />
+          </div>
+          <div className="coin-info">
+            <span className="coin-label">Pet Coins</span>
+            <span className="coin-amount">{totalCoins} 🪙</span>
+          </div>
+          <div className="coin-tip">Earn coins by completing focus sessions!</div>
         </div>
 
         {/* Main Timer Display */}
@@ -183,6 +213,16 @@ export const TimerPage = () => {
         <div className="timer-note neomorph-md">
           <p>🎯 Pro tip: Take a 5-minute break after each session for maximum focus!</p>
         </div>
+
+        {/* Reward Animation */}
+        {showReward && (
+          <div className="reward-popup">
+            <div className="reward-content">
+              <span className="reward-emoji">🪙</span>
+              <span className="reward-text">+{lastReward} Coins!</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

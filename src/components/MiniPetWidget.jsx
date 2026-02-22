@@ -26,6 +26,7 @@ export default function MiniPetWidget() {
     hunger: 60,
     energy: 70
   })
+  // keep pet UI unchanged; only adjust container and button styles
 
   useEffect(() => {
     // Load pet data from localStorage
@@ -69,12 +70,12 @@ export default function MiniPetWidget() {
       <div className="pet-content">
         <div className="pet-avatar-section">
           <div className="pet-face-half">
-            {pet.emoji}
+            <div className="pet-emoji">{pet.emoji}</div>
           </div>
           <div className="pet-info">
             <div className="pet-name">{pet.name}</div>
             <div className="pet-speech-bubble">
-              {state.text} {state.icon}
+              {state.text}
             </div>
           </div>
         </div>
@@ -118,7 +119,10 @@ export default function MiniPetWidget() {
           <button className="pet-interact-btn cute" onClick={() => window.location.href = '/cute-pet'}>
             Open Pet →
           </button>
+          {/* kept only primary action button; buttons styled in CSS */}
         </div>
+
+        {/* wardrobe removed to keep pet unchanged as requested */}
       </div>
     </div>
   )

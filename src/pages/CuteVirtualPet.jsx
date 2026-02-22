@@ -405,16 +405,25 @@ export default function CuteVirtualPet() {
   // ============================================
   useEffect(() => {
     const saved = localStorage.getItem('cutePet')
+    const savedCoins = localStorage.getItem('petCoins')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
-        setPet({ ...pet, ...parsed })
+        // Sync coins from global storage if available
+        const coins = savedCoins ? parseInt(savedCoins) : (parsed.coins || 150)
+        setPet({ ...pet, ...parsed, coins })
       } catch (e) { console.error(e) }
+    }
+    // Initialize coins if not set
+    if (!savedCoins) {
+      localStorage.setItem('petCoins', '150')
     }
   }, [])
 
   useEffect(() => {
     localStorage.setItem('cutePet', JSON.stringify(pet))
+    // Sync coins to global storage
+    localStorage.setItem('petCoins', pet.coins.toString())
   }, [pet])
 
   // ============================================
