@@ -1,6 +1,6 @@
 .games-wrapper {
   min-height: 100vh;
-  background: transparent;
+  background: var(--bg-secondary);
 }
 
 .games-container {
@@ -19,10 +19,7 @@
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 8px;
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-primary);
 }
 
 .games-header p {
@@ -43,9 +40,8 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   color: var(--text-primary);
   font-weight: 600;
@@ -70,9 +66,8 @@
 
 .game-tab {
   padding: 14px 28px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   font-weight: 600;
   color: var(--text-primary);
@@ -84,6 +79,7 @@
 .game-tab:hover {
   background: var(--bg-secondary);
   transform: translateY(-2px);
+  border-color: var(--accent-1);
 }
 
 .game-tab.active {
@@ -95,11 +91,10 @@
 
 /* Game Content */
 .game-content {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
+  background: var(--bg-primary);
   border-radius: 24px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  border: 2px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
   padding: 32px;
   min-height: 600px;
 }

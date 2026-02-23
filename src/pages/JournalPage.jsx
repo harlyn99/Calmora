@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
-import { Plus, Trash2, Tag, Smile } from 'lucide-react'
+import { Plus, Trash2, Tag, Smile, Image, X } from 'lucide-react'
 import './JournalPage.css'
 import { formatDate } from '../utils/helpers'
 
@@ -21,6 +21,7 @@ export const JournalPage = () => {
   const [selectedFilter, setSelectedFilter] = useState('all')
   const [showStickers, setShowStickers] = useState(false)
   const [selectedSticker, setSelectedSticker] = useState('')
+  const [selectedPhoto, setSelectedPhoto] = useState(null)
 
   useEffect(() => {
     localStorage.setItem('journalEntries', JSON.stringify(entries))
@@ -35,13 +36,30 @@ export const JournalPage = () => {
       content: newEntry,
       date: new Date().toISOString(),
       tags: newTag.split(',').map(t => t.trim()).filter(t => t),
-      sticker: selectedSticker
+      sticker: selectedSticker,
+      photo: selectedPhoto
     }
     setEntries([entry, ...entries])
     setNewEntry('')
     setNewTag('')
     setSelectedSticker('')
+    setSelectedPhoto(null)
     setShowStickers(false)
+  }
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setSelectedPhoto(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const removePhoto = () => {
+    setSelectedPhoto(null)
   }
 
   const deleteEntry = (id) => {
@@ -88,18 +106,34 @@ export const JournalPage = () => {
           <div className="write-section">
             <form onSubmit={addEntry} className="journal-form">
               <div className="journal-form-header">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className={`sticker-toggle-btn ${showStickers ? 'active' : ''}`}
                   onClick={() => setShowStickers(!showStickers)}
                 >
                   <Smile size={18} /> Stickers
                 </button>
-                {selectedSticker && (
-                  <span className="selected-sticker-preview">{selectedSticker}</span>
-                )}
+                <label className="photo-upload-btn">
+                  <Image size={18} /> Photo
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                <div className="form-header-right">
+                  {selectedSticker && (
+                    <span className="selected-sticker-preview">{selectedSticker}</span>
+                  )}
+                  {selectedPhoto && (
+                    <span className="selected-photo-preview">
+                      <Image size={14} /> Photo added
+                    </span>
+                  )}
+                </div>
               </div>
-              
+
               {showStickers && (
                 <div className="stickers-grid">
                   {aestheticStickers.map((sticker, index) => (
@@ -114,7 +148,16 @@ export const JournalPage = () => {
                   ))}
                 </div>
               )}
-              
+
+              {selectedPhoto && (
+                <div className="photo-preview-container">
+                  <img src={selectedPhoto} alt="Preview" className="photo-preview" />
+                  <button type="button" className="remove-photo-btn" onClick={removePhoto}>
+                    <X size={16} />
+                  </button>
+                </div>
+              )}
+
               <textarea
                 placeholder="What's on your mind? Share your thoughts, feelings, and reflections..."
                 value={newEntry}
@@ -190,6 +233,11 @@ export const JournalPage = () => {
                         </div>
                       )}
                     </div>
+                    {entry.photo && (
+                      <div className="entry-photo-thumbnail">
+                        <img src={entry.photo} alt="Entry memory" />
+                      </div>
+                    )}
                     <p className="entry-snippet">{entry.content.substring(0, 100)}...</p>
                     <button
                       className="delete-entry-btn"
@@ -221,6 +269,11 @@ export const JournalPage = () => {
                   {selectedEntry.tags.map((tag, i) => (
                     <span key={i} className="modal-tag">{tag}</span>
                   ))}
+                </div>
+              )}
+              {selectedEntry.photo && (
+                <div className="modal-photo">
+                  <img src={selectedEntry.photo} alt="Memory" />
                 </div>
               )}
               <p className="modal-text">{selectedEntry.content}</p>

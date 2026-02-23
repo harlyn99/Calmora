@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Menu, Settings, LogOut, User, Info, Palette } from 'lucide-react'
+import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
 import { mockSyncNow } from '../services/sync'
@@ -20,20 +20,20 @@ export const TopNavigation = () => {
   }
 
   const navLinks = [
-    { path: '/dashboard', label: 'Home' },
-    { path: '/tasks', label: 'Tasks' },
-    { path: '/journal', label: 'Journal' },
-    { path: '/timer', label: 'Timer' },
-    { path: '/meditation', label: 'Meditation' },
-    { path: '/habits', label: 'Habits' },
-    { path: '/mood', label: 'Mood' },
-    { path: '/goals', label: 'Goals' },
-    { path: '/wellness', label: 'Wellness' },
-    { path: '/ai', label: 'AI' },
-    { path: '/cute-pet', label: 'Pet' },
-    { path: '/music', label: 'Music' },
-    { path: '/review', label: 'Review' },
-    { path: '/stats', label: 'Stats' },
+    { path: '/dashboard', label: 'Home', icon: null },
+    { path: '/tasks', label: 'Tasks', icon: null },
+    { path: '/journal', label: 'Journal', icon: null },
+    { path: '/timer', label: 'Timer', icon: null },
+    { path: '/meditation', label: 'Meditation', icon: null },
+    { path: '/habits', label: 'Habits', icon: null },
+    { path: '/mood', label: 'Mood', icon: null },
+    { path: '/goals', label: 'Goals', icon: null },
+    { path: '/wellness', label: 'Wellness', icon: null },
+    { path: '/gamification', label: 'Games', icon: Gamepad2 },
+    { path: '/music', label: 'Music', icon: Music },
+    { path: '/cute-pet', label: 'Pet', icon: Heart },
+    { path: '/review', label: 'Review', icon: null },
+    { path: '/stats', label: 'Stats', icon: null },
   ]
 
   return (
@@ -47,11 +47,17 @@ export const TopNavigation = () => {
 
           {/* Center Navigation - Desktop */}
           <ul className="nav-menu">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <a href="#" onClick={(e) => { e.preventDefault(); navigate(link.path) }}>{link.label}</a>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const Icon = link.icon
+              return (
+                <li key={link.path}>
+                  <a href="#" onClick={(e) => { e.preventDefault(); navigate(link.path) }}>
+                    {Icon && <Icon size={16} />}
+                    {link.label}
+                  </a>
+                </li>
+              )
+            })}
           </ul>
 
           {/* Right Side - Menu Button */}

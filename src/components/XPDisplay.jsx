@@ -1,88 +1,63 @@
 import React from 'react'
 import { useXP } from '../contexts/XPContext'
-import { useSound } from '../contexts/SoundContext'
-import { Star, Trophy, Award, Zap } from 'lucide-react'
+import { Star, Trophy } from 'lucide-react'
 import './XPDisplay.css'
 
-export const XPDisplay = () => {
+export const XPDisplay = ({ compact = false }) => {
   const { xp, getLevelProgress, getLevelTitle } = useXP()
-  const { showXP, lastXP } = useXP()
+  const progress = getLevelProgress()
+
+  if (compact) {
+    return (
+      <div className="xp-display-compact">
+        <div className="xp-level-badge">
+          <Star size={16} fill="#ffd700" color="#ffd700" />
+          <span className="xp-level">{xp.level}</span>
+        </div>
+        <div className="xp-progress-mini">
+          <div 
+            className="xp-progress-fill-mini" 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="xp-display">
       <div className="xp-header">
-        <div className="level-badge">
-          <Star size={20} />
-          <span>Lv.{xp.level}</span>
+        <div className="xp-level-info">
+          <Trophy size={20} color="#6b9f7f" />
+          <span className="xp-level-number">Level {xp.level}</span>
         </div>
-        <span className="level-title">{getLevelTitle()}</span>
+        <span className="xp-title">{getLevelTitle()}</span>
       </div>
-      
+
       <div className="xp-progress-container">
-        <div 
-          className="xp-progress-bar"
-          style={{ width: `${getLevelProgress()}%` }}
-        />
-      </div>
-      
-      <div className="xp-values">
-        <span>{xp.current} XP</span>
-        <span className="xp-total\">Total: {xp.total} XP</span>
-      </div>
-
-      {showXP && lastXP && (
-        <div className="xp-gain-animation">
-          +{lastXP.amount} XP
+        <div className="xp-progress-bar">
+          <div 
+            className="xp-progress-fill" 
+            style={{ width: `${progress}%` }}
+          >
+            <div className="xp-progress-glow" />
+          </div>
         </div>
-      )}
-    </div>
-  )
-}
-
-export const LevelUpModal = ({ show }) => {
-  const { xp, getLevelTitle } = useXP()
-  const { playLevelUp } = useSound()
-
-  React.useEffect(() => {
-    if (show) playLevelUp()
-  }, [show])
-
-  if (!show) return null
-
-  return (
-    <div className="level-up-modal">
-      <div className="level-up-content">
-        <div className="level-up-icon">
-          <Trophy size={64} />
+        <div className="xp-progress-text">
+          <span>{Math.round(progress)}%</span>
         </div>
-        <h2>Level Up!</h2>
-        <p className="new-level">Level {xp.level}</p>
-        <p className="level-title">{getLevelTitle()}</p>
-        <div className="level-up-confetti" />
       </div>
-    </div>
-  )
-}
 
-export const AchievementBadge = ({ achievement }) => {
-  const badges = {
-    first_task: { emoji: '🎯', name: 'First Step', description: 'Complete your first task' },
-    task_master: { emoji: '👑', name: 'Task Master', description: 'Complete 100 tasks' },
-    week_streak: { emoji: '🔥', name: 'Week Warrior', description: '7 day streak' },
-    month_streak: { emoji: '💪', name: 'Month Master', description: '30 day streak' },
-    focus_master: { emoji: '⚡', name: 'Focus Master', description: '10 hours of focus' },
-    zen_master: { emoji: '🧘', name: 'Zen Master', description: '10 meditation sessions' },
-    level_5: { emoji: '⭐', name: 'Rising Star', description: 'Reach level 5' },
-    level_10: { emoji: '🌟', name: 'Legend', description: 'Reach level 10' }
-  }
-
-  const badge = badges[achievement.id] || achievement
-
-  return (
-    <div className={`achievement-badge ${achievement.unlocked ? 'unlocked' : 'locked'}`}>
-      <span className="badge-emoji">{badge.emoji}</span>
-      <span className="badge-name">{badge.name}</span>
-      <span className="badge-description">{badge.description}</span>
+      <div className="xp-stats">
+        <div className="xp-stat">
+          <span className="xp-stat-label">Total XP</span>
+          <span className="xp-stat-value">{xp.total.toLocaleString()}</span>
+        </div>
+        <div className="xp-stat">
+          <span className="xp-stat-label">To Next Level</span>
+          <span className="xp-stat-value">{Math.max(0, 100 - progress).toFixed(0)}%</span>
+        </div>
+      </div>
     </div>
   )
 }

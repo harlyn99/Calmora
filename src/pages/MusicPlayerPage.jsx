@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Shuffle, Repeat, Heart, Music2, Home } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Shuffle, Repeat, Heart, Music2 } from 'lucide-react'
+import { TopNavigation } from '../components/TopNavigation'
 import './MusicPlayerPage.css'
 
 // Lo-fi style ambient sounds (using free audio sources)
@@ -23,7 +23,6 @@ const AMBIENT_SOUNDS = [
 ]
 
 export default function MusicPlayerPage() {
-  const navigate = useNavigate()
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(TRACKS[0])
   const [progress, setProgress] = useState(0)
@@ -114,17 +113,7 @@ export default function MusicPlayerPage() {
 
   return (
     <div className="music-player-page">
-      {/* Top Navigation */}
-      <nav className="music-top-nav">
-        <div className="music-nav-container">
-          <button className="music-nav-btn" onClick={() => navigate('/dashboard')}>
-            <Home size={20} />
-            <span>Home</span>
-          </button>
-          <h1><Music2 size={24} /> Music Player</h1>
-          <div className="music-nav-spacer"></div>
-        </div>
-      </nav>
+      <TopNavigation />
 
       <div className="music-container">
         {/* Now Playing */}

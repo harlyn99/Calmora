@@ -28,7 +28,7 @@ import PomodoroStatsPage from './pages/PomodoroStatsPage'
 import WellnessPage from './pages/WellnessPage'
 import CuteVirtualPet from './pages/CuteVirtualPet'
 import MusicPlayerPage from './pages/MusicPlayerPage'
-import AIChatPage from './pages/AIChatPage'
+import GamificationHub from './pages/GamificationHub'
 import useKeyboardShortcuts from './utils/useKeyboardShortcuts'
 import './styles/global.css'
 
@@ -70,11 +70,12 @@ function AppRoutes() {
       <Route path="/cute-pet" element={<ProtectedRoute><CuteVirtualPet /></ProtectedRoute>} />
       <Route path="/pet" element={<ProtectedRoute><Navigate to="/cute-pet" replace /></ProtectedRoute>} />
       <Route path="/music" element={<ProtectedRoute><MusicPlayerPage /></ProtectedRoute>} />
-      <Route path="/ai" element={<ProtectedRoute><AIChatPage /></ProtectedRoute>} />
+      <Route path="/gamification" element={<ProtectedRoute><GamificationHub /></ProtectedRoute>} />
+      <Route path="/game" element={<ProtectedRoute><Navigate to="/gamification" replace /></ProtectedRoute>} />
 
       {/* Default Redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )
 }

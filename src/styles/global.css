@@ -7,6 +7,24 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Default theme values (fallback) */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --bg-tertiary: #1a1a1a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6a6a6a;
+  --accent-1: #6b9f7f;
+  --accent-2: #5a8a6a;
+  --accent-3: #4a755a;
+  --accent-gradient: linear-gradient(135deg, #6b9f7f 0%, #5a8a6a 100%);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --icon-color: #8a8a8a;
+  --icon-active: #6b9f7f;
+  --gradient-1: #1a1a2e;
+  --gradient-2: #16213e;
+  --gradient-3: #0f3460;
 }
 
 /* Light Mode Variables - Ethereal Daylight */

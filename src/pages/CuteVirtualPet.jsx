@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Heart, Utensils, Moon, Sparkles, Home, ShoppingBag, X, Shirt, ArrowLeft, Droplets, Music } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Heart, Utensils, Moon, Sparkles, ShoppingBag, X, Shirt, Droplets, Music } from 'lucide-react'
+import { TopNavigation } from '../components/TopNavigation'
 import { useTheme } from '../contexts/ThemeContext'
 import './CuteVirtualPet.css'
 
@@ -289,9 +289,8 @@ const MINI_GAMES = [
 ]
 
 export default function CuteVirtualPet() {
-  const navigate = useNavigate()
   const { activeTheme, isDark } = useTheme()
-  
+
   // ============================================
   // MAIN PET STATE - Enhanced with all stats
   // ============================================
@@ -1089,13 +1088,11 @@ export default function CuteVirtualPet() {
   // ============================================
   return (
     <div className="cute-virtual-pet-page">
+      <TopNavigation />
+      
       {/* Header Stats */}
       <div className="cute-pet-header">
         <div className="cute-pet-header-top">
-          <button className="cute-home-btn" onClick={() => navigate('/dashboard')} title="Back to Home">
-            <ArrowLeft size={20} />
-            <span>Home</span>
-          </button>
           <div className="cute-pet-name-row">
             <button className="cute-pet-name-btn" onClick={() => setShowPetSelect(true)}>
               <span className="cute-pet-type-icon">{currentPet?.name}</span>

@@ -1,0 +1,142 @@
+.install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+.install-prompt-content {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 400px;
+  width: 90vw;
+}
+
+.install-prompt-content.ios {
+  padding-bottom: 10px;
+}
+
+.install-prompt-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.install-prompt-text {
+  margin-bottom: 15px;
+}
+
+.install-prompt-text h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 5px 0;
+}
+
+.install-prompt-text p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.install-prompt-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.install-prompt-install {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.install-prompt-install:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.install-prompt-dismiss {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.install-prompt-dismiss:hover {
+  background: #e5e7eb;
+}
+
+.ios-instructions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ios-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.ios-icon {
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .install-prompt {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    transform: none;
+  }
+
+  .install-prompt-content {
+    width: 100%;
+    max-width: none;
+  }
+}

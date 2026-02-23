@@ -1,0 +1,333 @@
+.levelup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.levelup-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background Glow */
+.levelup-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(107, 159, 127, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: levelup-glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes levelup-glow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Animated Rings */
+.levelup-ring {
+  position: absolute;
+  border: 3px solid rgba(107, 159, 127, 0.6);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: levelup-spin 1.5s linear infinite;
+}
+
+.ring-1 {
+  width: 280px;
+  height: 280px;
+  animation-delay: 0s;
+}
+
+.ring-2 {
+  width: 340px;
+  height: 340px;
+  animation-delay: 0.3s;
+  animation-direction: reverse;
+  border-color: rgba(255, 215, 0, 0.5);
+  border-top-color: transparent;
+}
+
+.ring-3 {
+  width: 220px;
+  height: 220px;
+  animation-delay: 0.6s;
+  border-color: rgba(255, 154, 139, 0.5);
+  border-top-color: transparent;
+}
+
+@keyframes levelup-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Main Content */
+.levelup-content {
+  position: relative;
+  text-align: center;
+  padding: 40px;
+  background: rgba(18, 18, 18, 0.95);
+  border-radius: 24px;
+  border: 2px solid rgba(107, 159, 127, 0.5);
+  box-shadow: 
+    0 0 60px rgba(107, 159, 127, 0.4),
+    0 0 100px rgba(107, 159, 127, 0.2),
+    inset 0 0 40px rgba(107, 159, 127, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+/* Stars */
+.levelup-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.star {
+  animation: levelup-star-twinkle 1s ease-in-out infinite;
+}
+
+.star-0 { animation-delay: 0s; }
+.star-1 { animation-delay: 0.2s; }
+.star-2 { animation-delay: 0.4s; }
+.star-3 { animation-delay: 0.6s; }
+.star-4 { animation-delay: 0.8s; }
+
+@keyframes levelup-star-twinkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+/* Sparkles */
+.sparkle {
+  position: absolute;
+  color: #ffd700;
+  animation: levelup-sparkle-float 2s ease-in-out infinite;
+}
+
+.sparkle-1 {
+  top: -20px;
+  left: -20px;
+  animation-delay: 0s;
+}
+
+.sparkle-2 {
+  top: -10px;
+  right: -10px;
+  animation-delay: 0.5s;
+}
+
+.sparkle-3 {
+  bottom: 20px;
+  left: 20px;
+  animation-delay: 1s;
+}
+
+@keyframes levelup-sparkle-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* Level Up Text */
+.levelup-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.levelup-label {
+  font-size: 18px;
+  color: #6b9f7f;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: levelup-bounce 0.6s ease-out;
+}
+
+.levelup-number {
+  font-size: 96px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #6b9f7f 0%, #ffd700 50%, #ff9a8b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  filter: drop-shadow(0 0 20px rgba(107, 159, 127, 0.5));
+  animation: levelup-number-pop 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.levelup-title {
+  font-size: 24px;
+  color: #e0e0e0;
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: levelup-fade-in 0.8s ease-out 0.3s both;
+}
+
+@keyframes levelup-bounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes levelup-number-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes levelup-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Trophy */
+.levelup-trophy {
+  margin: 20px 0;
+  animation: levelup-trophy-bounce 1s ease-out 0.5s both;
+}
+
+@keyframes levelup-trophy-bounce {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Progress Bar */
+.levelup-progress {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.levelup-progress-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.levelup-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #6b9f7f, #ffd700, #ff9a8b);
+  border-radius: 6px;
+  animation: levelup-progress-fill 1s ease-out 0.8s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.levelup-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: levelup-shimmer 1.5s infinite;
+}
+
+@keyframes levelup-progress-fill {
+  to {
+    width: 20%;
+  }
+}
+
+@keyframes levelup-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* XP Info */
+.levelup-xp-info {
+  margin-top: 16px;
+  color: #a0a0a0;
+  font-size: 14px;
+  animation: levelup-fade-in 1s ease-out 1s both;
+}
+
+/* Fade In Up */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
