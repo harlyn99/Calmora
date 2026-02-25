@@ -99,40 +99,10 @@
   color: white;
 }
 
-.filter-btn.rarity-common.active {
-  background: #9ca3af;
-  border-color: #9ca3af;
-}
-
-.filter-btn.rarity-rare.active {
-  background: #3b82f6;
-  border-color: #3b82f6;
-}
-
-.filter-btn.rarity-sr.active {
-  background: #a855f7;
-  border-color: #a855f7;
-}
-
-.filter-btn.rarity-ssr.active {
-  background: #f59e0b;
-  border-color: #f59e0b;
-}
-
-.filter-select {
-  padding: 8px 12px;
-  border: 2px solid var(--border-color);
-  background: var(--bg-tertiary);
-  color: var(--text-secondary);
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  outline: none;
-}
-
-.filter-select:focus {
-  border-color: var(--accent-1);
-}
+.filter-btn.rarity-common.active { background: #9ca3af; border-color: #9ca3af; }
+.filter-btn.rarity-rare.active { background: #3b82f6; border-color: #3b82f6; }
+.filter-btn.rarity-sr.active { background: #a855f7; border-color: #a855f7; }
+.filter-btn.rarity-ssr.active { background: #f59e0b; border-color: #f59e0b; }
 
 /* Items Grid */
 .inventory-grid {
@@ -191,22 +161,11 @@
   transform: translateY(-4px);
 }
 
-.inventory-item.common {
-  border-color: #9ca3af;
-}
-
-.inventory-item.rare {
-  border-color: #3b82f6;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-}
-
-.inventory-item.sr {
-  border-color: #a855f7;
-  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
-}
-
-.inventory-item.ssr {
-  border-color: #f59e0b;
+.inventory-item.common { border-color: #9ca3af; }
+.inventory-item.rare { border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
+.inventory-item.sr { border-color: #a855f7; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3); }
+.inventory-item.ssr { 
+  border-color: #f59e0b; 
   box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
   animation: ssrItemGlow 2s ease-in-out infinite;
 }
@@ -227,7 +186,6 @@
 
 .item-emoji {
   font-size: 48px;
-  margin: 8px 0;
 }
 
 .item-name {
@@ -328,23 +286,11 @@
   margin-bottom: 24px;
 }
 
-.detail-card.common {
-  background: rgba(156, 163, 175, 0.1);
-  border-color: #9ca3af;
-}
-
-.detail-card.rare {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: #3b82f6;
-}
-
-.detail-card.sr {
-  background: rgba(168, 85, 247, 0.1);
-  border-color: #a855f7;
-}
-
-.detail-card.ssr {
-  background: rgba(245, 158, 11, 0.1);
+.detail-card.common { background: rgba(156, 163, 175, 0.1); border-color: #9ca3af; }
+.detail-card.rare { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
+.detail-card.sr { background: rgba(168, 85, 247, 0.1); border-color: #a855f7; }
+.detail-card.ssr { 
+  background: rgba(245, 158, 11, 0.1); 
   border-color: #f59e0b;
   animation: detailSsrGlow 2s ease-in-out infinite;
 }

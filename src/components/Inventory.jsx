@@ -29,7 +29,7 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
     }
   }, [])
 
-  // Get unique items (group by id, show latest)
+  // Get unique items
   const getUniqueItems = () => {
     const grouped = inventory.reduce((acc, item) => {
       if (!acc[item.id]) {
@@ -72,15 +72,8 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
   // Item types
   const itemTypes = [
     { value: 'all', label: 'Semua', icon: '📦' },
-    { value: 'hat', label: 'Topi', icon: '🎩' },
-    { value: 'glasses', label: 'Kacamata', icon: '👓' },
-    { value: 'clothes', label: 'Baju', icon: '👕' },
-    { value: 'necklace', label: 'Kalung', icon: '🎀' },
-    { value: 'wings', label: 'Sayap', icon: '🦋' },
-    { value: 'tail', label: 'Ekor', icon: '🐱' },
-    { value: 'background', label: 'Background', icon: '🌅' },
-    { value: 'effect', label: 'Efek', icon: '✨' },
-    { value: 'prop', label: 'Prop', icon: '🗡️' }
+    { value: 'pet', label: 'Pets', icon: '🐾' },
+    { value: 'theme', label: 'Themes', icon: '🎨' }
   ]
 
   const rarities = [
@@ -97,7 +90,7 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
         <div className="inventory-title">
           <Backpack size={24} />
           <h3>Inventory</h3>
-          <span className="item-count">{filteredItems.length} item</span>
+          <span className="item-count">{filteredItems.length} items</span>
         </div>
       </div>
 
@@ -107,7 +100,7 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
           <Filter size={16} />
           <span>Type:</span>
           <div className="filter-buttons">
-            {itemTypes.slice(0, 5).map(type => (
+            {itemTypes.map(type => (
               <button
                 key={type.value}
                 className={`filter-btn ${filterType === type.value ? 'active' : ''}`}
@@ -116,17 +109,6 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
                 {type.icon} {type.label}
               </button>
             ))}
-            <select 
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className="filter-select"
-            >
-              {itemTypes.slice(5).map(type => (
-                <option key={type.value} value={type.value}>
-                  {type.icon} {type.label}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
 
@@ -195,7 +177,7 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
                   <span>Color:</span>
                   <div 
                     className="color-preview"
-                    style={{ backgroundColor: selectedItem.color || selectedItem.gradient?.[0] }}
+                    style={{ backgroundColor: selectedItem.color }}
                   />
                 </div>
                 <div className="info-row">
@@ -205,12 +187,14 @@ const Inventory = ({ equippedItems, onEquip, onUnequip }) => {
               </div>
             </div>
 
-            <button 
-              className={`equip-btn ${isEquipped(selectedItem) ? 'unequip' : ''}`}
-              onClick={handleEquipToggle}
-            >
-              {isEquipped(selectedItem) ? 'Unequip' : 'Equip'}
-            </button>
+            {selectedItem.type === 'pet' && (
+              <button 
+                className={`equip-btn ${isEquipped(selectedItem) ? 'unequip' : ''}`}
+                onClick={handleEquipToggle}
+              >
+                {isEquipped(selectedItem) ? 'Unequip' : 'Select Pet'}
+              </button>
+            )}
           </div>
         </div>
       )}

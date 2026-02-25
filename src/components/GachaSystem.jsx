@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Sparkles, Zap, Star, Heart, Gift, X, ChevronRight } from 'lucide-react'
-import {
-  GachaItems,
-  getRandomItem,
-  RarityColors,
+import { 
+  GachaItems, 
+  getRandomItem, 
+  RarityColors, 
   RarityLabels,
   PITY_COUNT,
   getItemsByRarity
@@ -14,16 +13,15 @@ import './GachaSystem.css'
 const GACHA_COST = 100 // Cost per pull
 
 const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
-  const navigate = useNavigate()
   const [pullCount, setPullCount] = useState(0)
   const [pityCounter, setPityCounter] = useState(0)
   const [isPulling, setIsPulling] = useState(false)
   const [showResult, setShowResult] = useState(false)
   const [pullResults, setPullResults] = useState([])
-  const [pullMode, setPullMode] = useState('single') // 'single' or 'multi'
+  const [pullMode, setPullMode] = useState('single')
   const [animationStage, setAnimationStage] = useState('idle')
 
-  // Load pity counter from localStorage
+  // Load pity counter
   useEffect(() => {
     const saved = localStorage.getItem('gachaPityCounter')
     if (saved) setPityCounter(parseInt(saved))
@@ -35,19 +33,15 @@ const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
   }, [pityCounter])
 
   const performPull = () => {
-    // Check if enough coins
     if (coins < GACHA_COST) {
       alert('Coin tidak cukup! Butuh 100 coin untuk 1x pull.')
       return false
     }
 
-    // Deduct coins
     onCoinsChange(coins - GACHA_COST)
 
-    // Check for pity SSR
     let item
     if (pityCounter >= PITY_COUNT - 1) {
-      // Guaranteed SSR
       const ssrItems = GachaItems.filter(i => i.rarity === 'ssr')
       item = {
         ...ssrItems[Math.floor(Math.random() * ssrItems.length)],
@@ -75,13 +69,11 @@ const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
     setIsPulling(true)
     setAnimationStage('start')
 
-    // Play animation
     await new Promise(resolve => setTimeout(resolve, 500))
     setAnimationStage('flash')
     await new Promise(resolve => setTimeout(resolve, 800))
     setAnimationStage('reveal')
 
-    // Get results
     const results = []
     const pullCount = pullMode === 'single' ? 1 : 10
 
@@ -95,12 +87,10 @@ const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
     setIsPulling(false)
     setAnimationStage('idle')
 
-    // Notify parent
     if (onGachaResult) {
       onGachaResult(results)
     }
 
-    // Save to inventory
     const existing = JSON.parse(localStorage.getItem('gachaInventory') || '[]')
     localStorage.setItem('gachaInventory', JSON.stringify([...existing, ...results]))
   }
@@ -156,7 +146,7 @@ const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
         <div className="rates-info">
           <div className="rate-item common">
             <span className="rate-label">COMMON</span>
-            <span className="rate-value">55%</span>
+            <span className="rate-value">50%</span>
             <span className="rate-count">{getItemsByRarity('common').length} items</span>
           </div>
           <div className="rate-item rare">
@@ -166,12 +156,12 @@ const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
           </div>
           <div className="rate-item sr">
             <span className="rate-label">SR</span>
-            <span className="rate-value">12%</span>
+            <span className="rate-value">15%</span>
             <span className="rate-count">{getItemsByRarity('sr').length} items</span>
           </div>
           <div className="rate-item ssr">
             <span className="rate-label">SSR</span>
-            <span className="rate-value">3%</span>
+            <span className="rate-value">5%</span>
             <span className="rate-count">{getItemsByRarity('ssr').length} items</span>
           </div>
         </div>
@@ -266,7 +256,7 @@ const GachaSystem = ({ coins, onCoinsChange, onGachaResult }) => {
 
             <div className="results-grid">
               {pullResults.map((result, index) => (
-                <div
+                <div 
                   key={result.pullId} 
                   className={`result-card ${result.rarity}`}
                   style={{ animationDelay: `${index * 0.1}s` }}
