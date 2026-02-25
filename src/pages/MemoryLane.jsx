@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
-import { X, Trash2, MoreHorizontal, MessageCircle, Share2, Image as ImageIcon, Calendar, Clock } from 'lucide-react'
+import { X, Trash2, MoreHorizontal, MessageCircle, Share2, Image as ImageIcon, Calendar, Clock, Heart } from 'lucide-react'
 import { useIconTheme } from '../contexts/IconThemeContext'
 import './MemoryLane.css'
 

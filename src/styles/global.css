@@ -25,15 +25,15 @@
   --gradient-1: #1a1a2e;
   --gradient-2: #16213e;
   --gradient-3: #0f3460;
-  
-  /* Theme-based icon colors */
-  --theme-primary: #667eea;
-  --theme-success: #4CAF50;
-  --theme-warning: #FFC107;
-  --theme-danger: #ef4444;
-  --theme-info: #2196F3;
-  --theme-neutral: #9CA3AF;
-  --theme-accent: #764ba2;
+
+  /* Theme-based icon colors - aliases for backward compatibility */
+  --theme-primary: var(--accent-1, #667eea);
+  --theme-success: var(--success, #4CAF50);
+  --theme-warning: var(--warning, #FFC107);
+  --theme-danger: var(--error, #ef4444);
+  --theme-info: var(--info, #2196F3);
+  --theme-neutral: var(--icon-color, #9CA3AF);
+  --theme-accent: var(--accent-2, #764ba2);
 }
 
 /* Light Mode Variables - Ethereal Daylight */
@@ -78,11 +78,20 @@
   --glass-bg: rgba(255, 255, 255, 0.65);
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-shadow: 0 8px 32px rgba(255, 154, 139, 0.15);
-  
+
   /* Ethereal Daylight gradient */
   --gradient-1: #ffecd2;
   --gradient-2: #fcb69f;
   --gradient-3: #ff9a8b;
+
+  /* Theme-based icon colors - aliases for backward compatibility */
+  --theme-primary: var(--accent-1, #ff9a8b);
+  --theme-success: var(--success, #7bed9f);
+  --theme-warning: var(--warning, #ffa502);
+  --theme-danger: var(--error, #ff4757);
+  --theme-info: var(--info, #2196F3);
+  --theme-neutral: var(--icon-color, #636e72);
+  --theme-accent: var(--accent-2, #ff6a88);
 }
 
 /* Light Mode - Space Theme */
@@ -125,10 +134,19 @@
   --glass-bg: rgba(30, 30, 60, 0.7);
   --glass-border: rgba(255, 255, 255, 0.15);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  
+
   --gradient-1: #0f0f23;
   --gradient-2: #1a1a3e;
   --gradient-3: #252550;
+
+  /* Theme-based icon colors - aliases for backward compatibility */
+  --theme-primary: var(--accent-1, #6496ff);
+  --theme-success: var(--success, #55cc88);
+  --theme-warning: var(--warning, #ffaa44);
+  --theme-danger: var(--error, #ff6688);
+  --theme-info: var(--info, #2196F3);
+  --theme-neutral: var(--icon-color, #a0a0c0);
+  --theme-accent: var(--accent-2, #88aaff);
 }
 
 /* Dark Mode Variables - Deep Soft Black Theme */
@@ -178,6 +196,15 @@
   --gradient-1: #1a1a2e;
   --gradient-2: #16213e;
   --gradient-3: #0f3460;
+
+  /* Theme-based icon colors - aliases for backward compatibility */
+  --theme-primary: var(--accent-1, #6b9f7f);
+  --theme-success: var(--success, #5a9a7a);
+  --theme-warning: var(--warning, #c9a55a);
+  --theme-danger: var(--error, #d96a7a);
+  --theme-info: var(--info, #2196F3);
+  --theme-neutral: var(--icon-color, #8a8a8a);
+  --theme-accent: var(--accent-2, #5a8a6a);
 }
 
 * {

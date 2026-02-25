@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart, Home, BookOpen, Book, Flower, BarChart3 } from 'lucide-react'
+import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart, Home, BookOpen, Book, Flower, BarChart3, Sparkles } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
 import { mockSyncNow } from '../services/sync'
@@ -27,6 +27,7 @@ export const TopNavigation = () => {
     { path: '/journal', label: 'Journal', icon: Book },
     { path: '/memory-lane', label: 'Memories', icon: Flower },
     { path: '/analytics', label: 'Analytics', icon: BarChart3 },
+    { path: '/gacha-pet', label: 'Gacha', icon: Sparkles },
     { path: '/gamification', label: 'Games', icon: Gamepad2 },
     { path: '/music', label: 'Music', icon: Music },
     { path: '/cute-pet', label: 'Pet', icon: Heart },

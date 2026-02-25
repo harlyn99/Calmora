@@ -1,6 +1,12 @@
 // Migration script to migrate old todo and planner data to new tasks system
 export const migrateOldData = () => {
   try {
+    // Check if localStorage is available
+    if (typeof localStorage === 'undefined') {
+      console.warn('localStorage not available, skipping migration')
+      return { success: false, migratedCount: 0 }
+    }
+
     const oldTodos = localStorage.getItem('todos')
     const oldDailyPlans = localStorage.getItem('dailyPlans')
     

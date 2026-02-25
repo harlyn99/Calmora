@@ -4,8 +4,14 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('user')
-    return saved ? JSON.parse(saved) : null
+    try {
+      if (typeof localStorage === 'undefined') return null
+      const saved = localStorage.getItem('user')
+      return saved ? JSON.parse(saved) : null
+    } catch (e) {
+      console.error('Auth localStorage error:', e)
+      return null
+    }
   })
 
   useEffect(() => {

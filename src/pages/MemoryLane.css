@@ -21,7 +21,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -68,7 +68,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,7 +80,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,7 +202,7 @@
 
 .memory-action-btn.comment:hover svg,
 .memory-action-btn.share:hover svg {
-  color: var(--theme-primary);
+  color: var(--accent-1);
 }
 
 /* Post Footer */
@@ -254,7 +254,7 @@
 .stat-pill-value {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

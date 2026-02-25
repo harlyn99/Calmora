@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
 import FocusGarden from '../components/FocusGarden'
 import BreathingGame from '../components/BreathingGame'
+import Shop from '../components/Shop'
 import { useTheme } from '../contexts/ThemeContext'
-import { Sun, Moon, Sparkles, Gamepad2, Sprout, Heart } from 'lucide-react'
+import { Sun, Moon, Sparkles, Gamepad2, Sprout, Heart, ShoppingBag } from 'lucide-react'
 import './GamesPage.css'
 
 export const GamesPage = () => {
   const { isDark, toggleTheme, lightModeStyle, toggleLightModeStyle } = useTheme()
   const [selectedGame, setSelectedGame] = useState(null)
+  const [showShop, setShowShop] = useState(false)
   const [gameStats, setGameStats] = useState(() => {
     const saved = localStorage.getItem('gameStats')
     return saved ? JSON.parse(saved) : {
@@ -85,8 +87,14 @@ export const GamesPage = () => {
       <div className="games-container fade-in">
         {/* Header */}
         <div className="games-header">
-          <h1>Calmora Games</h1>
-          <p>Relax, breathe, and grow your garden</p>
+          <div>
+            <h1>Calmora Games</h1>
+            <p>Relax, breathe, and grow your garden</p>
+          </div>
+          <button className="shop-btn" onClick={() => setShowShop(true)}>
+            <ShoppingBag size={20} />
+            <span>Shop</span>
+          </button>
         </div>
 
         {/* Theme Toggles */}
@@ -190,6 +198,9 @@ export const GamesPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Shop Modal */}
+      {showShop && <Shop onClose={() => setShowShop(false)} />}
     </div>
   )
 }

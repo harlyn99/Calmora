@@ -307,11 +307,11 @@ export const SchedulePage = () => {
   }
 
   const getCompletionColor = (rate) => {
-    if (rate === 100) return '#4CAF50'
-    if (rate >= 70) return '#8BC34A'
-    if (rate >= 40) return '#FFC107'
-    if (rate > 0) return '#FF9800'
-    return '#e0e0e0'
+    if (rate === 100) return 'var(--success)'
+    if (rate >= 70) return 'var(--success)'
+    if (rate >= 40) return 'var(--warning)'
+    if (rate > 0) return 'var(--warning)'
+    return 'var(--icon-color)'
   }
 
   return (
@@ -364,10 +364,10 @@ export const SchedulePage = () => {
                 >
                   <span className="day-short">{day.short}</span>
                   {isToday && <span className="today-indicator">•</span>}
-                  <div 
-                    className="completion-ring" 
-                    style={{ 
-                      background: `conic-gradient(${getCompletionColor(completion.percent)} ${completion.percent}%, #e0e0e0 ${completion.percent}%)`
+                  <div
+                    className="completion-ring"
+                    style={{
+                      background: `conic-gradient(${getCompletionColor(completion.percent)} ${completion.percent}%, var(--icon-color) ${completion.percent}%)`
                     }}
                   >
                     <div className="ring-inner" />
@@ -673,23 +673,23 @@ export const SchedulePage = () => {
 
               <div className="calendar-legend">
                 <div className="legend-item">
-                  <div className="legend-dot" style={{ backgroundColor: '#4CAF50' }} />
+                  <div className="legend-dot" style={{ backgroundColor: 'var(--success)' }} />
                   <span>100%</span>
                 </div>
                 <div className="legend-item">
-                  <div className="legend-dot" style={{ backgroundColor: '#8BC34A' }} />
+                  <div className="legend-dot" style={{ backgroundColor: 'var(--success)' }} />
                   <span>70%+</span>
                 </div>
                 <div className="legend-item">
-                  <div className="legend-dot" style={{ backgroundColor: '#FFC107' }} />
+                  <div className="legend-dot" style={{ backgroundColor: 'var(--warning)' }} />
                   <span>40%+</span>
                 </div>
                 <div className="legend-item">
-                  <div className="legend-dot" style={{ backgroundColor: '#FF9800' }} />
+                  <div className="legend-dot" style={{ backgroundColor: 'var(--warning)' }} />
                   <span>1%+</span>
                 </div>
                 <div className="legend-item">
-                  <div className="legend-dot" style={{ backgroundColor: '#e0e0e0' }} />
+                  <div className="legend-dot" style={{ backgroundColor: 'var(--icon-color)' }} />
                   <span>0%</span>
                 </div>
               </div>

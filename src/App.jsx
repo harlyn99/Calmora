@@ -76,6 +76,7 @@ function AppRoutes() {
       <Route path="/wellness" element={<ProtectedRoute><WellnessPage /></ProtectedRoute>} />
       <Route path="/cute-pet" element={<ProtectedRoute><CuteVirtualPet /></ProtectedRoute>} />
       <Route path="/pet" element={<ProtectedRoute><Navigate to="/cute-pet" replace /></ProtectedRoute>} />
+      <Route path="/gacha-pet" element={<ProtectedRoute><Navigate to="/cute-pet" replace /></ProtectedRoute>} />
       <Route path="/music" element={<ProtectedRoute><MusicPlayerPage /></ProtectedRoute>} />
       <Route path="/gamification" element={<ProtectedRoute><GamificationHub /></ProtectedRoute>} />
       <Route path="/game" element={<ProtectedRoute><Navigate to="/gamification" replace /></ProtectedRoute>} />

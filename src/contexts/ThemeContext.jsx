@@ -6,12 +6,20 @@ const ThemeContext = createContext()
 export const specialThemes = {
   sakura: {
     name: 'Sakura',
-    bgPrimary: '#fff0f5',
-    bgSecondary: '#ffe4ec',
-    bgTertiary: '#ffd9e6',
-    accent1: '#ffb7c5',
-    accent2: '#ff9eb5',
-    gradient: ['#ffb7c5', '#ffd9e6', '#fff0f5']
+    bgPrimary: '#fff5f8',
+    bgSecondary: '#ffe5ee',
+    bgTertiary: '#ffd5e5',
+    accent1: '#ff8fa3',
+    accent2: '#ff6b85',
+    gradient: ['#ff8fa3', '#ff6b85', '#ffb3c6'],
+    textPrimary: '#4a4a5a',
+    textSecondary: '#6a6a7a',
+    textMuted: '#9a9aa8',
+    success: '#7b9a74',
+    warning: '#d4a574',
+    error: '#c97474',
+    iconColor: '#9a7a8a',
+    iconActive: '#d6335c'
   },
   ocean: {
     name: 'Ocean',
@@ -20,7 +28,15 @@ export const specialThemes = {
     bgTertiary: '#80deea',
     accent1: '#4dd0e1',
     accent2: '#26c6da',
-    gradient: ['#4dd0e1', '#26c6da', '#00bcd4']
+    gradient: ['#4dd0e1', '#26c6da', '#00bcd4'],
+    textPrimary: '#2d3e50',
+    textSecondary: '#4a5d6e',
+    textMuted: '#8a9daf',
+    success: '#5a9a7a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#4a5d6e',
+    iconActive: '#4dd0e1'
   },
   aurora: {
     name: 'Aurora',
@@ -29,7 +45,15 @@ export const specialThemes = {
     bgTertiary: '#a5d6a7',
     accent1: '#81c784',
     accent2: '#4caf50',
-    gradient: ['#81c784', '#4db6ac', '#7986cb']
+    gradient: ['#81c784', '#4db6ac', '#7986cb'],
+    textPrimary: '#2d4a2e',
+    textSecondary: '#4a5d4a',
+    textMuted: '#8a9f8a',
+    success: '#5a9a5a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#4a5d4a',
+    iconActive: '#81c784'
   },
   sunset: {
     name: 'Sunset',
@@ -38,7 +62,15 @@ export const specialThemes = {
     bgTertiary: '#ffcc80',
     accent1: '#ffb74d',
     accent2: '#ff9800',
-    gradient: ['#ff9800', '#ffb74d', '#ffcc80']
+    gradient: ['#ff9800', '#ffb74d', '#ffcc80'],
+    textPrimary: '#4a3a2a',
+    textSecondary: '#6b5a4a',
+    textMuted: '#9a8a7a',
+    success: '#7b9a5a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#6b5a4a',
+    iconActive: '#ffb74d'
   },
   forest: {
     name: 'Forest',
@@ -47,7 +79,15 @@ export const specialThemes = {
     bgTertiary: '#c5e1a5',
     accent1: '#aed581',
     accent2: '#9ccc65',
-    gradient: ['#9ccc65', '#aed581', '#c5e1a5']
+    gradient: ['#9ccc65', '#aed581', '#c5e1a5'],
+    textPrimary: '#2d3a2a',
+    textSecondary: '#4a5a4a',
+    textMuted: '#8a9f8a',
+    success: '#5a9a5a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#4a5a4a',
+    iconActive: '#aed581'
   },
   lavender: {
     name: 'Lavender',
@@ -56,7 +96,15 @@ export const specialThemes = {
     bgTertiary: '#ce93d8',
     accent1: '#ba68c8',
     accent2: '#ab47bc',
-    gradient: ['#ab47bc', '#ba68c8', '#ce93d8']
+    gradient: ['#ab47bc', '#ba68c8', '#ce93d8'],
+    textPrimary: '#3a2a4a',
+    textSecondary: '#5a4a6b',
+    textMuted: '#9a8a9f',
+    success: '#7b9a5a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#5a4a6b',
+    iconActive: '#ba68c8'
   },
   strawberry: {
     name: 'Strawberry',
@@ -65,7 +113,15 @@ export const specialThemes = {
     bgTertiary: '#f48fb1',
     accent1: '#f06292',
     accent2: '#ec407a',
-    gradient: ['#ec407a', '#f06292', '#f48fb1']
+    gradient: ['#ec407a', '#f06292', '#f48fb1'],
+    textPrimary: '#4a2a3a',
+    textSecondary: '#6b4a5a',
+    textMuted: '#9a8a8f',
+    success: '#7b9a5a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#6b4a5a',
+    iconActive: '#f06292'
   },
   moonlight: {
     name: 'Moonlight',
@@ -74,7 +130,15 @@ export const specialThemes = {
     bgTertiary: '#9fa8da',
     accent1: '#7986cb',
     accent2: '#5c6bc0',
-    gradient: ['#5c6bc0', '#7986cb', '#9fa8da']
+    gradient: ['#5c6bc0', '#7986cb', '#9fa8da'],
+    textPrimary: '#2a2a4a',
+    textSecondary: '#4a4a6b',
+    textMuted: '#8a8a9f',
+    success: '#5a9a7a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#4a4a6b',
+    iconActive: '#7986cb'
   },
   citrus: {
     name: 'Citrus',
@@ -83,7 +147,15 @@ export const specialThemes = {
     bgTertiary: '#ffe082',
     accent1: '#ffd54f',
     accent2: '#ffca28',
-    gradient: ['#ffca28', '#ffd54f', '#ffe082']
+    gradient: ['#ffca28', '#ffd54f', '#ffe082'],
+    textPrimary: '#4a3a2a',
+    textSecondary: '#6b5a4a',
+    textMuted: '#9a8a7a',
+    success: '#7b9a5a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#6b5a4a',
+    iconActive: '#ffd54f'
   },
   cosmic: {
     name: 'Cosmic',
@@ -92,7 +164,15 @@ export const specialThemes = {
     bgTertiary: '#432c7a',
     accent1: '#6b4c9a',
     accent2: '#8b6fb8',
-    gradient: ['#6b4c9a', '#8b6fb8', '#a685e0']
+    gradient: ['#6b4c9a', '#8b6fb8', '#a685e0'],
+    textPrimary: '#e0d0f0',
+    textSecondary: '#c0b0d0',
+    textMuted: '#9a8aa0',
+    success: '#7b9a7a',
+    warning: '#d4a55a',
+    error: '#c95a5a',
+    iconColor: '#a090b0',
+    iconActive: '#6b4c9a'
   }
 }
 
@@ -158,13 +238,25 @@ export const darkSpaceTheme = {
 
 export const ThemeProvider = ({ children }) => {
   const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem('theme')
-    return saved ? saved === 'dark' : false
+    try {
+      if (typeof localStorage === 'undefined') return false
+      const saved = localStorage.getItem('theme')
+      return saved ? saved === 'dark' : false
+    } catch (e) {
+      console.error('Theme localStorage error:', e)
+      return false
+    }
   })
 
   const [activeTheme, setActiveTheme] = useState(() => {
-    const saved = localStorage.getItem('colorTheme')
-    return saved || 'lightCream' // Default to light cream
+    try {
+      if (typeof localStorage === 'undefined') return 'sakura'
+      const saved = localStorage.getItem('colorTheme')
+      return saved || 'sakura' // Default to Sakura
+    } catch (e) {
+      console.error('Theme color localStorage error:', e)
+      return 'sakura'
+    }
   })
 
   useEffect(() => {
@@ -257,28 +349,17 @@ export const ThemeProvider = ({ children }) => {
       root.style.setProperty('--gradient-1', theme.gradient[0])
       root.style.setProperty('--gradient-2', theme.gradient[1])
       root.style.setProperty('--gradient-3', theme.gradient[2])
-      
-      // Set text colors based on background brightness
-      const isLightTheme = theme.bgPrimary > '#555555'
-      if (isLightTheme) {
-        root.style.setProperty('--text-primary', '#2d3436')
-        root.style.setProperty('--text-secondary', '#636e72')
-        root.style.setProperty('--text-muted', '#b2bec3')
-        root.style.setProperty('--icon-color', '#636e72')
-        root.style.setProperty('--icon-active', theme.accent1)
-        root.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.65)')
-        root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.6)')
-        root.style.setProperty('--glass-shadow', '0 8px 32px rgba(255, 154, 139, 0.15)')
-      } else {
-        root.style.setProperty('--text-primary', '#e0e0e0')
-        root.style.setProperty('--text-secondary', '#a0a0a0')
-        root.style.setProperty('--text-muted', '#6a6a6a')
-        root.style.setProperty('--icon-color', '#8a8a8a')
-        root.style.setProperty('--icon-active', theme.accent1)
-        root.style.setProperty('--glass-bg', 'rgba(30, 30, 30, 0.7)')
-        root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.1)')
-        root.style.setProperty('--glass-shadow', '0 8px 32px rgba(0, 0, 0, 0.5)')
-      }
+      root.style.setProperty('--text-primary', theme.textPrimary || '#4a4a4a')
+      root.style.setProperty('--text-secondary', theme.textSecondary || '#6b6b6b')
+      root.style.setProperty('--text-muted', theme.textMuted || '#9a9a9a')
+      root.style.setProperty('--success', theme.success || '#7b9a74')
+      root.style.setProperty('--warning', theme.warning || '#d4a574')
+      root.style.setProperty('--error', theme.error || '#c97474')
+      root.style.setProperty('--icon-color', theme.iconColor || '#6b6b6b')
+      root.style.setProperty('--icon-active', theme.iconActive || theme.accent1)
+      root.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.65)')
+      root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.6)')
+      root.style.setProperty('--glass-shadow', '0 8px 32px rgba(255, 154, 139, 0.15)')
     }
   }, [activeTheme, isDark])
 
