@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
-import { X, ZoomIn, Heart, Trash2 } from 'lucide-react'
+import { X, Heart, Trash2, MoreHorizontal, MessageCircle, Share2, Image as ImageIcon } from 'lucide-react'
 import './MemoryLane.css'
 
 export const MemoryLane = () => {
@@ -8,19 +8,25 @@ export const MemoryLane = () => {
   const [selectedEntry, setSelectedEntry] = useState(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [entryToDelete, setEntryToDelete] = useState(null)
+  const [likedEntries, setLikedEntries] = useState(() => {
+    const saved = localStorage.getItem('likedMemories')
+    return saved ? JSON.parse(saved) : {}
+  })
 
   useEffect(() => {
     loadEntries()
-    // Auto-refresh every 10 seconds to catch new journal entries
     const interval = setInterval(loadEntries, 10000)
     return () => clearInterval(interval)
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem('likedMemories', JSON.stringify(likedEntries))
+  }, [likedEntries])
 
   const loadEntries = () => {
     const saved = localStorage.getItem('journalEntries')
     if (saved) {
       const allEntries = JSON.parse(saved)
-      // Filter only entries with photos, newest first
       const photoEntries = allEntries
         .filter(e => e.photo)
         .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -28,13 +34,23 @@ export const MemoryLane = () => {
     }
   }
 
+  const toggleLike = (id, e) => {
+    e.stopPropagation()
+    setLikedEntries(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }))
+  }
+
   const deleteEntry = (id) => {
     const saved = localStorage.getItem('journalEntries')
     if (saved) {
-      const allEntries = JSON.parse(saved)
-      const updated = allEntries.filter(e => e.id !== id)
+      const updated = JSON.parse(saved).filter(e => e.id !== id)
       localStorage.setItem('journalEntries', JSON.stringify(updated))
       setEntries(entries.filter(e => e.id !== id))
+      const newLiked = { ...likedEntries }
+      delete newLiked[id]
+      localStorage.setItem('likedMemories', JSON.stringify(newLiked))
       setShowDeleteConfirm(false)
       setEntryToDelete(null)
       setSelectedEntry(null)
@@ -44,16 +60,6 @@ export const MemoryLane = () => {
   const confirmDelete = (entry) => {
     setEntryToDelete(entry)
     setShowDeleteConfirm(true)
-  }
-
-  const getAestheticFilter = (index) => {
-    const filters = ['sepia', 'vintage', 'soft', 'mono', 'warm', 'cool', 'rose']
-    return filters[index % filters.length]
-  }
-
-  const getDecorativeElement = (index) => {
-    const decos = ['🌸', '🌿', '⭐', '✨', '🦋', '💕', '🌙', '🌟']
-    return decos[index % decos.length]
   }
 
   const formatTimeAgo = (dateString) => {
@@ -67,11 +73,19 @@ export const MemoryLane = () => {
     const diffMonths = Math.floor(diffDays / 30)
 
     if (diffMins < 1) return 'Just now'
-    if (diffMins < 60) return `${diffMins}m ago`
-    if (diffHours < 24) return `${diffHours}h ago`
-    if (diffDays < 7) return `${diffDays}d ago`
-    if (diffWeeks < 4) return `${diffWeeks}w ago`
-    return `${diffMonths}mo ago`
+    if (diffMins < 60) return `${diffMins}m`
+    if (diffHours < 24) return `${diffHours}h`
+    if (diffDays < 7) return `${diffDays}d`
+    if (diffWeeks < 4) return `${diffWeeks}w`
+    return `${diffMonths}mo`
+  }
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    })
   }
 
   return (
@@ -80,15 +94,17 @@ export const MemoryLane = () => {
 
       <div className="memory-lane-container fade-in">
         <div className="memory-lane-header">
-          <h1>📸 Memory Lane</h1>
+          <h1>Memory Lane</h1>
           <p className="memory-lane-subtitle">
-            Your precious moments captured in time ✨
+            Your precious moments, beautifully captured
           </p>
         </div>
 
         {entries.length === 0 ? (
           <div className="memory-lane-empty">
-            <div className="empty-illustration">📷</div>
+            <div className="empty-illustration">
+              <ImageIcon size={64} strokeWidth={1.5} />
+            </div>
             <h3>No memories yet</h3>
             <p>Start journaling with photos to create your memory lane!</p>
             <div className="empty-hint">
@@ -96,27 +112,80 @@ export const MemoryLane = () => {
             </div>
           </div>
         ) : (
-          <div className="memory-lane-grid">
-            {entries.map((entry, index) => (
+          <div className="memory-feed">
+            {entries.map((entry) => (
               <div
                 key={entry.id}
-                className={`memory-card ${getAestheticFilter(index)}`}
+                className="memory-post"
                 onClick={() => setSelectedEntry(entry)}
-                style={{
-                  '--rotation': `${(index % 6) - 2.5}deg`,
-                  '--delay': `${index * 0.05}s`
-                }}
               >
-                <div className="memory-card-inner">
-                  <div className="memory-photo">
-                    <img src={entry.photo} alt="Memory" loading="lazy" />
-                    <div className="memory-overlay">
-                      <ZoomIn size={24} className="zoom-icon" />
-                    </div>
+                {/* Post Header */}
+                <div className="memory-post-header">
+                  <div className="memory-avatar">
+                    <span>{entry.mood || '💭'}</span>
                   </div>
-                  <div className="memory-info">
+                  <div className="memory-post-meta">
+                    <span className="memory-username">Your Memory</span>
                     <span className="memory-time">{formatTimeAgo(entry.date)}</span>
-                    <span className="memory-mood">{entry.mood || '💭'}</span>
+                  </div>
+                  <button className="memory-post-options">
+                    <MoreHorizontal size={20} />
+                  </button>
+                </div>
+
+                {/* Post Content */}
+                <div className="memory-post-content">
+                  <div className="memory-post-photo">
+                    <img src={entry.photo} alt="Memory" loading="lazy" />
+                  </div>
+                  
+                  {entry.content && (
+                    <div className="memory-post-caption">
+                      <p>{entry.content}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Post Actions */}
+                <div className="memory-post-actions">
+                  <div className="memory-action-left">
+                    <button 
+                      className={`memory-action-btn like ${likedEntries[entry.id] ? 'liked' : ''}`}
+                      onClick={(e) => toggleLike(entry.id, e)}
+                    >
+                      <Heart size={24} className={likedEntries[entry.id] ? 'filled' : ''} />
+                    </button>
+                    <button className="memory-action-btn comment">
+                      <MessageCircle size={24} />
+                    </button>
+                    <button className="memory-action-btn share">
+                      <Share2 size={24} />
+                    </button>
+                  </div>
+                  <div className="memory-action-right">
+                    <button 
+                      className="memory-action-btn delete"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        confirmDelete(entry)
+                      }}
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Post Footer */}
+                <div className="memory-post-footer">
+                  {entry.tags && entry.tags.length > 0 && (
+                    <div className="memory-post-tags">
+                      {entry.tags.map((tag, idx) => (
+                        <span key={idx} className="memory-tag">#{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="memory-post-date">
+                    {formatDate(entry.date)}
                   </div>
                 </div>
               </div>
@@ -126,25 +195,16 @@ export const MemoryLane = () => {
 
         {/* Quick Stats */}
         {entries.length > 0 && (
-          <div className="memory-stats">
-            <div className="stat-item">
-              <span className="stat-icon">📸</span>
-              <span className="stat-value">{entries.length}</span>
-              <span className="stat-label">Memories</span>
+          <div className="memory-stats-bar">
+            <div className="stat-pill">
+              <span className="stat-pill-value">{entries.length}</span>
+              <span className="stat-pill-label">memories</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-icon">📅</span>
-              <span className="stat-value">
-                {entries.length > 0 ? formatTimeAgo(entries[entries.length - 1].date) : 'N/A'}
+            <div className="stat-pill">
+              <span className="stat-pill-value">
+                {Object.values(likedEntries).filter(Boolean).length}
               </span>
-              <span className="stat-label">First Memory</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-icon">✨</span>
-              <span className="stat-value">
-                {entries.length > 0 ? formatTimeAgo(entries[0].date) : 'N/A'}
-              </span>
-              <span className="stat-label">Latest</span>
+              <span className="stat-pill-label">liked</span>
             </div>
           </div>
         )}
@@ -153,33 +213,31 @@ export const MemoryLane = () => {
       {/* Memory Detail Modal */}
       {selectedEntry && (
         <div className="memory-modal-overlay" onClick={() => setSelectedEntry(null)}>
-          <div className="memory-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="memory-modal-close" onClick={() => setSelectedEntry(null)}>
+          <div className="memory-modal-modern" onClick={(e) => e.stopPropagation()}>
+            <button className="memory-modal-close-modern" onClick={() => setSelectedEntry(null)}>
               <X size={24} />
             </button>
-            
-            <div className="memory-modal-content">
-              <div className="memory-modal-photo">
+
+            <div className="memory-modal-content-modern">
+              <div className="memory-modal-photo-modern">
                 <img src={selectedEntry.photo} alt="Memory" />
               </div>
-              
-              <div className="memory-modal-info">
-                <div className="memory-modal-header">
-                  <span className="memory-modal-mood">{selectedEntry.mood || '💭'}</span>
-                  <span className="memory-modal-date">
-                    {new Date(selectedEntry.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </span>
+
+              <div className="memory-modal-info-modern">
+                <div className="memory-modal-header-modern">
+                  <div className="memory-modal-avatar">
+                    <span>{selectedEntry.mood || '💭'}</span>
+                  </div>
+                  <div>
+                    <div className="memory-modal-username">Your Memory</div>
+                    <div className="memory-modal-date">
+                      {formatDate(selectedEntry.date)} · {formatTimeAgo(selectedEntry.date)} ago
+                    </div>
+                  </div>
                 </div>
-                
+
                 <p className="memory-modal-text">{selectedEntry.content}</p>
-                
+
                 {selectedEntry.tags && selectedEntry.tags.length > 0 && (
                   <div className="memory-modal-tags">
                     {selectedEntry.tags.map((tag, idx) => (
@@ -187,14 +245,14 @@ export const MemoryLane = () => {
                     ))}
                   </div>
                 )}
-                
-                <div className="memory-modal-actions">
-                  <button 
-                    className="memory-action-btn delete"
+
+                <div className="memory-modal-actions-modern">
+                  <button
+                    className="memory-action-btn-modern delete"
                     onClick={() => confirmDelete(selectedEntry)}
                   >
                     <Trash2 size={18} />
-                    <span>Delete</span>
+                    <span>Delete Memory</span>
                   </button>
                 </div>
               </div>
@@ -206,11 +264,11 @@ export const MemoryLane = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="delete-modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
-          <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>🗑️ Delete Memory?</h3>
-            <p>This memory will be permanently removed.</p>
+          <div className="delete-modal-modern" onClick={(e) => e.stopPropagation()}>
+            <h3>Delete Memory?</h3>
+            <p>This memory will be permanently removed from your collection.</p>
             <div className="delete-modal-actions">
-              <button 
+              <button
                 className="delete-cancel-btn"
                 onClick={() => {
                   setShowDeleteConfirm(false)
@@ -219,7 +277,7 @@ export const MemoryLane = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 className="delete-confirm-btn"
                 onClick={() => deleteEntry(entryToDelete?.id)}
               >

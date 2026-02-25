@@ -13,7 +13,7 @@ import AnimatedBackground from './components/Background'
 import { ParticleSystem } from './components/ParticleSystem'
 import { LoginPage } from './pages/LoginPage'
 import { Dashboard } from './pages/Dashboard'
-import { TasksPage } from './pages/TasksPage'
+import SchedulePage from './pages/SchedulePage'
 import { JournalPage } from './pages/JournalPage'
 import { TimerPage } from './pages/TimerPage'
 import { MeditationPage } from './pages/MeditationPage'
@@ -56,7 +56,8 @@ function AppRoutes() {
 
       {/* Protected Routes */}
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+      <Route path="/schedule" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
+      <Route path="/tasks" element={<ProtectedRoute><Navigate to="/schedule" replace /></ProtectedRoute>} />
       <Route path="/journal" element={<ProtectedRoute><JournalPage /></ProtectedRoute>} />
       <Route path="/timer" element={<ProtectedRoute><TimerPage /></ProtectedRoute>} />
       <Route path="/meditation" element={<ProtectedRoute><MeditationPage /></ProtectedRoute>} />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart } from 'lucide-react'
+import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart, Home, BookOpen, Book, Flower, Target, Smile, Activity, BarChart3, LineChart } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
 import { mockSyncNow } from '../services/sync'
@@ -21,20 +21,20 @@ export const TopNavigation = () => {
   }
 
   const navLinks = [
-    { path: '/dashboard', label: '🏠 Home', icon: null },
-    { path: '/tasks', label: '📝 Tasks', icon: null },
-    { path: '/journal', label: '📔 Journal', icon: null },
-    { path: '/memory-lane', label: '📸 Memories', icon: null },
-    { path: '/meditation', label: '🧘 Meditation', icon: null },
-    { path: '/habits', label: '✅ Habits', icon: null },
-    { path: '/mood', label: '😊 Mood', icon: null },
-    { path: '/goals', label: '🎯 Goals', icon: null },
-    { path: '/wellness', label: '💚 Wellness', icon: null },
-    { path: '/gamification', label: '🎮 Games', icon: Gamepad2 },
-    { path: '/music', label: '🎵 Music', icon: Music },
-    { path: '/cute-pet', label: '🐾 Pet', icon: Heart },
-    { path: '/review', label: '📊 Review', icon: null },
-    { path: '/stats', label: '📈 Stats', icon: null },
+    { path: '/dashboard', label: 'Home', icon: Home },
+    { path: '/schedule', label: 'Schedule', icon: BookOpen },
+    { path: '/journal', label: 'Journal', icon: Book },
+    { path: '/memory-lane', label: 'Memories', icon: Flower },
+    { path: '/meditation', label: 'Meditation', icon: Activity },
+    { path: '/habits', label: 'Habits', icon: Target },
+    { path: '/mood', label: 'Mood', icon: Smile },
+    { path: '/goals', label: 'Goals', icon: Target },
+    { path: '/wellness', label: 'Wellness', icon: Activity },
+    { path: '/gamification', label: 'Games', icon: Gamepad2 },
+    { path: '/music', label: 'Music', icon: Music },
+    { path: '/cute-pet', label: 'Pet', icon: Heart },
+    { path: '/review', label: 'Review', icon: BarChart3 },
+    { path: '/stats', label: 'Stats', icon: LineChart },
   ]
 
   return (
@@ -55,7 +55,7 @@ export const TopNavigation = () => {
                 <li key={link.path}>
                   <a href="#" onClick={(e) => { e.preventDefault(); navigate(link.path) }}>
                     {Icon && <Icon size={16} className={`icon icon-sm ${active ? 'icon-active' : ''}`} />}
-                    {link.label}
+                    <span>{link.label}</span>
                   </a>
                 </li>
               )
@@ -103,7 +103,6 @@ export const TopNavigation = () => {
 
                 <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
                   <div style={{display:'flex', alignItems:'center', gap:8}}>
-                    <span>📡</span>
                     <small style={{color: 'var(--text-muted)'}}>{lastSync ? `Last synced: ${lastSync}` : 'Last synced: never'}</small>
                   </div>
                   <div style={{display:'flex', gap:8}}>
