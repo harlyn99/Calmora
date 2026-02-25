@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
@@ -10,6 +10,7 @@ export const TopNavigation = () => {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
   const [showMenu, setShowMenu] = React.useState(false)
+  const location = useLocation()
   const { mode, setMode } = useEnergyMode()
   const [lastSync, setLastSync] = React.useState(() => localStorage.getItem('lastSync') || null)
 
@@ -20,20 +21,20 @@ export const TopNavigation = () => {
   }
 
   const navLinks = [
-    { path: '/dashboard', label: 'Home', icon: null },
-    { path: '/tasks', label: 'Tasks', icon: null },
-    { path: '/journal', label: 'Journal', icon: null },
-    { path: '/timer', label: 'Timer', icon: null },
-    { path: '/meditation', label: 'Meditation', icon: null },
-    { path: '/habits', label: 'Habits', icon: null },
-    { path: '/mood', label: 'Mood', icon: null },
-    { path: '/goals', label: 'Goals', icon: null },
-    { path: '/wellness', label: 'Wellness', icon: null },
-    { path: '/gamification', label: 'Games', icon: Gamepad2 },
-    { path: '/music', label: 'Music', icon: Music },
-    { path: '/cute-pet', label: 'Pet', icon: Heart },
-    { path: '/review', label: 'Review', icon: null },
-    { path: '/stats', label: 'Stats', icon: null },
+    { path: '/dashboard', label: '🏠 Home', icon: null },
+    { path: '/tasks', label: '📝 Tasks', icon: null },
+    { path: '/journal', label: '📔 Journal', icon: null },
+    { path: '/memory-lane', label: '📸 Memories', icon: null },
+    { path: '/meditation', label: '🧘 Meditation', icon: null },
+    { path: '/habits', label: '✅ Habits', icon: null },
+    { path: '/mood', label: '😊 Mood', icon: null },
+    { path: '/goals', label: '🎯 Goals', icon: null },
+    { path: '/wellness', label: '💚 Wellness', icon: null },
+    { path: '/gamification', label: '🎮 Games', icon: Gamepad2 },
+    { path: '/music', label: '🎵 Music', icon: Music },
+    { path: '/cute-pet', label: '🐾 Pet', icon: Heart },
+    { path: '/review', label: '📊 Review', icon: null },
+    { path: '/stats', label: '📈 Stats', icon: null },
   ]
 
   return (
@@ -49,10 +50,11 @@ export const TopNavigation = () => {
           <ul className="nav-menu">
             {navLinks.map((link) => {
               const Icon = link.icon
+              const active = location.pathname === link.path
               return (
                 <li key={link.path}>
                   <a href="#" onClick={(e) => { e.preventDefault(); navigate(link.path) }}>
-                    {Icon && <Icon size={16} />}
+                    {Icon && <Icon size={16} className={`icon icon-sm ${active ? 'icon-active' : ''}`} />}
                     {link.label}
                   </a>
                 </li>
@@ -82,21 +84,21 @@ export const TopNavigation = () => {
                   navigate('/profile')
                   setShowMenu(false)
                 }}>
-                  <User size={18} /> Profile
+                  <User size={18} className="icon icon-md" /> Profile
                 </button>
 
                 <button className="menu-item" onClick={() => {
                   navigate('/settings')
                   setShowMenu(false)
                 }}>
-                  <Palette size={18} /> Themes
+                  <Palette size={18} className="icon icon-md" /> Themes
                 </button>
 
                 <button className="menu-item" onClick={() => {
                   navigate('/settings')
                   setShowMenu(false)
                 }}>
-                  <Settings size={18} /> Settings
+                  <Settings size={18} className="icon icon-md" /> Settings
                 </button>
 
                 <div className="menu-item" style={{display:'flex', flexDirection:'column', gap:8}}>
@@ -158,12 +160,12 @@ export const TopNavigation = () => {
                   navigate('/about')
                   setShowMenu(false)
                 }}>
-                  <Info size={18} /> About
+                  <Info size={18} className="icon icon-md" /> About
                 </button>
 
                 <hr className="menu-divider" />
                 <button className="menu-item logout" onClick={handleLogout}>
-                  <LogOut size={18} /> Logout
+                  <LogOut size={18} className="icon icon-md" /> Logout
                 </button>
               </div>
             )}

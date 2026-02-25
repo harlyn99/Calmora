@@ -1,0 +1,40 @@
+/* Global icon theming: force icons to inherit theme colors */
+:root {
+  --icon-color: var(--icon-color, #6b6b6b);
+  --icon-active: var(--icon-active, #d4a574);
+}
+
+/* Apply theming only to SVGs explicitly marked with .icon to avoid recoloring illustration SVGs */
+svg.icon {
+  color: var(--icon-color) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  transition: color 180ms ease, opacity 180ms ease;
+}
+
+/* Ensure inner SVG shapes inherit for icon-marked SVGs */
+svg.icon * {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Icon utility classes */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-color);
+}
+
+.icon-active {
+  color: var(--icon-active) !important;
+}
+
+/* small size utilities */
+.icon-sm { width: 16px; height: 16px; }
+.icon-md { width: 20px; height: 20px; }
+.icon-lg { width: 28px; height: 28px; }
+
+@media (prefers-reduced-motion: reduce) {
+  svg { transition: none !important; }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Heart, Utensils, Zap } from 'lucide-react'
 import './MiniPetWidget.css'
+import './FlipPage.css'
 
 const PET_TYPES = {
   bear: { emoji: '🐻', name: 'Beruang' },
@@ -62,7 +63,7 @@ export default function MiniPetWidget() {
   const state = PET_STATES[petState]
 
   return (
-    <div className="mini-pet-widget">
+    <div className="mini-pet-widget flip-page flip-card">
       <div className="pet-header">
         <span>Virtual Pet</span>
       </div>
@@ -82,7 +83,7 @@ export default function MiniPetWidget() {
         
         <div className="pet-stats">
           <div className="pet-stat">
-            <Heart size={22} fill="#ff6b9d" color="#ff6b9d" />
+            <Heart size={22} className="icon icon-md" />
             <div className="stat-bar">
               <div 
                 className="stat-fill happiness" 
@@ -93,7 +94,7 @@ export default function MiniPetWidget() {
           </div>
           
           <div className="pet-stat">
-            <Utensils size={22} fill="#ffb347" color="#ffb347" />
+            <Utensils size={22} className="icon icon-md" />
             <div className="stat-bar">
               <div 
                 className="stat-fill hunger" 
@@ -104,7 +105,7 @@ export default function MiniPetWidget() {
           </div>
           
           <div className="pet-stat">
-            <Zap size={22} fill="#74b9ff" color="#74b9ff" />
+            <Zap size={22} className="icon icon-md" />
             <div className="stat-bar">
               <div 
                 className="stat-fill energy" 

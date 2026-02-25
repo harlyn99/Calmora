@@ -353,6 +353,29 @@
   transform: scale(1.1);
 }
 
+/* Completion toggle button next to calendar */
+.schedule-complete-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  opacity: 0.9;
+}
+
+.schedule-complete-btn.done {
+  color: var(--accent-1);
+}
+
+.schedule-complete-btn:hover {
+  transform: scale(1.05);
+  color: var(--accent-1);
+}
+
 /* Add Plan Form */
 .add-plan-form {
   display: flex;

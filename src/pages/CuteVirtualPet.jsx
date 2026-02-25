@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Heart, Utensils, Moon, Sparkles, ShoppingBag, X, Shirt, Droplets, Music } from 'lucide-react'
 import { TopNavigation } from '../components/TopNavigation'
+import PageWrapper from '../components/PageWrapper'
 import { useTheme } from '../contexts/ThemeContext'
 import './CuteVirtualPet.css'
+import '../components/FlipPage.css'
 
 // ============================================
 // PET TYPES - Visual appearance
@@ -1032,7 +1034,7 @@ export default function CuteVirtualPet() {
               {gameState.combo > 1 && <span>Combo: x{gameState.combo}</span>}
             </div>
             <button className="close-btn" onClick={() => setActiveGame(null)}>
-              <X size={20} />
+              <X size={20} className="icon icon-md" />
             </button>
           </div>
           
@@ -1087,56 +1089,57 @@ export default function CuteVirtualPet() {
   // MAIN RENDER
   // ============================================
   return (
-    <div className="cute-virtual-pet-page">
+    <div className="cute-virtual-pet-page flip-page">
       <TopNavigation />
-      
-      {/* Header Stats */}
-      <div className="cute-pet-header">
-        <div className="cute-pet-header-top">
-          <div className="cute-pet-name-row">
-            <button className="cute-pet-name-btn" onClick={() => setShowPetSelect(true)}>
-              <span className="cute-pet-type-icon">{currentPet?.name}</span>
-              <span className="cute-pet-display-name">{pet.name}</span>
-            </button>
-            <div className="cute-level-badge">Lv.{pet.level}</div>
+
+      <PageWrapper sticker={'🐾 Pet'}>
+        {/* Header Stats */}
+        <div className="cute-pet-header">
+          <div className="cute-pet-header-top">
+            <div className="cute-pet-name-row">
+              <button className="cute-pet-name-btn" onClick={() => setShowPetSelect(true)}>
+                <span className="cute-pet-type-icon">{currentPet?.name}</span>
+                <span className="cute-pet-display-name">{pet.name}</span>
+              </button>
+              <div className="cute-level-badge">Lv.{pet.level}</div>
+            </div>
+          </div>
+
+          {/* All Stats Bars */}
+          <div className="cute-stats-row">
+            <div className="cute-stat">
+              <Heart size={14} className="icon icon-sm" />
+              <div className="cute-stat-bar">
+                <div className="cute-stat-fill happiness" style={{ width: `${pet.happiness}%` }} />
+              </div>
+            </div>
+            <div className="cute-stat">
+              <Utensils size={14} className="icon icon-sm" />
+              <div className="cute-stat-bar">
+                <div className="cute-stat-fill hunger" style={{ width: `${100 - pet.hunger}%` }} />
+              </div>
+            </div>
+            <div className="cute-stat">
+              <Moon size={14} className="icon icon-sm" />
+              <div className="cute-stat-bar">
+                <div className="cute-stat-fill energy" style={{ width: `${pet.energy}%` }} />
+              </div>
+            </div>
+            <div className="cute-stat">
+              <Droplets size={14} className="icon icon-sm" />
+              <div className="cute-stat-bar">
+                <div className="cute-stat-fill cleanliness" style={{ width: `${pet.cleanliness}%` }} />
+              </div>
+            </div>
+            <div className="cute-stat">
+              <Sparkles size={14} className="icon icon-sm" />
+              <div className="cute-stat-bar">
+                <div className="cute-stat-fill health" style={{ width: `${pet.health}%` }} />
+              </div>
+            </div>
+            <div className="cute-coins">🪙 {pet.coins}</div>
           </div>
         </div>
-        
-        {/* All Stats Bars */}
-        <div className="cute-stats-row">
-          <div className="cute-stat">
-            <Heart size={14} fill="#FF6B8A" color="#FF6B8A" />
-            <div className="cute-stat-bar">
-              <div className="cute-stat-fill happiness" style={{ width: `${pet.happiness}%` }} />
-            </div>
-          </div>
-          <div className="cute-stat">
-            <Utensils size={14} fill="#FFB347" color="#FFB347" />
-            <div className="cute-stat-bar">
-              <div className="cute-stat-fill hunger" style={{ width: `${100 - pet.hunger}%` }} />
-            </div>
-          </div>
-          <div className="cute-stat">
-            <Moon size={14} fill="#B39DDB" color="#B39DDB" />
-            <div className="cute-stat-bar">
-              <div className="cute-stat-fill energy" style={{ width: `${pet.energy}%` }} />
-            </div>
-          </div>
-          <div className="cute-stat">
-            <Droplets size={14} fill="#74b9ff" color="#74b9ff" />
-            <div className="cute-stat-bar">
-              <div className="cute-stat-fill cleanliness" style={{ width: `${pet.cleanliness}%` }} />
-            </div>
-          </div>
-          <div className="cute-stat">
-            <Sparkles size={14} fill="#55efc4" color="#55efc4" />
-            <div className="cute-stat-bar">
-              <div className="cute-stat-fill health" style={{ width: `${pet.health}%` }} />
-            </div>
-          </div>
-          <div className="cute-coins">🪙 {pet.coins}</div>
-        </div>
-      </div>
 
       {/* Pet Room with Environment */}
       <div 
@@ -1319,31 +1322,31 @@ export default function CuteVirtualPet() {
       {/* Action Buttons */}
       <div className="cute-action-buttons">
         <button className="cute-action-btn" onClick={() => setShowShop(true)} disabled={pet.isSleeping}>
-          <ShoppingBag size={20} />
+          <ShoppingBag size={20} className="icon icon-md" />
           <span>Shop</span>
         </button>
         <button className="cute-action-btn" onClick={feedPet} disabled={pet.isSleeping || pet.hunger <= 10}>
-          <Utensils size={20} />
+          <Utensils size={20} className="icon icon-md" />
           <span>Feed</span>
         </button>
         <button className="cute-action-btn" onClick={playWithPet} disabled={pet.isSleeping || pet.energy < 20}>
-          <Sparkles size={20} />
+          <Sparkles size={20} className="icon icon-md" />
           <span>Play</span>
         </button>
         <button className="cute-action-btn" onClick={toggleSleep}>
-          <Moon size={20} />
+          <Moon size={20} className="icon icon-md" />
           <span>{pet.isSleeping ? 'Wake' : 'Sleep'}</span>
         </button>
         <button className="cute-action-btn" onClick={() => setShowBath(true)} disabled={pet.isSleeping || !pet.hasBathtub}>
-          <Droplets size={20} />
+          <Droplets size={20} className="icon icon-md" />
           <span>Bath</span>
         </button>
         <button className="cute-action-btn" onClick={() => setShowCloset(true)}>
-          <Shirt size={20} />
+          <Shirt size={20} className="icon icon-md" />
           <span>Closet</span>
         </button>
         <button className="cute-action-btn" onClick={() => setShowGameSelect(true)}>
-          <Sparkles size={20} />
+          <Sparkles size={20} className="icon icon-md" />
           <span>Games</span>
         </button>
       </div>
@@ -1362,7 +1365,7 @@ export default function CuteVirtualPet() {
             <div className="cute-modal-header">
               <h3>🛒 Shop</h3>
               <button className="cute-modal-close" onClick={() => setShowShop(false)}>
-                <X size={20} />
+                <X size={20} className="icon icon-md" />
               </button>
             </div>
 
@@ -1426,7 +1429,7 @@ export default function CuteVirtualPet() {
             <div className="cute-modal-header">
               <h3>👕 Closet</h3>
               <button className="cute-modal-close" onClick={() => setShowCloset(false)}>
-                <X size={20} />
+                <X size={20} className="icon icon-md" />
               </button>
             </div>
 
@@ -1495,7 +1498,7 @@ export default function CuteVirtualPet() {
             <div className="cute-modal-header">
               <h3>🍽️ Choose Food</h3>
               <button className="cute-modal-close" onClick={() => setShowFoodSelect(false)}>
-                <X size={20} />
+                <X size={20} className="icon icon-md" />
               </button>
             </div>
             <div className="cute-shop-content">
@@ -1526,7 +1529,7 @@ export default function CuteVirtualPet() {
             <div className="cute-modal-header">
               <h3>🎮 Mini Games</h3>
               <button className="cute-modal-close" onClick={() => setShowGameSelect(false)}>
-                <X size={20} />
+                <X size={20} className="icon icon-md" />
               </button>
             </div>
             <div className="cute-shop-content">
@@ -1557,7 +1560,7 @@ export default function CuteVirtualPet() {
             <div className="cute-modal-header">
               <h3>🛁 Bath Time</h3>
               <button className="cute-modal-close" onClick={() => setShowBath(false)}>
-                <X size={20} />
+                <X size={20} className="icon icon-md" />
               </button>
             </div>
             
@@ -1670,7 +1673,7 @@ export default function CuteVirtualPet() {
             <div className="cute-modal-header">
               <h3>🏠 Edit Room</h3>
               <button className="cute-modal-close" onClick={() => setShowRoomEdit(false)}>
-                <X size={20} />
+                <X size={20} className="icon icon-md" />
               </button>
             </div>
             <div className="cute-room-themes">
@@ -1705,6 +1708,8 @@ export default function CuteVirtualPet() {
           </div>
         </div>
       )}
+
+      </PageWrapper>
 
       {/* Pet Select Modal */}
       {showPetSelect && (

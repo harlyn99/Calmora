@@ -1,0 +1,61 @@
+/* Soft unified card style - gentle elevation and fade/scale transitions */
+.flip-page {
+  --card-bg: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(0,0,0,0.01));
+  --glass: rgba(255,255,255,0.04);
+  display: block;
+}
+
+.flip-page .flip-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.28);
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
+  transform: translateZ(0) translateY(0);
+  will-change: transform, opacity;
+}
+
+.flip-page .flip-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(2,6,23,0.34);
+}
+
+/* consistent padding and responsive */
+.flip-page .flip-body {
+  padding: 16px;
+}
+
+.flip-page .unified-header {
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin-bottom: 8px;
+}
+
+/* keep modal and mini-game containers visually coherent */
+.flip-page .cute-modal,
+.flip-page .mini-game-container,
+.flip-page .mini-music-player,
+.flip-page .mini-pet-widget {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  border-radius: 12px;
+}
+
+/* Fade-in utility for smoother appearance */
+.flip-page .fade-in {
+  animation: calmFadeIn 360ms ease both;
+}
+
+@keyframes calmFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .flip-page .flip-card,
+  .flip-page .fade-in {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}

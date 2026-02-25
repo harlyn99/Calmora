@@ -7,16 +7,24 @@ export const PolaroidWall = ({ entries = [] }) => {
   const [selectedPolaroid, setSelectedPolaroid] = useState(null)
   const [displayEntries, setDisplayEntries] = useState([])
 
-  useEffect(() => {
-    // Load from localStorage if no entries provided
-    if (entries.length === 0) {
-      const saved = localStorage.getItem('journalEntries')
-      if (saved) {
-        setDisplayEntries(JSON.parse(saved).slice(-12).reverse())
-      }
-    } else {
-      setDisplayEntries(entries.slice(-12).reverse())
+  const loadEntries = () => {
+    const saved = localStorage.getItem('journalEntries')
+    if (saved) {
+      const allEntries = JSON.parse(saved)
+      // Filter only entries with photos, newest first
+      const photoEntries = allEntries
+        .filter(e => e.photo)
+        .slice(-12)
+        .reverse()
+      setDisplayEntries(photoEntries)
     }
+  }
+
+  useEffect(() => {
+    loadEntries()
+    // Auto-refresh every 5 seconds to catch new journal entries with photos
+    const interval = setInterval(loadEntries, 5000)
+    return () => clearInterval(interval)
   }, [entries])
 
   const getAestheticFilter = (index) => {
@@ -32,7 +40,7 @@ export const PolaroidWall = ({ entries = [] }) => {
   if (displayEntries.length === 0) {
     return (
       <div className="polaroid-wall-empty">
-        <p>No memories yet. Start writing your journey!</p>
+        <p>📸 No memories with photos yet. Add a photo when journaling!</p>
       </div>
     )
   }

@@ -29,8 +29,10 @@ import WellnessPage from './pages/WellnessPage'
 import CuteVirtualPet from './pages/CuteVirtualPet'
 import MusicPlayerPage from './pages/MusicPlayerPage'
 import GamificationHub from './pages/GamificationHub'
+import MemoryLane from './pages/MemoryLane'
 import useKeyboardShortcuts from './utils/useKeyboardShortcuts'
 import './styles/global.css'
+import './styles/icons.css'
 
 // Add keyboard shortcuts hook to the app
 function AppKeyboardShortcuts() {
@@ -72,6 +74,7 @@ function AppRoutes() {
       <Route path="/music" element={<ProtectedRoute><MusicPlayerPage /></ProtectedRoute>} />
       <Route path="/gamification" element={<ProtectedRoute><GamificationHub /></ProtectedRoute>} />
       <Route path="/game" element={<ProtectedRoute><Navigate to="/gamification" replace /></ProtectedRoute>} />
+      <Route path="/memory-lane" element={<ProtectedRoute><MemoryLane /></ProtectedRoute>} />
 
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/login" replace />} />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
+import PageWrapper from '../components/PageWrapper'
 import { Plus, Trash2, Check, ChevronRight, Calendar, Clock, Zap, Brain, Dumbbell, BookOpen, Home, Heart, Shield, Coffee } from 'lucide-react'
 import './PlannerPage.css'
+import '../components/FlipPage.css'
 import { formatDate } from '../utils/helpers'
 
 // Energy-based schedule template
@@ -161,11 +163,13 @@ export const PlannerPage = () => {
     <div className="planner-wrapper">
       <TopNavigation />
 
-      <div className="planner-container fade-in">
+      <PageWrapper sticker={'🗓️ Planner'}>
+        <div className="planner-container fade-in">
         <div className="planner-header">
           <h1>Today's Plan</h1>
           <p>{formatDate(new Date())}</p>
         </div>
+      </PageWrapper>
 
         {/* Coin Display */}
         <div className="coin-display neomorph-md">
@@ -198,15 +202,15 @@ export const PlannerPage = () => {
           <h3>⚡ Energy-Based System</h3>
           <div className="energy-legend">
             <div className="energy-item high">
-              <Zap size={16} />
+              <Zap size={16} className="icon icon-sm" />
               <span><strong>HIGH</strong> → Deep learning, complex tasks</span>
             </div>
             <div className="energy-item medium">
-              <Dumbbell size={16} />
+              <Dumbbell size={16} className="icon icon-sm" />
               <span><strong>MEDIUM</strong> → Practice exercises</span>
             </div>
             <div className="energy-item low">
-              <BookOpen size={16} />
+              <BookOpen size={16} className="icon icon-sm" />
               <span><strong>LOW</strong> → Review, light study</span>
             </div>
           </div>
@@ -215,14 +219,14 @@ export const PlannerPage = () => {
         {/* Time Block Schedule */}
         <div className="schedule-section">
           <h3 className="section-header">
-            <Clock size={18} /> Time Block Schedule
+            <Clock size={18} className="icon icon-sm" /> Time Block Schedule
           </h3>
           <div className="schedule-grid">
             {schedule.tasks.map(task => (
               <div 
                 key={task.id} 
-                className={`schedule-item neomorph-sm ${energyColors[task.energy]} ${task.completed ? 'completed' : ''}`}
-                onClick={() => toggleScheduleTask(task.id)}
+                className={`schedule-item neomorph-sm ${energyColors[task.energy]} ${task.completed ? 'completed' : ''} flip-card`}
+                onClick={() => openTaskCalendar(task)}
               >
                 <div className="schedule-time">{task.time}</div>
                 <div className="schedule-content">
@@ -232,12 +236,22 @@ export const PlannerPage = () => {
                     <span className={`schedule-energy ${task.energy.toLowerCase()}`}>{task.energy}</span>
                   </div>
                 </div>
-                <button 
-                  className="schedule-calendar-btn"
-                  onClick={(e) => { e.stopPropagation(); openTaskCalendar(task) }}
-                >
-                  <Calendar size={14} />
-                </button>
+                <div style={{display:'flex', alignItems:'center', gap:8}}>
+                  <button
+                    className={`schedule-complete-btn ${task.completed ? 'done' : ''}`}
+                    onClick={(e) => { e.stopPropagation(); toggleScheduleTask(task.id) }}
+                    title="Toggle completion"
+                  >
+                    <Check size={14} className="icon icon-sm" />
+                  </button>
+                  <button 
+                    className="schedule-calendar-btn"
+                    onClick={(e) => { e.stopPropagation(); openTaskCalendar(task) }}
+                    title="Open details"
+                  >
+                    <Calendar size={14} className="icon icon-sm" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Play, Pause, SkipForward, SkipBack, Volume2, Music } from 'lucide-react'
 import './MiniMusicPlayer.css'
+import './FlipPage.css'
 
 const songs = [
   { title: 'Lo-Fi Beats', artist: 'Chill Vibes', duration: '2:30' },
@@ -49,9 +50,9 @@ export default function MiniMusicPlayer() {
   const song = songs[currentSong]
 
   return (
-    <div className="mini-music-player">
+    <div className="mini-music-player flip-page flip-card">
       <div className="music-header">
-        <Music size={16} />
+        <Music size={16} className="icon icon-sm" />
         <span>Music Player</span>
       </div>
       
@@ -67,18 +68,18 @@ export default function MiniMusicPlayer() {
         
         <div className="music-controls">
           <button className="control-btn" onClick={handleSkipBack}>
-            <SkipBack size={16} />
+            <SkipBack size={16} className="icon icon-sm" />
           </button>
           <button className="control-btn play-btn" onClick={handlePlayPause}>
-            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+            {isPlaying ? <Pause size={20} className="icon icon-md" /> : <Play size={20} className="icon icon-md" />}
           </button>
           <button className="control-btn" onClick={handleSkipForward}>
-            <SkipForward size={16} />
+            <SkipForward size={16} className="icon icon-sm" />
           </button>
         </div>
         
         <div className="volume-control">
-          <Volume2 size={14} />
+          <Volume2 size={14} className="icon icon-sm" />
           <input
             type="range"
             min="0"

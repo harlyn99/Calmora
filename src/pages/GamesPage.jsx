@@ -1,23 +1,26 @@
 import React from 'react'
 import { TopNavigation } from '../components/TopNavigation'
+import PageWrapper from '../components/PageWrapper'
 import FocusGarden from '../components/FocusGarden'
 import BreathingGame from '../components/BreathingGame'
 import { useTheme } from '../contexts/ThemeContext'
 import { Sun, Moon, Sparkles } from 'lucide-react'
 import './GamesPage.css'
+import '../components/FlipPage.css'
 
 export const GamesPage = () => {
   const { isDark, toggleTheme, lightModeStyle, toggleLightModeStyle } = useTheme()
   const [activeGame, setActiveGame] = React.useState('garden') // 'garden' | 'breathing'
 
   return (
-    <div className="games-wrapper">
+    <div className="games-wrapper flip-page">
       <TopNavigation />
-      
-      <div className="games-container fade-in">
+
+      <PageWrapper sticker={'🎮 Games'}>
+        <div className="games-container fade-in flip-card">
         {/* Header */}
         <div className="games-header">
-          <h1>🎮 Calmora Games</h1>
+          <h1 className="unified-header">🎮 Calmora Games</h1>
           <p>Relax, breathe, and grow your garden</p>
         </div>
 
@@ -28,7 +31,7 @@ export const GamesPage = () => {
             onClick={toggleTheme}
             title="Toggle Dark/Light Mode"
           >
-            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            {isDark ? <Sun size={20} className="icon icon-md" /> : <Moon size={20} className="icon icon-md" />}
             <span>{isDark ? 'Light' : 'Dark'}</span>
           </button>
           
@@ -38,7 +41,7 @@ export const GamesPage = () => {
               onClick={toggleLightModeStyle}
               title="Toggle Light Mode Style"
             >
-              <Sparkles size={20} />
+              <Sparkles size={20} className="icon icon-md" />
               <span>{lightModeStyle === 'ethereal' ? 'Daylight' : 'Space'}</span>
             </button>
           )}
@@ -69,7 +72,7 @@ export const GamesPage = () => {
             <BreathingGame duration={120} />
           )}
         </div>
-      </div>
+      </PageWrapper>
     </div>
   )
 }

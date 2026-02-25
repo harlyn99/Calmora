@@ -1,0 +1,39 @@
+.page-wrapper {
+  position: relative;
+  padding-top: 8px;
+}
+
+.page-sticker {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent-1, #8ab4f8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  box-shadow: var(--glass-shadow, 0 8px 24px rgba(0,0,0,0.12));
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 40;
+  transform: translateY(-2px);
+  user-select: none;
+}
+
+.page-sticker .sticker-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.page-inner {
+  transition: transform 280ms ease, opacity 280ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-inner {
+    transition: none;
+  }
+}
