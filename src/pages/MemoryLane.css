@@ -21,7 +21,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -31,6 +31,7 @@
   font-size: 0.95rem;
   opacity: 0.7;
   font-weight: 400;
+  color: var(--text-secondary);
 }
 
 /* Feed Container */
@@ -67,11 +68,23 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.memory-modal-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
   flex-shrink: 0;
 }
 
@@ -162,6 +175,10 @@
   justify-content: center;
 }
 
+.memory-action-btn svg {
+  color: inherit;
+}
+
 .memory-action-btn:hover {
   background: rgba(0, 0, 0, 0.05);
   transform: scale(1.1);
@@ -171,7 +188,7 @@
   color: #ef4444;
 }
 
-.memory-action-btn.like.liked .filled {
+.memory-action-btn.like.liked svg {
   fill: #ef4444;
 }
 
@@ -181,6 +198,11 @@
 
 .memory-action-btn.delete:hover {
   background: rgba(239, 68, 68, 0.1);
+}
+
+.memory-action-btn.comment:hover svg,
+.memory-action-btn.share:hover svg {
+  color: var(--theme-primary);
 }
 
 /* Post Footer */
@@ -198,7 +220,7 @@
 }
 
 .memory-tag {
-  color: #667eea;
+  color: var(--accent-1);
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -232,7 +254,7 @@
 .stat-pill-value {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -255,6 +277,7 @@
   opacity: 0.5;
   display: flex;
   justify-content: center;
+  color: var(--text-primary);
 }
 
 .memory-lane-empty h3 {
@@ -272,7 +295,7 @@
   opacity: 0.6;
   margin-top: 1rem;
   padding: 0.75rem 1rem;
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(var(--accent-1-rgb, 102, 126, 234), 0.1);
   border-radius: 8px;
   display: inline-block;
 }
@@ -327,6 +350,20 @@
   transform: scale(1.1);
 }
 
+.memory-modal-options {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  margin-left: auto;
+}
+
+.memory-modal-options:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .memory-modal-content-modern {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -365,7 +402,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -377,11 +414,13 @@
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
+  color: var(--text-primary);
 }
 
 .memory-modal-date {
   font-size: 0.85rem;
   opacity: 0.6;
+  color: var(--text-secondary);
 }
 
 .memory-modal-text {

@@ -1,60 +1,13 @@
+/* Music Player Page - Same layout as Journal */
 .music-player-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  color: var(--text-primary, #2d3436);
-}
-
-/* Top Navigation */
-.music-top-nav {
-  background: var(--card-bg, #ffffff);
-  border-radius: 16px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-elevated, 0 4px 20px rgba(0,0,0,0.1));
-}
-
-.music-nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.music-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--shadow-inner, #f0f0f0);
-  border: none;
-  padding: 10px 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--text-primary, #2d3436);
-  transition: transform 0.2s;
-}
-
-.music-nav-btn:hover {
-  transform: scale(1.05);
-}
-
-.music-top-nav h1 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.3rem;
-  margin: 0;
-  color: var(--text-primary, #2d3436);
-}
-
-.music-nav-spacer {
-  width: 80px;
+  min-height: 100vh;
+  padding-bottom: 2rem;
 }
 
 .music-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 /* Now Playing Card */

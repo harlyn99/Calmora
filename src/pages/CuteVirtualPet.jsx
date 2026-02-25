@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Heart, Utensils, Moon, Sparkles, ShoppingBag, X, Shirt, Droplets, Music } from 'lucide-react'
 import { TopNavigation } from '../components/TopNavigation'
-import PageWrapper from '../components/PageWrapper'
 import { useTheme } from '../contexts/ThemeContext'
 import './CuteVirtualPet.css'
-import '../components/FlipPage.css'
 
 // ============================================
 // PET TYPES - Visual appearance
@@ -1089,10 +1087,10 @@ export default function CuteVirtualPet() {
   // MAIN RENDER
   // ============================================
   return (
-    <div className="cute-virtual-pet-page flip-page">
+    <div className="cute-virtual-pet-page">
       <TopNavigation />
 
-      <PageWrapper sticker={'🐾 Pet'}>
+      <div className="cute-pet-container">
         {/* Header Stats */}
         <div className="cute-pet-header">
           <div className="cute-pet-header-top">
@@ -1191,8 +1189,9 @@ export default function CuteVirtualPet() {
         </div>
 
         {/* Pet with Layered Clothes */}
-        <div className={`cute-pet-container ${animation || ''} ${pet.isSleeping ? 'sleeping' : ''}`}>
-          <div className="cute-pet">
+        <div className="cute-pet-wrapper">
+          <div className={`cute-pet-container ${animation || ''} ${pet.isSleeping ? 'sleeping' : ''}`}>
+            <div className="cute-pet">
             {/* Layer 1: Back Accessories (Wings) */}
             {equippedBack && (
               <div className="back-accessory" style={{ '--acc-color': CLOTHING_CATALOG.find(c => c.id === equippedBack)?.color }}>
@@ -1296,9 +1295,9 @@ export default function CuteVirtualPet() {
 
             {/* Eating Animation */}
             {eatingState.isEating && eatingState.foodItem && (
-              <div 
-                className="cute-eating-food" 
-                style={{ 
+              <div
+                className="cute-eating-food"
+                style={{
                   transform: `scale(${eatingState.size})`,
                 }}
               >
@@ -1313,6 +1312,7 @@ export default function CuteVirtualPet() {
               <span>💤</span>
             </div>
           )}
+        </div>
         </div>
 
         {/* Particles */}
@@ -1709,7 +1709,7 @@ export default function CuteVirtualPet() {
         </div>
       )}
 
-      </PageWrapper>
+      </div>
 
       {/* Pet Select Modal */}
       {showPetSelect && (

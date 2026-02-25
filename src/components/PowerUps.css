@@ -211,9 +211,9 @@
       color: #475569;
       font-weight: 600;
       margin-bottom: 1rem;
-      
+
       svg {
-        color: #a855f7;
+        color: var(--accent-1);
       }
     }
     

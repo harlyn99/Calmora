@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart, Home, BookOpen, Book, Flower, Target, Smile, Activity, BarChart3, LineChart } from 'lucide-react'
+import { Menu, Settings, LogOut, User, Info, Palette, Gamepad2, Music, Heart, Home, BookOpen, Book, Flower, BarChart3 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useEnergyMode } from '../contexts/EnergyModeContext'
 import { mockSyncNow } from '../services/sync'
@@ -20,21 +20,16 @@ export const TopNavigation = () => {
     setShowMenu(false)
   }
 
+  // Main navigation - all features visible
   const navLinks = [
     { path: '/dashboard', label: 'Home', icon: Home },
     { path: '/schedule', label: 'Schedule', icon: BookOpen },
     { path: '/journal', label: 'Journal', icon: Book },
     { path: '/memory-lane', label: 'Memories', icon: Flower },
-    { path: '/meditation', label: 'Meditation', icon: Activity },
-    { path: '/habits', label: 'Habits', icon: Target },
-    { path: '/mood', label: 'Mood', icon: Smile },
-    { path: '/goals', label: 'Goals', icon: Target },
-    { path: '/wellness', label: 'Wellness', icon: Activity },
+    { path: '/analytics', label: 'Analytics', icon: BarChart3 },
     { path: '/gamification', label: 'Games', icon: Gamepad2 },
     { path: '/music', label: 'Music', icon: Music },
     { path: '/cute-pet', label: 'Pet', icon: Heart },
-    { path: '/review', label: 'Review', icon: BarChart3 },
-    { path: '/stats', label: 'Stats', icon: LineChart },
   ]
 
   return (

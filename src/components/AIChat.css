@@ -93,8 +93,8 @@
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
-  border: 2px solid var(--accent-1, #667eea);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border: 2px solid var(--accent-1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -142,7 +142,7 @@
 }
 
 .ai-icon-btn:hover {
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: white;
   transform: scale(1.1);
 }
@@ -206,8 +206,8 @@
 }
 
 .personality-option.active {
-  border-color: var(--accent-primary, #667eea);
-  background: rgba(102, 126, 234, 0.1);
+  border-color: var(--accent-1);
+  background: rgba(var(--accent-1-rgb, 102, 126, 234), 0.1);
 }
 
 .personality-avatar {
@@ -293,7 +293,7 @@
 .ai-empty-avatar {
   font-size: 64px;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -321,7 +321,7 @@
 .ai-suggestions button {
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid var(--accent-1, #667eea);
+  border: 1px solid var(--accent-1);
   background: rgba(255, 255, 255, 0.8);
   color: #1a1a2e;
   cursor: pointer;
@@ -331,11 +331,11 @@
 }
 
 .ai-suggestions button:hover {
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: white;
   border-color: transparent;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(var(--accent-1-rgb, 102, 126, 234), 0.4);
 }
 
 /* Message Styles */
@@ -382,12 +382,12 @@
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .ai-message.user .avatar-monochrome {
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
 }
 
 .ai-message-content {
@@ -417,14 +417,14 @@
 
 .ai-message.ai .ai-message-content p strong {
   font-weight: 600;
-  color: var(--accent-1, #667eea);
+  color: var(--accent-1);
 }
 
 .ai-message.user .ai-message-content p {
-  background: linear-gradient(135deg, var(--accent-1, #667eea), var(--accent-2, #764ba2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: #ffffff;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 2px 12px rgba(var(--accent-1-rgb, 102, 126, 234), 0.4);
 }
 
 .ai-message-time {
@@ -444,7 +444,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent-1, #667eea);
+  background: var(--accent-1);
   animation: typing 1.4s infinite;
 }
 
@@ -498,7 +498,7 @@
 
 .ai-input-wrapper textarea:focus {
   outline: none;
-  border-color: var(--accent-primary, #667eea);
+  border-color: var(--accent-1);
   background: var(--card-bg, #ffffff);
 }
 
@@ -511,7 +511,7 @@
   height: 44px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: white;
   cursor: pointer;
   display: flex;

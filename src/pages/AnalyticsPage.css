@@ -1,0 +1,201 @@
+/* Analytics Page - Simple Tracker */
+.analytics-wrapper {
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.analytics-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+.analytics-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem 0;
+}
+
+.analytics-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.analytics-header p {
+  opacity: 0.7;
+  font-size: 0.95rem;
+}
+
+/* Period Selector */
+.period-selector-main {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.period-btn-main {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.period-btn-main:hover {
+  background: rgba(var(--accent-1-rgb, 102, 126, 234), 0.1);
+  border-color: var(--accent-1);
+}
+
+.period-btn-main.active {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  color: white;
+  border-color: transparent;
+}
+
+/* Stats Grid */
+.analytics-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.analytics-stat-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.analytics-stat-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.analytics-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.analytics-stat-label {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.analytics-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.analytics-stat-sub {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* Chart Card */
+.analytics-chart-card {
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.chart-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Chart Container */
+.analytics-chart-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 250px;
+  padding: 1rem 0;
+}
+
+.analytics-chart-bar-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.analytics-chart-bar {
+  width: 100%;
+  min-height: 8px;
+  background: linear-gradient(180deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.analytics-chart-bar:hover {
+  opacity: 0.8;
+  transform: scaleX(1.05);
+}
+
+.analytics-chart-label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.analytics-chart-value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .analytics-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .period-selector-main {
+    flex-direction: column;
+  }
+
+  .period-btn-main {
+    width: 100%;
+  }
+
+  .analytics-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-chart-container {
+    height: 200px;
+  }
+
+  .analytics-chart-label {
+    font-size: 0.65rem;
+  }
+}

@@ -55,11 +55,11 @@ const RARITY_CONFIG = {
     border: '#93c5fd',
     glow: 'rgba(147, 197, 253, 0.5)'
   },
-  epic: { 
-    color: '#a855f7',
-    bg: 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)',
-    border: '#d8b4fe',
-    glow: 'rgba(216, 180, 254, 0.6)'
+  epic: {
+    color: 'var(--accent-1)',
+    bg: 'linear-gradient(135deg, var(--accent-1-light, #f3e8ff) 0%, var(--accent-2-light, #e9d5ff) 100%)',
+    border: 'var(--accent-1)',
+    glow: 'rgba(var(--accent-1-rgb, 168, 85, 153), 0.6)'
   },
   legendary: { 
     color: '#f59e0b',

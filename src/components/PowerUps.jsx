@@ -62,7 +62,7 @@ const POWERUPS = [
     duration: 0, // Instant effect
     cost: 30,
     icon: '⏰',
-    color: '#a855f7',
+    color: 'var(--accent-1)',
     effect: 'focus_extension',
     value: 300, // 5 minutes in seconds
     rarity: 'common'

@@ -83,15 +83,15 @@
 
 .breathing-circle {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   background: var(--accent-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.5s ease;
-  box-shadow: 
+  box-shadow:
     0 0 60px var(--accent-glow),
     inset 0 0 60px rgba(255, 255, 255, 0.2);
 }
@@ -106,10 +106,6 @@
 
 .breathing-circle.exhale {
   animation: breatheOut 4s ease-in forwards;
-}
-
-.breathing-circle.holdEmpty {
-  animation: breatheHoldEmpty 2s ease-in-out forwards;
 }
 
 @keyframes breatheIn {
@@ -136,15 +132,6 @@
   }
   100% {
     transform: scale(1);
-  }
-}
-
-@keyframes breatheHoldEmpty {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.98);
   }
 }
 
@@ -253,20 +240,22 @@
 .breathing-controls {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 16px;
   margin-bottom: 40px;
 }
 
 .control-button {
-  padding: 16px 48px;
-  font-size: 16px;
+  padding: 14px 40px;
+  font-size: 15px;
   font-weight: 700;
   border: none;
-  border-radius: 16px;
+  border-radius: 14px;
   cursor: pointer;
   transition: var(--transition);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  min-width: 180px;
 }
 
 .control-button.start {
@@ -341,13 +330,17 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .breathing-game-container {
+    padding: 24px 16px;
+  }
+
   .breathing-circle {
-    width: 240px;
-    height: 240px;
+    width: 140px;
+    height: 140px;
   }
 
   .orbiting-particles {
-    inset: -30px;
+    inset: -25px;
   }
 
   .orbit-particle {
@@ -356,7 +349,7 @@
 
   @keyframes orbit {
     0% {
-      transform: rotate(0deg) translateX(120px) rotate(0deg);
+      transform: rotate(0deg) translateX(80px) rotate(0deg);
       opacity: 0;
     }
     10% {
@@ -366,20 +359,94 @@
       opacity: 1;
     }
     100% {
-      transform: rotate(360deg) translateX(120px) rotate(-360deg);
+      transform: rotate(360deg) translateX(80px) rotate(-360deg);
       opacity: 0;
     }
   }
 
   .breathing-stats {
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .breathing-stat {
-    padding: 12px 16px;
+    padding: 10px 14px;
+    min-width: 80px;
+  }
+
+  .stat-icon {
+    font-size: 18px;
   }
 
   .stat-value {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .control-button {
+    padding: 12px 24px;
+    font-size: 14px;
+    min-width: 140px;
+  }
+
+  .phase-text {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breathing-game-container {
+    padding: 20px 12px;
+  }
+
+  .breathing-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .orbiting-particles {
+    inset: -20px;
+  }
+
+  @keyframes orbit {
+    0% {
+      transform: rotate(0deg) translateX(70px) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(360deg) translateX(70px) rotate(-360deg);
+      opacity: 0;
+    }
+  }
+
+  .breathing-stats {
+    gap: 8px;
+  }
+
+  .breathing-stat {
+    padding: 8px 12px;
+  }
+
+  .stat-value {
+    font-size: 16px;
+  }
+
+  .control-button {
+    padding: 10px 20px;
+    font-size: 13px;
+    min-width: 120px;
+  }
+
+  .phase-text {
+    font-size: 16px;
   }
 }

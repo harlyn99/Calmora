@@ -8,6 +8,7 @@ import {
   Briefcase, Palette, Gamepad2, UserCheck, Heart, Coffee,
   Sun, Moon, Calendar as CalendarIcon, List, BarChart3, Coins
 } from 'lucide-react'
+import { useIconTheme } from '../contexts/IconThemeContext'
 import './SchedulePage.css'
 import { formatDate } from '../utils/helpers'
 
@@ -21,35 +22,34 @@ const DAYS_OF_WEEK = [
   { key: 'sunday', label: 'Sunday', short: 'Sun' }
 ]
 
-// Icon mapping based on task theme/category
+// Icon mapping based on task theme/category - ALL using consistent colors
 const ICON_MAP = {
-  exercise: { icon: Dumbbell, color: '#FF6B6B' },
-  fitness: { icon: Dumbbell, color: '#FF6B6B' },
-  run: { icon: Dumbbell, color: '#FF6B6B' },
-  work: { icon: Briefcase, color: '#4ECDC4' },
-  deep: { icon: Brain, color: '#6C5CE7' },
-  focus: { icon: Brain, color: '#6C5CE7' },
-  learn: { icon: GraduationCap, color: '#A29BFE' },
-  study: { icon: BookOpen, color: '#A29BFE' },
-  review: { icon: BarChart3, color: '#FD79A8' },
-  goals: { icon: Target, color: '#FD79A8' },
-  meeting: { icon: Users, color: '#74B9FF' },
-  team: { icon: Users, color: '#74B9FF' },
-  coding: { icon: Laptop, color: '#00CEC9' },
-  project: { icon: Laptop, color: '#00CEC9' },
-  freelance: { icon: Briefcase, color: '#4ECDC4' },
-  language: { icon: BookOpen, color: '#A29BFE' },
-  personal: { icon: Palette, color: '#FDCB6E' },
-  relax: { icon: Gamepad2, color: '#FDCB6E' },
-  recharge: { icon: Coffee, color: '#FDCB6E' },
-  plan: { icon: CalendarIcon, color: '#74B9FF' },
-  selfcare: { icon: Heart, color: '#FF7675' },
-  family: { icon: Users, color: '#74B9FF' },
-  morning: { icon: Sun, color: '#FFEAA7' },
-  routine: { icon: List, color: '#74B9FF' },
-  skills: { icon: Target, color: '#FD79A8' },
-  practice: { icon: Target, color: '#FD79A8' },
-  default: { icon: Target, color: '#74B9FF' }
+  exercise: { icon: Dumbbell, theme: 'success' },
+  fitness: { icon: Dumbbell, theme: 'success' },
+  run: { icon: Dumbbell, theme: 'success' },
+  work: { icon: Briefcase, theme: 'primary' },
+  deep: { icon: Brain, theme: 'primary' },
+  focus: { icon: Brain, theme: 'primary' },
+  learn: { icon: GraduationCap, theme: 'info' },
+  study: { icon: BookOpen, theme: 'info' },
+  review: { icon: BarChart3, theme: 'accent' },
+  meeting: { icon: Users, theme: 'info' },
+  team: { icon: Users, theme: 'info' },
+  coding: { icon: Laptop, theme: 'success' },
+  project: { icon: Laptop, theme: 'success' },
+  freelance: { icon: Briefcase, theme: 'primary' },
+  language: { icon: BookOpen, theme: 'info' },
+  personal: { icon: Palette, theme: 'warning' },
+  relax: { icon: Gamepad2, theme: 'warning' },
+  recharge: { icon: Coffee, theme: 'warning' },
+  plan: { icon: CalendarIcon, theme: 'info' },
+  selfcare: { icon: Heart, theme: 'danger' },
+  family: { icon: Users, theme: 'info' },
+  morning: { icon: Sun, theme: 'warning' },
+  routine: { icon: List, theme: 'info' },
+  skills: { icon: Target, theme: 'accent' },
+  practice: { icon: Target, theme: 'accent' },
+  default: { icon: Target, theme: 'primary' }
 }
 
 const getIconForTask = (title) => {
@@ -65,8 +65,7 @@ const getIconForTask = (title) => {
 const DEFAULT_TASKS = {
   monday: [
     { id: 'm1', title: 'Morning Exercise', iconTheme: 'exercise', coinReward: 10, completed: false },
-    { id: 'm2', title: 'Deep Work Session', iconTheme: 'deep', coinReward: 15, completed: false },
-    { id: 'm3', title: 'Review Goals', iconTheme: 'goals', coinReward: 10, completed: false }
+    { id: 'm2', title: 'Deep Work Session', iconTheme: 'deep', coinReward: 15, completed: false }
   ],
   tuesday: [
     { id: 't1', title: 'Study Session', iconTheme: 'study', coinReward: 10, completed: false },
@@ -98,6 +97,7 @@ const DEFAULT_TASKS = {
 }
 
 export const SchedulePage = () => {
+  const { getIconColor } = useIconTheme()
   // Weekly schedule state
   const [weeklySchedule, setWeeklySchedule] = useState(() => {
     const saved = localStorage.getItem('weeklySchedule')
@@ -323,21 +323,27 @@ export const SchedulePage = () => {
           {/* Header Stats */}
           <div className="schedule-stats">
             <div className="stat-card neomorph-md">
-              <div className="stat-icon">🪙</div>
+              <div className="stat-icon">
+                <Coins size={28} style={{ color: getIconColor('warning') }} />
+              </div>
               <div className="stat-info">
                 <span className="stat-label">Pet Coins</span>
                 <span className="stat-value">{totalCoins}</span>
               </div>
             </div>
             <div className="stat-card neomorph-md">
-              <div className="stat-icon">🔥</div>
+              <div className="stat-icon">
+                <Flame size={28} style={{ color: getIconColor('danger') }} />
+              </div>
               <div className="stat-info">
                 <span className="stat-label">Streak</span>
                 <span className="stat-value">{streak} days</span>
               </div>
             </div>
             <div className="stat-card neomorph-md">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon">
+                <Check size={28} style={{ color: getIconColor('success') }} />
+              </div>
               <div className="stat-info">
                 <span className="stat-label">Today</span>
                 <span className="stat-value">{todayCompletion.completed}/{todayCompletion.total}</span>
@@ -375,7 +381,7 @@ export const SchedulePage = () => {
           {selectedDay === todayKey && (
             <div className="today-section">
               <div className="section-header">
-                <h2>📌 Today's Schedule - {DAYS_OF_WEEK[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1].label}</h2>
+                <h2>Today's Schedule</h2>
                 <p>{formatDate(new Date())}</p>
               </div>
 
@@ -398,9 +404,8 @@ export const SchedulePage = () => {
           <div className="tasks-section">
             <div className="section-header">
               <h3>
-                {selectedDay === todayKey ? '🎯' : '📋'} {DAYS_OF_WEEK.find(d => d.key === selectedDay)?.label} Tasks
+                {DAYS_OF_WEEK.find(d => d.key === selectedDay)?.label} Tasks
               </h3>
-              {selectedDay === todayKey && <span className="date-label">{formatDate(new Date())}</span>}
             </div>
 
             {selectedDayTasks.length === 0 ? (
@@ -459,11 +464,20 @@ export const SchedulePage = () => {
                             </button>
                             <div className="task-icon-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                               {(() => {
-                                const IconComponent = getIconForTask(task.title).icon
-                                const iconColor = getIconForTask(task.title).color
-                                return <IconComponent size={24} style={{ color: iconColor, minWidth: '24px' }} />
+                                const iconData = getIconForTask(task.title)
+                                const IconComponent = iconData.icon
+                                const iconColor = getIconColor(iconData.theme)
+                                return (
+                                  <>
+                                    <IconComponent 
+                                      size={24} 
+                                      style={{ color: iconColor, minWidth: '24px' }} 
+                                      className={`task-icon-${iconData.theme}`}
+                                    />
+                                    <span className={`task-title ${isCompleted ? 'completed' : ''}`}>{task.title}</span>
+                                  </>
+                                )
                               })()}
-                              <span className={`task-title ${isCompleted ? 'completed' : ''}`}>{task.title}</span>
                             </div>
                             <span className="task-coin-reward">+{task.coinReward || 10}</span>
                           </div>
@@ -502,13 +516,18 @@ export const SchedulePage = () => {
                 title="Select icon theme"
               >
                 {(() => {
-                  const IconComponent = getIconForTask(
+                  const iconData = getIconForTask(
                     newTaskTitle || 'default'
-                  ).icon
-                  const iconColor = getIconForTask(
-                    newTaskTitle || 'default'
-                  ).color
-                  return <IconComponent size={20} style={{ color: iconColor }} />
+                  )
+                  const IconComponent = iconData.icon
+                  const iconColor = getIconColor(iconData.theme)
+                  return (
+                    <IconComponent 
+                      size={20} 
+                      style={{ color: iconColor }} 
+                      className={`task-icon-${iconData.theme}`}
+                    />
+                  )
                 })()}
               </button>
               <input
@@ -534,29 +553,37 @@ export const SchedulePage = () => {
                 <option value="15">+15</option>
                 <option value="20">+20</option>
               </select>
-              <button type="submit" className="add-btn neomorph-button primary">
+              <button type="submit" className="add-btn-aesthetic">
                 <Plus size={20} />
+                <span>Add Task</span>
               </button>
             </div>
 
             {showThemePicker && (
               <div className="theme-picker neomorph-md">
                 <div className="theme-grid">
-                  {Object.entries(ICON_MAP).map(([key, { icon: IconComponent, color }]) => (
-                    <button
-                      key={key}
-                      type="button"
-                      className={`theme-btn ${newTaskIconTheme === key ? 'selected' : ''}`}
-                      onClick={() => {
-                        setNewTaskIconTheme(key)
-                        setShowThemePicker(false)
-                      }}
-                      title={key}
-                    >
-                      <IconComponent size={20} style={{ color }} />
-                      <span className="theme-label">{key}</span>
-                    </button>
-                  ))}
+                  {Object.entries(ICON_MAP).map(([key, { icon: IconComponent, theme }]) => {
+                    const iconColor = getIconColor(theme)
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        className={`theme-btn ${newTaskIconTheme === key ? 'selected' : ''}`}
+                        onClick={() => {
+                          setNewTaskIconTheme(key)
+                          setShowThemePicker(false)
+                        }}
+                        title={key}
+                      >
+                        <IconComponent 
+                          size={20} 
+                          style={{ color: iconColor }} 
+                          className={`task-icon-${theme}`}
+                        />
+                        <span className="theme-label">{key}</span>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             )}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Shuffle, Repeat, Heart, Music2 } from 'lucide-react'
 import { TopNavigation } from '../components/TopNavigation'
-import PageWrapper from '../components/PageWrapper'
 import './MusicPlayerPage.css'
 
 // Lo-fi style ambient sounds (using free audio sources)
@@ -116,8 +115,7 @@ export default function MusicPlayerPage() {
     <div className="music-player-page">
       <TopNavigation />
 
-      <PageWrapper sticker={'🎵 Music'}>
-        <div className="music-container">
+      <div className="music-container">
         {/* Now Playing */}
         <div className="now-playing" style={{ background: `linear-gradient(135deg, ${currentTrack.color}22, ${currentTrack.color}11)` }}>
           <div className="album-art">
@@ -318,7 +316,6 @@ export default function MusicPlayerPage() {
           </div>
         </div>
         </div>
-      </PageWrapper>
 
       {/* Hidden audio elements for ambient sounds */}
       {AMBIENT_SOUNDS.map(sound => (

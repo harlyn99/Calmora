@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { TopNavigation } from '../components/TopNavigation'
 import { useNavigate } from 'react-router-dom'
 import { useXP } from '../contexts/XPContext'
-import { Trophy, Sparkles, Gift, Gamepad2, Sprout, Star, Home } from 'lucide-react'
-import AchievementGallery from '../components/AchievementGallery'
-import PowerUps from '../components/PowerUps'
-import DailyLuckyDraw from '../components/DailyLuckyDraw'
-import FocusGarden from '../components/FocusGarden'
+import { Trophy, Sprout, Star, Gamepad2, Heart, Clock, Wind, Flower2, ArrowRight } from 'lucide-react'
 import './GamificationHub.css'
 
 export default function GamificationHub() {
@@ -15,148 +12,150 @@ export default function GamificationHub() {
     const saved = localStorage.getItem('petCoins')
     return saved ? parseInt(saved) : 150
   })
-  const [activeTab, setActiveTab] = useState('achievements')
+  const [gameStats, setGameStats] = useState(() => {
+    const saved = localStorage.getItem('gameStats')
+    return saved ? JSON.parse(saved) : {
+      breathingSessions: 0,
+      gardenPlants: 0,
+      totalPlayTime: 0
+    }
+  })
 
-  const handleAddCoins = (amount) => {
-    const newCoins = coins + amount
-    setCoins(newCoins)
-    localStorage.setItem('petCoins', newCoins.toString())
+  useEffect(() => {
+    localStorage.setItem('petCoins', coins.toString())
+  }, [coins])
+
+  useEffect(() => {
+    localStorage.setItem('gameStats', JSON.stringify(gameStats))
+  }, [gameStats])
+
+  const formatPlayTime = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+    if (mins >= 60) {
+      const hours = Math.floor(mins / 60)
+      const remainingMins = mins % 60
+      return `${hours}h ${remainingMins}m`
+    }
+    return `${mins}m`
   }
 
-  const handleAddXP = (amount) => {
-    addXP(amount, 'Lucky Draw Reward')
-  }
-
-  const handleAddItem = (itemId) => {
-    console.log('Received item:', itemId)
-    // Handle item reward (power-up, etc.)
-  }
-
-  const handleGardenComplete = (plant) => {
-    console.log('Plant grown:', plant.name)
-  }
-
-  const tabs = [
-    { id: 'achievements', name: 'Achievements', icon: Trophy, color: '#f59e0b' },
-    { id: 'powerups', name: 'Power-Ups', icon: Sparkles, color: '#a855f7' },
-    { id: 'lucky', name: 'Lucky Draw', icon: Gift, color: '#ec4899' },
-    { id: 'garden', name: 'Focus Garden', icon: Sprout, color: '#22c55e' }
+  const games = [
+    {
+      id: 'breathing',
+      name: 'Breathing Exercise',
+      description: 'Find your calm with guided breathing exercises',
+      icon: Wind,
+      themeClass: 'game-breathing',
+      emoji: '🧘',
+      stats: `${gameStats.breathingSessions} sessions`,
+      route: '/game/breathing'
+    },
+    {
+      id: 'garden',
+      name: 'Focus Garden',
+      description: 'Grow plants while you focus and earn rewards',
+      icon: Flower2,
+      themeClass: 'game-garden',
+      emoji: '🌱',
+      stats: `${gameStats.gardenPlants} plants`,
+      route: '/game/garden'
+    }
   ]
 
   return (
     <div className="gamification-hub">
-      {/* Header */}
-      <div className="hub-header">
-        <div className="header-left">
-          <button className="back-home-btn" onClick={() => navigate('/dashboard')} title="Back to Home">
-            <Home size={24} />
-          </button>
-          <Gamepad2 size={36} className="header-icon" />
-          <div>
-            <h1>Gamification Hub</h1>
-            <p>Level up your productivity with fun rewards!</p>
+      <TopNavigation />
+
+      <div className="hub-container fade-in">
+        {/* Header */}
+        <div className="hub-header">
+          <div className="header-left">
+            <div className="header-icon-wrapper">
+              <Gamepad2 size={32} />
+            </div>
+            <div>
+              <h1>Calmora Games</h1>
+              <p>Choose your activity</p>
+            </div>
+          </div>
+
+          <div className="header-stats">
+            <div className="stat-badge xp-badge">
+              <Star size={16} fill="#fbbf24" />
+              <span>Lv.{xp.level}</span>
+            </div>
+            <div className="stat-badge coins-badge">
+              <span>🪙</span>
+              <span>{coins}</span>
+            </div>
           </div>
         </div>
-        
-        <div className="header-stats">
-          <div className="stat-badge xp-badge">
-            <Star size={18} fill="#fbbf24" />
-            <span>Level {xp.level}</span>
-          </div>
-          <div className="stat-badge coins-badge">
-            <span>🪙</span>
-            <span>{coins}</span>
-          </div>
-          <div className="stat-badge achievements-badge">
-            <Trophy size={18} />
-            <span>{achievements.length} Unlocked</span>
-          </div>
+
+        {/* Games Grid */}
+        <div className="games-hub-grid">
+          {games.map((game) => {
+            const Icon = game.icon
+            return (
+              <div
+                key={game.id}
+                className={`game-hub-card ${game.themeClass}`}
+                onClick={() => navigate(game.route)}
+              >
+                <div className="game-hub-card-content">
+                  <div className="game-hub-icon">
+                    <Icon size={32} />
+                  </div>
+                  <div className="game-hub-info">
+                    <h2>{game.name}</h2>
+                    <p>{game.description}</p>
+                    <div className="game-hub-stats">
+                      <span>{game.emoji}</span>
+                      <span>{game.stats}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="game-hub-arrow">
+                  <ArrowRight size={24} />
+                </div>
+              </div>
+            )
+          })}
         </div>
-      </div>
 
-      {/* Tab Navigation */}
-      <div className="hub-tabs">
-        {tabs.map((tab) => {
-          const Icon = tab.icon
-          return (
-            <button
-              key={tab.id}
-              className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                '--tab-color': tab.color
-              }}
-            >
-              <Icon size={20} />
-              <span>{tab.name}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Tab Content */}
-      <div className="hub-content">
-        {activeTab === 'achievements' && (
-          <div className="tab-panel active">
-            <AchievementGallery />
-          </div>
-        )}
-        
-        {activeTab === 'powerups' && (
-          <div className="tab-panel active">
-            <PowerUps 
-              coins={coins}
-              onPurchase={(cost) => handleAddCoins(-cost)}
-              onActivate={(effects) => console.log('Power-ups activated:', effects)}
-            />
-          </div>
-        )}
-        
-        {activeTab === 'lucky' && (
-          <div className="tab-panel active">
-            <div className="lucky-draw-wrapper">
-              <DailyLuckyDraw 
-                coins={coins}
-                onAddCoins={handleAddCoins}
-                onAddXP={handleAddXP}
-                onAddItem={handleAddItem}
-                onReward={(reward) => console.log('Reward:', reward)}
-              />
-              
-              <div className="lucky-info">
-                <h3>How it Works</h3>
-                <ul>
-                  <li>🎁 Free draw every 24 hours</li>
-                  <li>🪙 Win coins, XP, or special items</li>
-                  <li>⭐ Higher rarity = better rewards</li>
-                  <li>🎯 Legendary rewards include mystery boxes!</li>
-                </ul>
+        {/* Your Progress Section */}
+        <div className="progress-section">
+          <h2><Trophy size={20} /> Your Progress</h2>
+          <div className="progress-stats">
+            <div className="progress-stat-card">
+              <Heart size={24} />
+              <div>
+                <span className="progress-stat-value">{gameStats.breathingSessions}</span>
+                <span className="progress-stat-label">Breathing Sessions</span>
+              </div>
+            </div>
+            <div className="progress-stat-card">
+              <Sprout size={24} />
+              <div>
+                <span className="progress-stat-value">{gameStats.gardenPlants}</span>
+                <span className="progress-stat-label">Plants Grown</span>
+              </div>
+            </div>
+            <div className="progress-stat-card">
+              <Clock size={24} />
+              <div>
+                <span className="progress-stat-value">{formatPlayTime(gameStats.totalPlayTime)}</span>
+                <span className="progress-stat-label">Total Play Time</span>
+              </div>
+            </div>
+            <div className="progress-stat-card">
+              <Trophy size={24} />
+              <div>
+                <span className="progress-stat-value">{achievements.length}</span>
+                <span className="progress-stat-label">Achievements</span>
               </div>
             </div>
           </div>
-        )}
-        
-        {activeTab === 'garden' && (
-          <div className="tab-panel active">
-            <FocusGarden 
-              onComplete={handleGardenComplete}
-              onAddXP={handleAddXP}
-              onAddCoins={handleAddCoins}
-              coins={coins}
-            />
-            
-            <div className="garden-info">
-              <h3>🌱 Focus Garden Tips</h3>
-              <ul>
-                <li>🌻 Plant seeds when you start focusing</li>
-                <li>⏱️ Different plants need different focus times</li>
-                <li>🎵 Ambient sounds help you concentrate</li>
-                <li>💰 Harvest plants to earn coins</li>
-                <li>🏆 Watch your garden grow as you progress!</li>
-              </ul>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   )

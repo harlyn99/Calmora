@@ -1,8 +1,13 @@
+/* Cute Virtual Pet - Same layout structure as Journal */
 .cute-virtual-pet-page {
-  max-width: 600px;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.cute-pet-container {
+  max-width: 600px;  /* Keep original width for pet layout */
   margin: 0 auto;
-  padding: 16px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 1rem;
 }
 
 /* ============================================
@@ -27,7 +32,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--accent-gradient, linear-gradient(135deg, #667eea, #764ba2));
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
   border: none;
   padding: 10px 16px;
   border-radius: 14px;
@@ -260,12 +265,16 @@
 /* ============================================
    PET CONTAINER & BODY
    ============================================ */
-.cute-pet-container {
+.cute-pet-wrapper {
   position: absolute;
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
+}
+
+.cute-pet-container {
+  position: relative;
   transition: all 0.5s ease;
 }
 
@@ -724,7 +733,7 @@
    SLEEP SYSTEM
    ============================================ */
 .cute-pet-container.sleeping {
-  transform: translateX(-50%) rotate(15deg);
+  transform: rotate(15deg);
 }
 
 .cute-pet-container.sleeping .cute-pet {
@@ -759,8 +768,8 @@
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-20px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 
 .cute-pet-container.playing {
@@ -768,9 +777,9 @@
 }
 
 @keyframes wiggle {
-  0%, 100% { transform: translateX(-50%) rotate(0); }
-  25% { transform: translateX(-50%) rotate(-10deg); }
-  75% { transform: translateX(-50%) rotate(10deg); }
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
 }
 
 .cute-pet-container.wake {
@@ -778,9 +787,18 @@
 }
 
 @keyframes stretch {
-  0% { transform: translateX(-50%) scale(0.9); }
-  50% { transform: translateX(-50%) scale(1.05); }
-  100% { transform: translateX(-50%) scale(1); }
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.cute-pet-container.eating {
+  animation: eatBounce 0.3s ease-in-out infinite;
+}
+
+@keyframes eatBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 /* ============================================
@@ -799,7 +817,7 @@
   align-items: center;
   gap: 4px;
   background: var(--bg-secondary, white);
-  border: 2px solid var(--accent-1, #667eea);
+  border: 2px solid var(--theme-primary);
   padding: 12px 20px;
   border-radius: 16px;
   cursor: pointer;
@@ -810,7 +828,7 @@
 .cute-action-btn:hover:not(:disabled) {
   transform: translateY(-4px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-  border-color: var(--accent-2, #764ba2);
+  border-color: var(--theme-accent);
 }
 
 .cute-action-btn:disabled {
@@ -820,12 +838,12 @@
 }
 
 .cute-action-btn svg {
-  color: var(--accent-1, #667eea);
+  color: var(--theme-primary);
   transition: color 0.2s;
 }
 
 .cute-action-btn:hover:not(:disabled) svg {
-  color: var(--accent-2, #764ba2);
+  color: var(--theme-accent);
 }
 
 .cute-action-btn span {
@@ -1690,7 +1708,7 @@
 .memory-card-back {
   background: white;
   transform: rotateY(180deg);
-  border: 2px solid var(--accent-2, #764ba2);
+  border: 2px solid var(--theme-accent);
 }
 
 .memory-card.matched {

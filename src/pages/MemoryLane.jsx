@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { TopNavigation } from '../components/TopNavigation'
-import { X, Heart, Trash2, MoreHorizontal, MessageCircle, Share2, Image as ImageIcon } from 'lucide-react'
+import { X, Trash2, MoreHorizontal, MessageCircle, Share2, Image as ImageIcon, Calendar, Clock } from 'lucide-react'
+import { useIconTheme } from '../contexts/IconThemeContext'
 import './MemoryLane.css'
 
 export const MemoryLane = () => {
+  const { getIconColor } = useIconTheme()
   const [entries, setEntries] = useState([])
   const [selectedEntry, setSelectedEntry] = useState(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [entryToDelete, setEntryToDelete] = useState(null)
-  const [likedEntries, setLikedEntries] = useState(() => {
-    const saved = localStorage.getItem('likedMemories')
-    return saved ? JSON.parse(saved) : {}
-  })
 
   useEffect(() => {
     loadEntries()
     const interval = setInterval(loadEntries, 10000)
     return () => clearInterval(interval)
   }, [])
-
-  useEffect(() => {
-    localStorage.setItem('likedMemories', JSON.stringify(likedEntries))
-  }, [likedEntries])
 
   const loadEntries = () => {
     const saved = localStorage.getItem('journalEntries')
@@ -34,23 +28,12 @@ export const MemoryLane = () => {
     }
   }
 
-  const toggleLike = (id, e) => {
-    e.stopPropagation()
-    setLikedEntries(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }))
-  }
-
   const deleteEntry = (id) => {
     const saved = localStorage.getItem('journalEntries')
     if (saved) {
       const updated = JSON.parse(saved).filter(e => e.id !== id)
       localStorage.setItem('journalEntries', JSON.stringify(updated))
       setEntries(entries.filter(e => e.id !== id))
-      const newLiked = { ...likedEntries }
-      delete newLiked[id]
-      localStorage.setItem('likedMemories', JSON.stringify(newLiked))
       setShowDeleteConfirm(false)
       setEntryToDelete(null)
       setSelectedEntry(null)
@@ -94,7 +77,7 @@ export const MemoryLane = () => {
 
       <div className="memory-lane-container fade-in">
         <div className="memory-lane-header">
-          <h1>Memory Lane</h1>
+          <h1 style={{ background: `linear-gradient(135deg, var(--accent-1), var(--accent-2))`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Memory Lane</h1>
           <p className="memory-lane-subtitle">
             Your precious moments, beautifully captured
           </p>
@@ -121,15 +104,15 @@ export const MemoryLane = () => {
               >
                 {/* Post Header */}
                 <div className="memory-post-header">
-                  <div className="memory-avatar">
-                    <span>{entry.mood || '💭'}</span>
+                  <div className="memory-avatar" style={{ background: `linear-gradient(135deg, var(--accent-1), var(--accent-2))` }}>
+                    <Heart size={20} fill="white" style={{ color: 'white' }} />
                   </div>
                   <div className="memory-post-meta">
                     <span className="memory-username">Your Memory</span>
                     <span className="memory-time">{formatTimeAgo(entry.date)}</span>
                   </div>
                   <button className="memory-post-options">
-                    <MoreHorizontal size={20} />
+                    <MoreHorizontal size={20} style={{ color: getIconColor('neutral') }} />
                   </button>
                 </div>
 
@@ -144,35 +127,6 @@ export const MemoryLane = () => {
                       <p>{entry.content}</p>
                     </div>
                   )}
-                </div>
-
-                {/* Post Actions */}
-                <div className="memory-post-actions">
-                  <div className="memory-action-left">
-                    <button 
-                      className={`memory-action-btn like ${likedEntries[entry.id] ? 'liked' : ''}`}
-                      onClick={(e) => toggleLike(entry.id, e)}
-                    >
-                      <Heart size={24} className={likedEntries[entry.id] ? 'filled' : ''} />
-                    </button>
-                    <button className="memory-action-btn comment">
-                      <MessageCircle size={24} />
-                    </button>
-                    <button className="memory-action-btn share">
-                      <Share2 size={24} />
-                    </button>
-                  </div>
-                  <div className="memory-action-right">
-                    <button 
-                      className="memory-action-btn delete"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        confirmDelete(entry)
-                      }}
-                    >
-                      <Trash2 size={20} />
-                    </button>
-                  </div>
                 </div>
 
                 {/* Post Footer */}
@@ -192,22 +146,6 @@ export const MemoryLane = () => {
             ))}
           </div>
         )}
-
-        {/* Quick Stats */}
-        {entries.length > 0 && (
-          <div className="memory-stats-bar">
-            <div className="stat-pill">
-              <span className="stat-pill-value">{entries.length}</span>
-              <span className="stat-pill-label">memories</span>
-            </div>
-            <div className="stat-pill">
-              <span className="stat-pill-value">
-                {Object.values(likedEntries).filter(Boolean).length}
-              </span>
-              <span className="stat-pill-label">liked</span>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Memory Detail Modal */}
@@ -225,8 +163,8 @@ export const MemoryLane = () => {
 
               <div className="memory-modal-info-modern">
                 <div className="memory-modal-header-modern">
-                  <div className="memory-modal-avatar">
-                    <span>{selectedEntry.mood || '💭'}</span>
+                  <div className="memory-modal-avatar" style={{ background: `linear-gradient(135deg, ${getIconColor('primary')}, ${getIconColor('accent')})` }}>
+                    <Heart size={24} fill="white" style={{ color: 'white' }} />
                   </div>
                   <div>
                     <div className="memory-modal-username">Your Memory</div>
@@ -234,6 +172,9 @@ export const MemoryLane = () => {
                       {formatDate(selectedEntry.date)} · {formatTimeAgo(selectedEntry.date)} ago
                     </div>
                   </div>
+                  <button className="memory-modal-options">
+                    <MoreHorizontal size={24} style={{ color: getIconColor('neutral') }} />
+                  </button>
                 </div>
 
                 <p className="memory-modal-text">{selectedEntry.content}</p>

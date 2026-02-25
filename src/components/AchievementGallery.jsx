@@ -272,11 +272,11 @@ const RARITY_CONFIG = {
     borderColor: '#60a5fa',
     glowColor: 'rgba(96, 165, 250, 0.3)'
   },
-  epic: { 
-    color: '#a855f7', 
-    bgColor: 'rgba(168, 85, 247, 0.1)',
-    borderColor: '#c084fc',
-    glowColor: 'rgba(192, 132, 252, 0.3)'
+  epic: {
+    color: 'var(--accent-1)',
+    bgColor: 'rgba(var(--accent-1-rgb, 168, 85, 153), 0.1)',
+    borderColor: 'var(--accent-1)',
+    glowColor: 'rgba(var(--accent-1-rgb, 168, 85, 153), 0.3)'
   },
   legendary: { 
     color: '#f59e0b', 

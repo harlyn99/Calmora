@@ -25,6 +25,15 @@
   --gradient-1: #1a1a2e;
   --gradient-2: #16213e;
   --gradient-3: #0f3460;
+  
+  /* Theme-based icon colors */
+  --theme-primary: #667eea;
+  --theme-success: #4CAF50;
+  --theme-warning: #FFC107;
+  --theme-danger: #ef4444;
+  --theme-info: #2196F3;
+  --theme-neutral: #9CA3AF;
+  --theme-accent: #764ba2;
 }
 
 /* Light Mode Variables - Ethereal Daylight */

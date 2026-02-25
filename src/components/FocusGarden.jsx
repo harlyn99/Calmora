@@ -21,7 +21,7 @@ const PLANTS = [
     icon: '🪻',
     growthTime: 25 * 60 * 1000, // 25 minutes in ms
     stages: ['🌱', '🌿', '🪻'],
-    color: '#a855f7',
+    color: 'var(--accent-1)',
     xpReward: 55
   },
   {

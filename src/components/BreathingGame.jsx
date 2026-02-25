@@ -15,8 +15,7 @@ export const BreathingGame = ({ duration = 120, onComplete }) => {
   const breathingPattern = {
     inhale: 4000,
     hold: 4000,
-    exhale: 4000,
-    holdEmpty: 2000
+    exhale: 4000
   }
 
   useEffect(() => {
@@ -51,19 +50,15 @@ export const BreathingGame = ({ duration = 120, onComplete }) => {
         // Inhale
         setPhase('inhale')
         await sleep(breathingPattern.inhale)
-        
+
         // Hold
         setPhase('hold')
         await sleep(breathingPattern.hold)
-        
+
         // Exhale
         setPhase('exhale')
         await sleep(breathingPattern.exhale)
-        
-        // Hold empty
-        setPhase('holdEmpty')
-        await sleep(breathingPattern.holdEmpty)
-        
+
         // Add score for completing cycle
         setScore(prev => prev + 1)
       }
@@ -118,7 +113,6 @@ export const BreathingGame = ({ duration = 120, onComplete }) => {
       case 'inhale': return 'Breathe In...'
       case 'hold': return 'Hold...'
       case 'exhale': return 'Breathe Out...'
-      case 'holdEmpty': return 'Hold...'
       default: return 'Ready?'
     }
   }
@@ -126,10 +120,9 @@ export const BreathingGame = ({ duration = 120, onComplete }) => {
   const getPhaseProgress = () => {
     const phases = {
       idle: 0,
-      inhale: 25,
-      hold: 50,
-      exhale: 75,
-      holdEmpty: 100
+      inhale: 33,
+      hold: 66,
+      exhale: 100
     }
     return phases[phase] || 0
   }
